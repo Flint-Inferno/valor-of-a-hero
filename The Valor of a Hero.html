@@ -319,6 +319,7 @@ Setting.addToggle("muteAudio", {
 &lt;&lt;set $captive to false&gt;&gt;
 &lt;&lt;set $weaponStripped to false&gt;&gt;
 &lt;&lt;set $innMessageSent to false&gt;&gt;
+&lt;&lt;set $con to 1&gt;&gt;
 
 &lt;&lt;cacheaudio &quot;bgm_open&quot;    &quot;audio/bgm_open.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;bgm_tavern&quot;  &quot;audio/bgm_tavern.mp3&quot;&gt;&gt;
@@ -386,14 +387,21 @@ $(document).on(&#39;click&#39;, &#39;a.link-internal, a[data-passage], button&#3
   &lt;&lt;set _sc_pass  to $args[2]&gt;&gt;
   &lt;&lt;set _sc_fail  to $args[3]&gt;&gt;
 
-  &lt;div class=&quot;skill-check-result&quot;&gt;
-    🎲 Rolled &#39;&#39;_sc_roll&#39;&#39; + &#39;&#39;$args[0]&#39;&#39; = &lt;strong&gt;_sc_total&lt;/strong&gt; &amp;nbsp;vs&amp;nbsp; DC &#39;&#39;_sc_dc&#39;&#39;
-    &lt;&lt;if _sc_total gte _sc_dc&gt;&gt;
-      &lt;span class=&quot;sc-success&quot;&gt;✓ Success!&lt;/span&gt;
-    &lt;&lt;else&gt;&gt;
-      &lt;span class=&quot;sc-failure&quot;&gt;✗ Failed.&lt;/span&gt;
-    &lt;&lt;/if&gt;&gt;
-  &lt;/div&gt;
+  &lt;&lt;set _sc_passed to (_sc_total gte _sc_dc)&gt;&gt;
+  &lt;&lt;script&gt;&gt;
+    (function() {
+      var t = State.temporary;
+      var div = document.createElement(&#39;div&#39;);
+      div.className = &#39;skill-check-result&#39;;
+      div.innerHTML = &#39;🎲 Rolled &#39; + t.sc_roll + &#39; + &#39; + (t.sc_total - t.sc_roll)
+                    + &#39; = &lt;strong&gt;&#39; + t.sc_total + &#39;&lt;/strong&gt;&#39;
+                    + &#39;  vs  DC &#39; + t.sc_dc
+                    + (t.sc_passed ? &#39; &lt;span class=&quot;sc-success&quot;&gt;✓ Success!&lt;/span&gt;&#39;
+                                  : &#39; &lt;span class=&quot;sc-failure&quot;&gt;✗ Failed.&lt;/span&gt;&#39;);
+      var p = document.querySelector(&#39;.passage&#39;);
+      if (p) p.appendChild(div);
+    })();
+  &lt;&lt;/script&gt;&gt;
 
   &lt;&lt;timed 2.4s&gt;&gt;
     &lt;&lt;if _sc_total gte _sc_dc&gt;&gt;&lt;&lt;goto _sc_pass&gt;&gt;&lt;&lt;else&gt;&gt;&lt;&lt;goto _sc_fail&gt;&gt;&lt;&lt;/if&gt;&gt;
@@ -482,6 +490,7 @@ The door opens. A round woman peers out from behind spectacles. Her expression m
   &lt;&lt;set $agi to 1&gt;&gt;
   &lt;&lt;set $wis to 1&gt;&gt;
   &lt;&lt;set $chr to 1&gt;&gt;
+  &lt;&lt;set $con to 1&gt;&gt;
   &lt;&lt;set $hp to 20&gt;&gt;
   &lt;&lt;set $maxHp to 20&gt;&gt;
   &lt;&lt;set $gold to 15&gt;&gt;
@@ -762,6 +771,7 @@ Perhaps that is enough. For today.
 &lt;&lt;set $agi to 1&gt;&gt;
 &lt;&lt;set $wis to 1&gt;&gt;
 &lt;&lt;set $chr to 1&gt;&gt;
+&lt;&lt;set $con to 1&gt;&gt;
 &lt;&lt;set $loadout to &quot;shield&quot;&gt;&gt;
 &lt;&lt;set $hp to 20&gt;&gt;
 &lt;&lt;set $maxHp to 20&gt;&gt;
@@ -806,8 +816,10 @@ Your name: &lt;&lt;textbox &quot;$playerName&quot; $playerName autofocus&gt;&gt;
   
   &lt;&lt;if $playerName eq &quot;&quot;&gt;&gt;&lt;&lt;set $playerName to &quot;Calth&#39;m&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;
   &lt;&lt;goto &quot;CharacterStats&quot;&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="CharacterStats" tags="" position="525,1000" size="100,100">&lt;&lt;set _used to ($str - 1) + ($agi - 1) + ($wis - 1) + ($chr - 1)&gt;&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="CharacterStats" tags="" position="525,1000" size="100,100">&lt;&lt;set _used to ($str - 1) + ($agi - 1) + ($wis - 1) + ($chr - 1) + ($con - 1)&gt;&gt;
 &lt;&lt;set _left to 8 - _used&gt;&gt;
+&lt;&lt;set $maxHp to 20 + ($con - 1) * 2&gt;&gt;
+&lt;&lt;set $hp to $maxHp&gt;&gt;
 
 &lt;h2&gt;Your Abilities&lt;/h2&gt;
 
@@ -848,6 +860,15 @@ Your name: &lt;&lt;textbox &quot;$playerName&quot; $playerName autofocus&gt;&gt;
   &lt;td class=&quot;col-btn&quot;&gt;
     &lt;&lt;button &quot;+&quot;&gt;&gt;&lt;&lt;if _left gt 0&gt;&gt;&lt;&lt;set $chr to $chr + 1&gt;&gt;&lt;&lt;goto &quot;CharacterStats&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/button&gt;&gt;
     &lt;&lt;button &quot;−&quot;&gt;&gt;&lt;&lt;if $chr gt 1&gt;&gt;&lt;&lt;set $chr to $chr - 1&gt;&gt;&lt;&lt;goto &quot;CharacterStats&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/button&gt;&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td class=&quot;col-name&quot;&gt;Constitution&lt;/td&gt;
+  &lt;td class=&quot;col-desc&quot;&gt;Endurance. Each point adds +2 to maximum HP (base 20).&lt;/td&gt;
+  &lt;td class=&quot;col-val&quot;&gt;$con&lt;/td&gt;
+  &lt;td class=&quot;col-btn&quot;&gt;
+    &lt;&lt;button &quot;+&quot;&gt;&gt;&lt;&lt;if _left gt 0&gt;&gt;&lt;&lt;set $con to $con + 1&gt;&gt;&lt;&lt;goto &quot;CharacterStats&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/button&gt;&gt;
+    &lt;&lt;button &quot;−&quot;&gt;&gt;&lt;&lt;if $con gt 1&gt;&gt;&lt;&lt;set $con to $con - 1&gt;&gt;&lt;&lt;goto &quot;CharacterStats&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/button&gt;&gt;
   &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/table&gt;
@@ -985,6 +1006,8 @@ It&#39;ll do.
 Through the brush: a clearing, a dozen bandits, alert and armed. Some at the fire, others on a loose perimeter. Nobody looks tired or careless. This is a practiced outfit.
 
 &lt;&lt;if $jonIsAlly&gt;&gt;Your group holds in the tree line. They look to you.&lt;&lt;else&gt;&gt;You hold at the tree line alone. The camp is ahead.&lt;&lt;/if&gt;&gt;
+
+//Agility check//
 
 &lt;&lt;link &quot;Try to slip in alone — if you&#39;re caught, the others come running.&quot;&gt;&gt;
   
@@ -1314,6 +1337,8 @@ How do you answer?
   &lt;&lt;goto &quot;Interrogate_Threaten&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
+//Charisma check//
+
 &lt;&lt;if $chr gte 3&gt;&gt;
   &lt;&lt;link &quot;\&quot;You&#39;re the one who can afford to be reasonable here. I&#39;d rather leave with information.\&quot;&quot;&gt;&gt;
     
@@ -1564,6 +1589,8 @@ He goes quiet.
 
 How do you press this?
 
+//Charisma check//
+
 &lt;&lt;if $chr gte 3&gt;&gt;
   &lt;&lt;link &quot;Hold your ground. Let him sit in the silence until he fills it himself.&quot;&gt;&gt;
     
@@ -1755,8 +1782,8 @@ Tomorrow, you walk into the bandit camp alone.
 
 /* ═══════════════════════════════════════════════════════════
    COMBAT 2: THE AMBUSH
-   ═══════════════════════════════════════════════════════════ */</tw-passagedata><tw-passagedata pid="92" name="Ambush_Approach" tags="" position="150,1750" size="100,100">&lt;&lt;set $hp to 25&gt;&gt;
-&lt;&lt;set $maxHp to 25&gt;&gt;
+   ═══════════════════════════════════════════════════════════ */</tw-passagedata><tw-passagedata pid="92" name="Ambush_Approach" tags="" position="150,1750" size="100,100">&lt;&lt;set $maxHp to $maxHp + 10&gt;&gt;
+&lt;&lt;set $hp to $maxHp&gt;&gt;
 &lt;&lt;audio &quot;:bgm&quot; fadeout 1.5&gt;&gt;
 &lt;&lt;audio &quot;bgm_tutorial&quot; volume 0.25 loop play&gt;&gt;
 
@@ -1847,6 +1874,8 @@ The leader is twenty feet away. He hasn&#39;t run.
 [[Face him.|Ambush_FaceLeader]]</tw-passagedata><tw-passagedata pid="98" name="Ambush_FaceLeader" tags="" position="900,1750" size="100,100">He draws his sword. His shield comes up. His men are being cut down around him but his eyes are entirely on you — focused, professional, furious.
 
 &lt;&lt;if $daggerHidden&gt;&gt;Your sword is at the forest edge. The dagger is not.&lt;&lt;else&gt;&gt;Your weapons are at the forest edge, thirty feet away.&lt;&lt;/if&gt;&gt; He hasn&#39;t run.
+
+//Charisma check//
 
 &lt;&lt;if $chr gte 3&gt;&gt;
 &lt;&lt;link &quot;\&quot;Stop. Look at your men. This is already over — walk away while you still can.\&quot;&quot;&gt;&gt;
@@ -2353,6 +2382,8 @@ You let that settle.
 You look at the tent entrance. At the guard whose hand isn&#39;t near his sword. Then back at the man across the table. &quot;I came here to stop the raids. If there&#39;s something to be discussed--&quot;
 &lt;&lt;/if&gt;&gt;
 
+//Charisma check//
+
 &lt;&lt;if $chr gte 3&gt;&gt;
 &lt;&lt;link &quot;Press the point. Make him see Reynard as the common problem.&quot;&gt;&gt;&lt;&lt;skillcheck $chr 13 &quot;Captive_Deal_Win&quot; &quot;Captive_Deal_Fail&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
@@ -2548,6 +2579,8 @@ The composure holds for another moment. Then his eyes move -- just slightly -- t
 He lets out a breath. Sits down. For the first time he looks like what he is: a man who has been managing a dangerous arrangement for a very long time, and has just run out of road.
 
 &quot;What do you want?&quot; His voice is different now. Smaller.
+//Charisma check//
+
 &lt;&lt;if $chr gte 3&gt;&gt;
 &lt;&lt;link &quot;Say nothing. Hold the silence until he breaks.&quot;&gt;&gt;&lt;&lt;skillcheck $chr 12 &quot;Reynard_Persuade_Win&quot; &quot;Reynard_Persuade_Fail&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
@@ -2673,6 +2706,8 @@ They&#39;re not expecting one person who already knows exactly where they are.
   &lt;&lt;goto &quot;Act2_Solo_Scout&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
+//Agility check//
+
 &lt;&lt;link &quot;You&#39;ve seen enough. There&#39;s a gap — use it.&quot;&gt;&gt;
   
   &lt;&lt;skillcheck $agi 9 &quot;Act2_Sneak_Success&quot; &quot;Act2_Sneak_Caught&quot;&gt;&gt;
@@ -2689,6 +2724,8 @@ It&#39;s not a large window.
 It&#39;s yours.
 
 //What do you do?//
+
+//Agility check//
 
 &lt;&lt;link &quot;That&#39;s the window. Go now.&quot;&gt;&gt;
   
