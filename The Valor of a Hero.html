@@ -466,7 +466,14 @@ The door opens. A round woman peers out from behind spectacles. Her expression m
 &lt;&lt;link &quot;Drop the pleasantries. She already knows why you&#39;re here.&quot;&gt;&gt;
   &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
   &lt;&lt;goto &quot;Tut_Door_Sharp&quot;&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="Tut_Door_Gentle" tags="" position="375,250" size="100,100">&quot;I&#39;m not here for a room,&quot; you say, unhurried. &quot;Only a moment of your—&quot;
+&lt;&lt;/link&gt;&gt;
+
+&lt;div class=&quot;skip-prologue&quot;&gt;&lt;&lt;link &quot;↩ Skip prologue — go straight to character creation&quot;&gt;&gt;
+  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  &lt;&lt;audio &quot;:bgm&quot; fadeout 1.5&gt;&gt;
+  &lt;&lt;set $inTutorial to false&gt;&gt;
+  &lt;&lt;goto &quot;CharacterName&quot;&gt;&gt;
+&lt;&lt;/link&gt;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="6" name="Tut_Door_Gentle" tags="" position="375,250" size="100,100">&quot;I&#39;m not here for a room,&quot; you say, unhurried. &quot;Only a moment of your—&quot;
 
 Her door presses against your boot.
 
@@ -1780,10 +1787,7 @@ The leader has stopped talking — something about terms, about what happens if 
 
 //Now.//
 
-[[Open your mouth.|Ambush_BreathWeapon]]</tw-passagedata><tw-passagedata pid="95" name="Ambush_BreathWeapon" tags="" position="525,1750" size="100,100">&lt;&lt;audio &quot;:bgm&quot; fadeout 0.8&gt;&gt;
-&lt;&lt;audio &quot;bgm_combat&quot; volume 0.6 loop play&gt;&gt;
-
-You headbutt the guard behind you with the back of your skull. He lets go. You spin.
+[[Open your mouth.|Ambush_BreathWeapon]]</tw-passagedata><tw-passagedata pid="95" name="Ambush_BreathWeapon" tags="" position="525,1750" size="100,100">You headbutt the guard behind you with the back of your skull. He lets go. You spin.
 
 Hands still bound. Weapons at the forest edge. The camp is in chaos — and the lightning is right there, ready.
 
@@ -1837,7 +1841,9 @@ He looks at her. He looks at you. The sword drops.
 
 [[Receive the surrender.|Ambush_Victory]]</tw-passagedata><tw-passagedata pid="100" name="Ambush_TalkDown_Fail" tags="" position="1150,1750" size="100,100">The words don&#39;t reach him. He charges.
 
-[[Meet him.|Combat2_Init]]</tw-passagedata><tw-passagedata pid="101" name="Combat2_Init" tags="" position="25,1875" size="100,100">&lt;&lt;set $combatPhase to 2&gt;&gt;
+[[Meet him.|Combat2_Init]]</tw-passagedata><tw-passagedata pid="101" name="Combat2_Init" tags="" position="25,1875" size="100,100">&lt;&lt;audio &quot;:bgm&quot; fadeout 0.8&gt;&gt;
+&lt;&lt;audio &quot;bgm_combat&quot; volume 0.55 loop play&gt;&gt;
+&lt;&lt;set $combatPhase to 2&gt;&gt;
 &lt;&lt;set $combatBreathUsed to false&gt;&gt;
 &lt;&lt;set $combatDefending to false&gt;&gt;
 &lt;&lt;set $combatCommandAvail to ($wis gte 3)&gt;&gt;
