@@ -316,6 +316,8 @@ Setting.addToggle("muteAudio", {
 &lt;&lt;set $ambushArmed to false&gt;&gt;
 &lt;&lt;set $daggerHidden to false&gt;&gt;
 &lt;&lt;set $tutMarrelHarmed to false&gt;&gt;
+&lt;&lt;set $captive to false&gt;&gt;
+&lt;&lt;set $weaponStripped to false&gt;&gt;
 
 &lt;&lt;cacheaudio &quot;bgm_open&quot;    &quot;audio/bgm_open.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;bgm_tavern&quot;  &quot;audio/bgm_tavern.mp3&quot;&gt;&gt;
@@ -352,7 +354,18 @@ Setting.addToggle("muteAudio", {
   &lt;&lt;/if&gt;&gt;
   &lt;&lt;if $loadout&gt;&gt;
   &lt;hr class=&quot;hud-hr&quot;&gt;
-  &lt;&lt;if $loadout eq &quot;dual&quot;&gt;&gt;⚔⚔ Twin Swords&lt;&lt;elseif $loadout eq &quot;dagger&quot;&gt;&gt;⚔🗡 Sword &amp; Dagger&lt;&lt;else&gt;&gt;⚔🛡 Sword &amp; Shield&lt;&lt;/if&gt;&gt;
+  &lt;&lt;if $captive&gt;&gt;
+    ✊ No weapons — prisoner
+  &lt;&lt;elseif $weaponStripped and $loadout eq &quot;dual&quot;&gt;&gt;
+    ⚔ One sword (other kept)
+  &lt;&lt;elseif $weaponStripped&gt;&gt;
+    ⚔ Sword only — dagger kept
+  &lt;&lt;elseif $combatPhase eq 2 and not $ambushArmed&gt;&gt;
+    &lt;&lt;if $daggerHidden&gt;&gt;🗡 Hidden dagger only&lt;&lt;else&gt;&gt;✊ Unarmed — gear at tree line&lt;&lt;/if&gt;&gt;
+  &lt;&lt;elseif $loadout eq &quot;dual&quot;&gt;&gt;⚔⚔ Twin Swords
+  &lt;&lt;elseif $loadout eq &quot;dagger&quot;&gt;&gt;⚔🗡 Sword &amp; Dagger
+  &lt;&lt;else&gt;&gt;⚔🛡 Sword &amp; Shield
+  &lt;&lt;/if&gt;&gt;
   &lt;&lt;/if&gt;&gt;
 &lt;/div&gt;</tw-passagedata><tw-passagedata pid="3" name="SkillCheckWidgets" tags="widget" position="25,275" size="100,100">&lt;&lt;widget &quot;skillcheck&quot;&gt;&gt;
   /%
@@ -1057,10 +1070,10 @@ He spots you. His shout goes up.
 &lt;&lt;link &quot;🏳 Lay down your weapon and surrender.&quot;&gt;&gt;&lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;&lt;&lt;goto &quot;Combat1_Surrender&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
-&lt;/div&gt;</tw-passagedata><tw-passagedata pid="50" name="CombatAttack" tags="" position="1150,1125" size="100,100">&lt;&lt;if $loadout eq &quot;dual&quot; and ($combatPhase neq 2 or $ambushArmed)&gt;&gt;
+&lt;/div&gt;</tw-passagedata><tw-passagedata pid="50" name="CombatAttack" tags="" position="1150,1125" size="100,100">&lt;&lt;if $loadout eq &quot;dual&quot; and not $weaponStripped and ($combatPhase neq 2 or $ambushArmed)&gt;&gt;
   &lt;&lt;set _dmg to random(2, 12) + Math.max(0, $str)&gt;&gt;
   &lt;&lt;set _atkLog to &quot;Both blades find &quot;&gt;&gt;
-&lt;&lt;elseif $loadout eq &quot;dagger&quot; and $daggerHidden and $combatPhase eq 2&gt;&gt;
+&lt;&lt;elseif $loadout eq &quot;dagger&quot; and $daggerHidden and not $weaponStripped and $combatPhase eq 2&gt;&gt;
   &lt;&lt;set _dmg to random(1, 4) + Math.max(0, $str)&gt;&gt;
   &lt;&lt;set _atkLog to &quot;Your hidden dagger finds &quot;&gt;&gt;
 &lt;&lt;elseif $combatPhase eq 2 and not $ambushArmed&gt;&gt;
@@ -1856,6 +1869,7 @@ He looks at her. He looks at you. The sword drops.
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;goto &quot;CombatTurn&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="102" name="Combat2_Victory" tags="" position="150,1875" size="100,100">&lt;&lt;audio &quot;:bgm&quot; fadeout 1.0&gt;&gt;
 &lt;&lt;audio &quot;bgm_tavern&quot; volume 0.4 loop play&gt;&gt;
+&lt;&lt;set $ambushArmed to true&gt;&gt;
 
 &lt;&lt;if $jonDiedThisFight&gt;&gt;
 The last fighter goes down. The clearing empties of sound.
@@ -1914,6 +1928,7 @@ The others follow, one by one.
 
 [[Accept it.|Ambush_Victory]]</tw-passagedata><tw-passagedata pid="106" name="Ambush_Victory" tags="" position="650,1875" size="100,100">&lt;&lt;audio &quot;:bgm&quot; fadeout 1.0&gt;&gt;
 &lt;&lt;audio &quot;bgm_tavern&quot; volume 0.3 loop play&gt;&gt;
+&lt;&lt;set $ambushArmed to true&gt;&gt;
 
 Your force moves efficiently through the clearing. The bandits don&#39;t resist. The fight has been entirely removed from them.
 
@@ -2187,6 +2202,7 @@ You scan the clearing. No friendly faces. Just you and the men who now hold your
 
 They march you north. Blindfold after half a mile.
 
+&lt;&lt;set $captive to true&gt;&gt;
 [[Into the dark.|Captive_Night]]</tw-passagedata><tw-passagedata pid="122" name="Captive_Night" tags="" position="300,2200" size="100,100">&lt;&lt;audio &quot;:bgm&quot; fadeout 1.5&gt;&gt;
 &lt;&lt;audio &quot;bgm_nature&quot; volume 0.35 loop play&gt;&gt;
 &lt;&lt;set $surrendered to true&gt;&gt;
@@ -2337,7 +2353,11 @@ The Scarred Woman brings your blade in and sets it at your feet. The guard at th
 
 &quot;Northeast edge of camp. Walk until you find trees.&quot; He doesn&#39;t look back. &quot;Don&#39;t come back.&quot;
 
-[[Go.|Captive_Return]]</tw-passagedata><tw-passagedata pid="131" name="Captive_Return" tags="" position="1100,2400" size="100,100">The village lights are visible an hour before you reach them. You walk south with what you have -- what you know, what you suspect, and what you can prove. The last is the shortest list.
+&lt;&lt;set $weaponStripped to true&gt;&gt;
+
+[[Go.|Captive_Return]]</tw-passagedata><tw-passagedata pid="131" name="Captive_Return" tags="" position="1100,2400" size="100,100">&lt;&lt;set $captive to false&gt;&gt;
+&lt;&lt;set $weaponStripped to false&gt;&gt;
+The village lights are visible an hour before you reach them. You walk south with what you have -- what you know, what you suspect, and what you can prove. The last is the shortest list.
 &lt;&lt;if $jonIsAlly and not $jonDied&gt;&gt;
 Jon is in the square when you come in. For a moment he just looks at you. Then he crosses in four strides and claps a hand on your shoulder — hard, like he&#39;s checking you&#39;re real.
 
