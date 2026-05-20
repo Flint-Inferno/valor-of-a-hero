@@ -1,0 +1,2309 @@
+:: StoryData
+{
+  "ifid": "6D3A7F2E-8B4C-4E9A-A1F3-2D5E6B8C9D0F",
+  "format": "SugarCube",
+  "format-version": "2.37.3",
+  "start": "TitleScreen",
+  "zoom": 1
+}
+
+:: StoryTitle
+The Valor of a Hero
+
+
+:: Story JavaScript [script]
+Config.saves.maxSlotSaves = 4;
+Config.saves.maxAutoSaves = 1;
+Config.history.maxStates = 40;
+
+Setting.addToggle("muteAudio", {
+    label   : "Mute Audio",
+    default : false,
+    onInit  : function () { SimpleAudio.mute(this.value); },
+    onChange: function () { SimpleAudio.mute(this.value); }
+});
+
+
+:: Story Stylesheet [stylesheet]
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Quattrocento&display=swap');
+
+body {
+  background-color: #0e0906;
+  color: #d4b896;
+  font-family: 'Quattrocento', Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+#story {
+  background: #1e1108;
+  border: 1px solid #5a3e1b;
+  border-radius: 3px;
+  padding: 2.5em 3em;
+  max-width: 700px;
+  margin: 2em auto;
+  box-shadow: 0 0 30px rgba(0,0,0,0.6);
+}
+
+h1, h2, h3 {
+  font-family: 'Cinzel', serif;
+  color: #c8a951;
+  letter-spacing: 0.04em;
+}
+h1 { font-size: 2.2em; text-align: center; margin-bottom: 0.25em; }
+h2 { font-size: 1.5em; border-bottom: 1px solid #5a3e1b; padding-bottom: 0.2em; }
+em     { color: #b8986a; }
+strong { color: #e8c97a; }
+
+.passage a,
+a.link-internal {
+  display: block;
+  margin: 0.5em 0;
+  padding: 0.55em 1.2em;
+  border: 1px solid #5a3e1b;
+  border-radius: 3px;
+  background: rgba(90, 62, 27, 0.18);
+  color: #e8c97a !important;
+  text-decoration: none !important;
+  transition: background 0.2s, border-color 0.2s;
+  cursor: pointer;
+}
+.passage a:hover,
+a.link-internal:hover {
+  background: rgba(139, 105, 20, 0.4);
+  border-color: #c8a951;
+  color: #fff3c0 !important;
+}
+
+button.macro-button {
+  background: rgba(90, 62, 27, 0.3);
+  border: 1px solid #5a3e1b;
+  color: #e8c97a;
+  border-radius: 3px;
+  padding: 0.1em 0.65em;
+  margin: 0 0.1em;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1em;
+}
+button.macro-button:hover {
+  background: rgba(139, 105, 20, 0.5);
+  border-color: #c8a951;
+}
+
+.skill-check-result {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid #5a3e1b;
+  border-radius: 3px;
+  padding: 0.8em 1.2em;
+  margin: 1em 0;
+  font-style: italic;
+  text-align: center;
+  color: #c8a951;
+}
+.skill-check-result .sc-success { color: #7fcf7f; font-weight: bold; display: block; margin-top: 0.3em; }
+.skill-check-result .sc-failure { color: #cf7f7f; font-weight: bold; display: block; margin-top: 0.3em; }
+
+.tutorial-hint {
+  background: rgba(20, 50, 40, 0.45);
+  border: 1px solid #2a5a4a;
+  border-radius: 3px;
+  padding: 0.65em 1em;
+  margin: 1.2em 0;
+  font-size: 0.82em;
+  color: #7aaa8a;
+  font-style: italic;
+}
+.tutorial-hint strong { color: #a0ccb0; }
+
+.section-break {
+  text-align: center;
+  color: #5a3e1b;
+  margin: 2em 0 1.5em;
+  letter-spacing: 0.4em;
+  font-size: 0.85em;
+}
+
+#ui-bar {
+  background: #110b05;
+  border-right: 1px solid #2e1e0a;
+  width: 17em;
+}
+#ui-bar-tray { border-bottom: 1px solid #2e1e0a; }
+
+.hud { font-size: 0.82em; color: #a08060; line-height: 1.9; }
+.hud .hud-tut-label { display: block; font-size: 0.78em; color: #5a8a6a; font-style: italic; margin-bottom: 0.3em; }
+.hud .hud-name  { color: #e8c97a; font-family: 'Cinzel', serif; font-size: 1.05em; display: block; margin-bottom: 0.2em; }
+.hud .hud-hr    { border: none; border-top: 1px solid #2e1e0a; margin: 0.4em 0; }
+.hud .stat-row  { display: flex; justify-content: space-between; }
+.hud .hp-wrap   { background: #1a0d06; border: 1px solid #3a2010; border-radius: 2px; height: 7px; margin: 3px 0 5px; }
+.hud .hp-bar    { height: 100%; background: linear-gradient(to right, #8b2020, #cf4040); border-radius: 2px; transition: width 0.4s; }
+
+#title-screen         { text-align: center; padding: 2em 0 3em; }
+#title-screen .byline { font-style: italic; color: #7a5a2a; margin-bottom: 3em; }
+
+.stat-table           { width: 100%; border-collapse: collapse; margin: 1em 0; }
+.stat-table td        { padding: 0.35em 0.5em; vertical-align: middle; }
+.stat-table .col-name { color: #c8a951; font-family: 'Cinzel', serif; width: 8em; }
+.stat-table .col-desc { font-size: 0.8em; color: #7a5a3a; }
+.stat-table .col-val  { text-align: center; font-size: 1.3em; color: #fff3c0; width: 2em; }
+.stat-table .col-btn  { white-space: nowrap; width: 5em; }
+
+.pts-remaining      { text-align: center; margin: 0.8em 0 0.4em; }
+.pts-remaining .pts { font-size: 1.6em; color: #c8a951; font-family: 'Cinzel', serif; }
+
+.choice-disabled {
+  display: block; margin: 0.5em 0; padding: 0.55em 1.2em;
+  border: 1px solid #2e1e0a; border-radius: 3px;
+  color: #3a2810; font-style: italic;
+}
+
+#death-screen { text-align: center; padding: 3em 0; }
+#death-screen h2 { color: #8b2020; font-size: 2em; border: none; }
+#death-screen .death-flavor { font-style: italic; color: #6a4a3a; margin-bottom: 2.5em; }
+
+h2.combat-title { font-size: 1.15em; color: #d4803a; border-bottom: 1px solid #5a3e1b; padding-bottom: 0.2em; margin-bottom: 0.8em; letter-spacing: 0.03em; }
+.combat-status { display: flex; flex-wrap: wrap; gap: 0.6em; margin: 0.8em 0 1.2em; }
+.combatant { flex: 1 1 auto; min-width: 130px; background: rgba(0,0,0,0.3); border: 1px solid #3a2010; border-radius: 3px; padding: 0.45em 0.7em; font-size: 0.84em; line-height: 1.5; }
+.combatant strong { display: block; margin-bottom: 0.15em; }
+.ally-status { border-color: #254535; }
+.ally-status strong { color: #7fcf9f; }
+.enemy-status strong { color: #cf7060; }
+.combatant-fallen { opacity: 0.5; border-style: dashed; }
+.hp-bar.enemy-bar { background: linear-gradient(to right, #7a1010, #cf4030); }
+.combat-log { background: rgba(0,0,0,0.35); border-left: 3px solid #5a3e1b; padding: 0.6em 1em; margin: 0.8em 0; font-size: 0.87em; color: #c8a870; white-space: pre-line; line-height: 1.6; }
+
+
+:: StoryInit
+<<set $inTutorial to true>>
+<<set $playerName to "Adventurer">>
+<<set $str to 0>>
+<<set $agi to 0>>
+<<set $wis to 0>>
+<<set $chr to 0>>
+<<set $hp to 10>>
+<<set $maxHp to 10>>
+<<set $gold to 15>>
+<<set $inventory to []>>
+<<set $tutCompleted to false>>
+<<set $acceptedEagerly to false>>
+<<set $reynardIsAlly to false>>
+<<set $reynardKilled to false>>
+<<set $jonIsAlly to false>>
+<<set $paidFull to false>>
+<<set $banditLeaderKilled to false>>
+<<set $usedCommandKill to false>>
+<<set $promisedDefense to false>>
+<<set $jonDied to false>>
+<<set $jonDiedThisFight to false>>
+<<set $jonHP to 14>>
+<<set $jonMaxHP to 14>>
+<<set $breathFiredEarly to false>>
+
+<<cacheaudio "bgm_open"    "audio/bgm_open.mp3">>
+<<cacheaudio "bgm_tavern"  "audio/bgm_tavern.mp3">>
+<<cacheaudio "bgm_dungeon" "audio/bgm_dungeon.mp3">>
+<<cacheaudio "bgm_combat"  "audio/bgm_combat.mp3">>
+<<cacheaudio "sfx_click"   "audio/sfx_click.mp3">>
+<<cacheaudio "sfx_success" "audio/sfx_success.mp3">>
+<<cacheaudio "sfx_fail"    "audio/sfx_fail.mp3">>
+<<cacheaudio "sfx_levelup" "audio/sfx_levelup.mp3">>
+
+<<createaudiogroup ":bgm">>
+  <<track "bgm_open">>
+  <<track "bgm_tavern">>
+  <<track "bgm_dungeon">>
+  <<track "bgm_combat">>
+<</createaudiogroup>>
+
+
+:: StoryCaption
+<div class="hud">
+  <<if $inTutorial>><span class="hud-tut-label">Tutorial — The Priestess</span><</if>>
+  <span class="hud-name">$playerName</span>
+  <div class="hp-wrap">
+    <div class="hp-bar" style="width:<<= Math.max(0, Math.round(($hp / $maxHp) * 100)) >>%;"></div>
+  </div>
+  HP: $hp / $maxHp &nbsp;·&nbsp; 💰 $gold
+  <hr class="hud-hr">
+  <div class="stat-row"><span>STR</span><span>$str</span></div>
+  <div class="stat-row"><span>AGI</span><span>$agi</span></div>
+  <div class="stat-row"><span>WIS</span><span>$wis</span></div>
+  <div class="stat-row"><span>CHR</span><span>$chr</span></div>
+  <<if $inventory.length gt 0>>
+    <hr class="hud-hr">
+    <<for _idx, _item range $inventory>><<print _item>><br><</for>>
+  <</if>>
+</div>
+
+
+:: SkillCheckWidgets [widget]
+<<widget "skillcheck">>
+  /%
+    Args: $args[0]=stat, $args[1]=DC, $args[2]=success-passage, $args[3]=fail-passage
+    Example: <<skillcheck $str 14 "Door_Win" "Door_Lose">>
+  %/
+  <<set _sc_roll  to random(1, 20)>>
+  <<set _sc_total to _sc_roll + $args[0]>>
+  <<set _sc_dc    to $args[1]>>
+  <<set _sc_pass  to $args[2]>>
+  <<set _sc_fail  to $args[3]>>
+
+  <div class="skill-check-result">
+    🎲 Rolled ''_sc_roll'' + ''$args[0]'' = <strong>_sc_total</strong> &nbsp;vs&nbsp; DC ''_sc_dc''
+    <<if _sc_total gte _sc_dc>>
+      <<audio "sfx_success" play>>
+      <span class="sc-success">✓ Success!</span>
+    <<else>>
+      <<audio "sfx_fail" play>>
+      <span class="sc-failure">✗ Failed.</span>
+    <</if>>
+  </div>
+
+  <<timed 2.4s>>
+    <<if _sc_total gte _sc_dc>><<goto _sc_pass>><<else>><<goto _sc_fail>><</if>>
+  <</timed>>
+<</widget>>
+
+<<widget "takedamage">>
+  /%
+    Args: $args[0]=damage, $args[1]=passage to continue if alive
+    Example: <<takedamage 3 "Fight_Aftermath">>
+  %/
+  <<set $hp to Math.max(0, $hp - $args[0])>>
+  <<if $hp lte 0>>
+    <<goto "Death">>
+  <<else>>
+    <<goto $args[1]>>
+  <</if>>
+<</widget>>
+
+
+:: TitleScreen
+<div id="title-screen">
+<h1>The Valor of a Hero</h1>
+<p class="byline">Born in darkness. Named in light.</p>
+
+<<link "⚔  Begin Your Journey">>
+  <<audio ":bgm" stop>>
+  <<audio "bgm_open" volume 0.45 loop play>>
+  <<audio "sfx_click" play>>
+  <<goto "TutorialPrologue">>
+<</link>>
+
+<<if hasVisited("Prologue")>>
+  <<link "📖  Load / Continue">>
+    <<audio "sfx_click" play>>
+    <<ui saves>>
+  <</link>>
+<</if>>
+</div>
+
+
+/* ═══════════════════════════════════════════════════════════
+   TUTORIAL PROLOGUE — Play as Sun-priestess Drenn.
+   She rescues a dragonborn boy from his captor and names him
+   Calth'm — "Courageous" in Draconic. Fixed ending; branching
+   path. Flows into character creation for the grown hero.
+   ═══════════════════════════════════════════════════════════ */
+
+:: TutorialPrologue
+<<set $playerName  to "Drenn">>
+<<set $str  to 1>>
+<<set $agi  to 2>>
+<<set $wis  to 4>>
+<<set $chr  to 3>>
+<<set $hp    to 12>>
+<<set $maxHp to 12>>
+<<set $gold  to 0>>
+<<set $inventory to ["Holy Symbol", "Medicinal Herbs", "Gingersnap Cookies"]>>
+
+The vision had been clear enough — a name, a village, a house. What it hadn't shown you was the condition of the one you sought. You suspected that was deliberate.
+
+You raise your fist and knock.
+
+The door opens. A round woman peers out from behind spectacles. Her expression moves through weariness, recognition, and suspicion in the span of a breath. She does not open the door any wider.
+
+"Miss Marrel, I presume?" you begin.
+
+"Aye, that's me." She nods slowly. "Can I help you?" Her smile is polite. Her voice is not.
+
+"I'm passing through town and was inspired to visit your home." You tilt your head, keeping your manner easy. "If it's alright with—"
+
+"I'm sorry, but I haven't a room you can use." She begins pressing the door shut. "I wasn't expecting anyone at such short notice."
+
+<<link "Keep the light tone. Give her a chance to come around willingly.">>
+  <<audio "sfx_click" play>>
+  <<goto "Tut_Door_Gentle">>
+<</link>>
+
+<<link "Drop the pleasantries. She already knows why you're here.">>
+  <<audio "sfx_click" play>>
+  <<goto "Tut_Door_Sharp">>
+<</link>>
+
+
+:: Tut_Door_Gentle
+"I'm not here for a room," you say, unhurried. "Only a moment of your—"
+
+Her door presses against your boot.
+
+You let it hold there. Easy. Immovable. Her eyes drop to your foot, then rise to yours. You wait.
+
+There is nothing gentle left in this exchange.
+
+<<link "Let her hear the truth of it.">>
+  <<audio "sfx_click" play>>
+  <<goto "Tut_Door_Sharp">>
+<</link>>
+
+
+:: Tut_Door_Sharp
+Something behind your eyes goes still. Brightness receding; clarity taking its place. Your voice doesn't rise — it narrows, the way light sharpens through a pane of glass.
+
+"I want to make something very clear." You hold her gaze without blinking. "The church does not know why I am here. The only three who do are you, myself, and the Sun God himself." A pause, deliberate as a held breath. "I know whose side Pelor is on. Step aside. Do not interfere with my work — or what happens here tonight will end poorly for you."
+
+Miss Marrel goes pale as a full moon.
+
+"You benevolent lot," she manages, almost a whine. "Thinking you can barge into anyone's business whenever you please."
+
+"Your business is Pelor's business." You don't let her finish. "I admire your confidence in bearing the consequences His Radiance can employ."
+
+The door swings wide.
+
+<<link "Step inside.">>
+  <<audio "sfx_click" play>>
+  <<goto "Tut_Enter_House">>
+<</link>>
+
+
+:: Tut_Enter_House
+The house is dim and heavy with the smell of mildew. You follow Marrel through the cramped kitchen, gaze moving over the shadows.
+
+She produces a key without a word. A hatch in the floor near the dining table — it doubles as a seat. The lock surrenders with a heavy click. She swings her arm in a curt invitation toward the opening, as if the events leading here were too tedious to explain.
+
+You look down into the darkness below.
+
+<div class="tutorial-hint"><strong>Skill Check ahead.</strong> Your stat is added to a d20 roll against a Difficulty Class (DC). Both outcomes move the story forward — success gives the better result. Drenn's Wisdom is 4.</div>
+
+<<link "Compose yourself before you descend.">>
+  <<audio "sfx_click" play>>
+  <<goto "Tut_WisCheck">>
+<</link>>
+
+
+:: Tut_WisCheck
+<<skillcheck $wis 9 "Tut_WisCheck_Pass" "Tut_WisCheck_Fail">>
+
+
+:: Tut_WisCheck_Pass
+//Pelor, give me strength to endure whatever I witness here.//
+
+The prayer settles into your chest. You breathe once, slow and even. You are as prepared as the living can be for what the sun doesn't reach.
+
+[[Descend.|Tut_Marrel_Rant]]
+
+
+:: Tut_WisCheck_Fail
+The prayer catches in your throat. You go down anyway. You were not as ready as you thought.
+
+[[Descend.|Tut_Marrel_Rant]]
+
+
+:: Tut_Marrel_Rant
+As your boots find the earthen floor below, Marrel's voice drops down the hatch after you.
+
+"I found him, fair and square!" Hot and indignant, her words crowd the dark. "Ye can't just steal my //property// with—"
+
+"A creature." Her voice cracks under stewing pressure. "I've been keeping a //creature// locked in my cellar! A half-breed abomination — same as the ones that pillage cities and eat folks alive! The vermin don't know a lick about anything. Sure, they pretend well enough, but I can promise ye there ain't a bloomin' ounce of //person// behind those scales!"
+
+For the sake of your self-control, and to avoid doing something Pelor would look down on you for, you hold still. The furnace in your thoughts swallows the air.
+
+How do you answer her?
+
+<<link "\"Silence.\" — A word, softly spoken, with something older than your voice behind it.">>
+  <<audio "sfx_click" play>>
+  <<goto "Tut_Rant_Silence">>
+<</link>>
+
+<<if $chr gte 3>>
+  <<link "Tell her, plainly and without mercy, what she truly is.">>
+    <<audio "sfx_click" play>>
+    <<goto "Tut_Rant_Rebuke">>
+  <</link>>
+<</if>>
+
+<<link "Say nothing. The silence you give her is a mercy she doesn't deserve.">>
+  <<audio "sfx_click" play>>
+  <<goto "Tut_Rant_Cold">>
+<</link>>
+
+
+:: Tut_Rant_Silence
+"Silence."
+
+One word, without heat, without looking back. Yet it carries the weight of something older than your voice — a divine request, soft as falling light. Marrel's mouth stops moving. Her mind submits.
+
+It was cast to preserve the woman's life, you decided to tell yourself. Had she spoken one word more, you could not have answered for your own actions.
+
+That was not the kind of first impression you wished this boy to have of you.
+
+[[Turn to face the boy.|Tut_Cellar_Descend]]
+
+
+:: Tut_Rant_Rebuke
+You turn your head — not all the way, just enough for your voice to carry.
+
+"A creature." You let her word hang in the stale air. "What you have kept in your cellar is a child. The only abomination I can identify in this house is the one holding the key."
+
+A pause. Then quieter, and somehow worse: "Silence. Now."
+
+The command settles into her like a stone into still water.
+
+Neither can you, entirely. But you breathe, and turn toward what matters.
+
+[[Turn to face the boy.|Tut_Cellar_Descend]]
+
+
+:: Tut_Rant_Cold
+You say nothing.
+
+Not because you lack words — you have words enough to undo her, and that is precisely why you hold them. She is not worth the fire it would take to spend them, not here, not in this moment that belongs to someone else.
+
+You turn your back to her completely.
+
+[[Turn to face the boy.|Tut_Cellar_Descend]]
+
+
+:: Tut_Cellar_Descend
+And there he was.
+
+Huddled next to a dish of yellowed water and half-eaten, rotting potatoes — a dirt-caked, trembling pile of rags covering dark blue scales. You couldn't tell where the cloth ended and the grime began until you traced the weaving pattern of his scales. His shoulder was swollen and gray, cupped under a favored hand. A helpless puff of air escaped his lungs. Something beaten into him held back anything louder.
+
+"Be at peace, young one." The words surprised you with how much they cost. "I am here to bring you away from this place."
+
+He doesn't speak. He doesn't move. But he watches you — not the way something cornered watches, but the way something almost trusting does.
+
+How do you first reach him?
+
+<<link "Set a gingersnap on the floor between you and draw back, giving him distance.">>
+  <<audio "sfx_click" play>>
+  <<goto "Tut_Approach_Cookie">>
+<</link>>
+
+<<link "Speak to him quietly. Let him hear your voice before anything else.">>
+  <<audio "sfx_click" play>>
+  <<goto "Tut_Approach_Voice">>
+<</link>>
+
+<<if $wis gte 3>>
+  <<link "Draw out your holy symbol and hold it plainly — no words, no urgency.">>
+    <<audio "sfx_click" play>>
+    <<goto "Tut_Approach_Symbol">>
+  <</link>>
+<</if>>
+
+
+:: Tut_Approach_Cookie
+You reach into your provisions and find the small cloth bundle. One gingersnap. You set it on the cleanest patch of floor you can find and draw your hand back.
+
+He stares at it. Then at you. Then at it.
+
+One tentative nibble — and then it is gone in three large, desperate bites. Crumbs fall onto his ragged shirt. He picks at them with wide eyes, trying to retrieve every last one.
+
+Something in your chest breaks quietly open.
+
+[[Offer more.|Tut_Cookie_More]]
+
+
+:: Tut_Approach_Voice
+"My name is Drenn," you say, sitting slowly so you are not standing over him. "I'm a priestess. I'm not going to hurt you."
+
+He watches you — not with the cunning of suspicion, but with the older, simpler skill of someone who has had to read intentions from a distance in order to survive.
+
+You reach, slowly, for your satchel.
+
+[[Set down a gingersnap.|Tut_Approach_Cookie]]
+
+
+:: Tut_Approach_Symbol
+You draw the holy symbol from beneath your robes — a golden disc bearing the face of the sun, worn smooth from years of handling. You hold it out, not as a relic to be revered, but as a simple, quiet thing.
+
+He stares at it. Then at you. The symbol means nothing to him; you can see that plainly. But your stillness does.
+
+You tuck it away and reach for something more immediately useful.
+
+[[Offer something warmer.|Tut_Approach_Cookie]]
+
+
+:: Tut_Cookie_More
+"They're good, aren't they," you say, keeping your voice to the register of wind through a cracked door. "I can give you more, if you'd—"
+
+His eyes grow larger at the word //more// than you thought eyes could.
+
+"—If you would come with me. How does that sound?"
+
+He makes a small hoarse sound in the back of his throat, like he's clearing it, and gives a wary nod — tentative, uncertain. Then he flicks his gaze past you, toward the hatch above.
+
+[[Reassure him.|Tut_Boy_Trusts]]
+
+
+:: Tut_Boy_Trusts
+"She won't hurt you anymore," you say. "I promise."
+
+Despite everything, he refuses to move while Marrel remains inside. So you call up through the hatch, and your voice carries the full weight of your office: she is to take her leave. She does so begrudgingly, curses and insults exiting with her.
+
+The boy creeps from the cellar and immediately magnetizes to your side. His hand — clawed, dark-scaled, small — finds a fistful of your loose robes and holds on.
+
+[[Walk out of this house.|Tut_Leaving]]
+
+
+:: Tut_Leaving
+You cross the creaking floorboards toward the front door. At the threshold you glance back once at the hatch — a simple wooden thing that hid so much cruelty.
+
+You throw the door open.
+
+Cool evening air washes over you both. The boy's eyes go wide at the open sky, at the sheer size of the world beyond that cellar. He doesn't release your robes.
+
+You place your hand gently on his shoulder. The small, rigid muscles flinch at the unexpected contact. He doesn't pull away.
+
+"You're going to be alright. The path ahead is long, but it leads somewhere warm and bright."
+
+He holds your robe tighter. And you walk on.
+
+<div class="section-break">· · · ✦ · · ·</div>
+
+[[→ The next morning.|Tut_Road_Morning]]
+
+
+:: Tut_Road_Morning
+Morning. Your horse finds a steady rhythm on the eastern road, the sun warm on your backs. Last night you paid for a room at a half-elf's home on the outskirts — a warm meal, a clean bed. He accepted both without a single word, eyes wide and absorbing, as if encountering the ordinary world for the very first time.
+
+He didn't speak all night.
+
+Now, riding behind you with the road unspooling ahead, he breaks his silence with the first question you've heard from him that wasn't a scared gasp or a choked sniffle.
+
+"Who's Pelor?"
+
+<<link "Tell him what Pelor represents — not theology, but truth.">>
+  <<audio "sfx_click" play>>
+  <<goto "Tut_Pelor_Warm">>
+<</link>>
+
+<<link "Start the practiced sermon — then stop yourself.">>
+  <<audio "sfx_click" play>>
+  <<goto "Tut_Pelor_Sermon">>
+<</link>>
+
+
+:: Tut_Pelor_Warm
+You let the prepared words die before they can form.
+
+"He represents everything that was kept from you," you say instead, your voice losing its oratory until it is only your voice. "He is the warmth of the sun after a long winter. The peace of a quiet morning. The light that reveals the truth, and the strength to stand tall when the darkness tries to make you small." You reach back and rest your hand on his knee. "He is the reason I found you."
+
+He absorbs this in silence. His claws settle against the saddle.
+
+[[Ask his name.|Tut_Name_Question]]
+
+
+:: Tut_Pelor_Sermon
+Words come readily — you've rehearsed them for years. //Pelor is the Lord of Sunlight, sovereign of all that is radiant and true...//
+
+You glance back at the small, scaly figure perched behind you.
+
+The sermon dies in your throat.
+
+"He represents everything that was kept from you," you say instead. "The warmth of the sun after a long winter. The peace of a quiet morning. The light that tells you the truth, and the strength to stand when darkness tries to make you small." You reach back and pat his knee. "He is the reason I found you."
+
+A pause. His claws settle against the saddle leather.
+
+[[Ask his name.|Tut_Name_Question]]
+
+
+:: Tut_Name_Question
+A moment of quiet road passes between you, filled only with the clip of hooves on packed earth.
+
+"I never asked," you say. "What is your name, young one?"
+
+[[Wait for his answer.|Tut_Name_Monster]]
+
+
+:: Tut_Name_Monster
+His voice is dry and cracked as parched earth.
+
+"Monster."
+
+You pull the reins. The horse slows to a halt.
+
+You turn in your seat and look at him — directly, fully — and meet those large cerulean eyes with an expression you make no effort to school. Solemnity. A quiet ache that belongs entirely to him.
+
+"No." The word carries the weight of your office, clear and unalterable. "That word is not fitting for you. Not then, not now, and not ever again."
+
+His eyes don't leave yours.
+
+"Do you have family? A mother, a father — anyone who might be waiting for you?"
+
+He shakes his head. A small, distressed motion. "I... I don't remember," he whispers, as though the admission itself is another kind of wound.
+
+[[Give him a name.|Tut_Naming]]
+
+
+:: Tut_Naming
+You study him — the dark blue scales, the fearful but steady gaze, the fragile, resilient hold of someone who chose, despite everything, to follow a stranger out of the dark.
+
+"Then I shall give you one."
+
+The syllables form in your mouth in the old tongue, the language of dragonkind — sharp and beautiful, the way truth sounds when spoken plainly.
+
+//"Calth'm."//
+
+His eyes widen at the sound of it.
+
+"It is a word in the language of your people," you tell him. "It means 'Courageous.'"
+
+[[Watch him take it in.|Tut_Courage_Doubt]]
+
+
+:: Tut_Courage_Doubt
+The name lands too large for him. He looks down at his ragged shirt. His shoulders fall.
+
+"But I'm not," he mumbles. "I was just scared. I cried. I stayed in the dark until you came."
+
+<<link "Tell him what courage actually is.">>
+  <<audio "sfx_click" play>>
+  <<goto "Tut_Courage_Answer">>
+<</link>>
+
+<<link "Tell him that what he just described is exactly what courage looks like.">>
+  <<audio "sfx_click" play>>
+  <<goto "Tut_Courage_Answer_Alt">>
+<</link>>
+
+
+:: Tut_Courage_Answer
+You reach out and close your hand over his, firmly, the way you'd hold fast to something worth keeping.
+
+"Courage is not the absence of fear," you say. "It is choosing to trust. Choosing to live. Choosing to rise from the dark." You hold his gaze until you are certain it has reached him. "You did all of those things." A pause, then softer: "You will grow into this name, little one. One day, you will be all that it promises."
+
+[[Ride on.|Tut_Ride_Forward]]
+
+
+:: Tut_Courage_Answer_Alt
+"Being scared is not the opposite of being brave," you say. "Staying in the dark when you had no other choice is not cowardice. And when a stranger offered you a hand — you took it." You squeeze his fingers. "Every one of those things is what this name is made of. You earned it before I ever spoke it."
+
+He looks at you for a long moment. Something in his face quietly rearranges itself.
+
+[[Ride on.|Tut_Ride_Forward]]
+
+
+:: Tut_Ride_Forward
+You offer him a soft smile and release his hand.
+
+With a click of your tongue and a nudge of your heels, the horse finds its gait again. The rhythm of hooves fills the silence between you — not empty silence, but the kind that has been earned.
+
+He sits a little straighter now. His eyes go to the gold-tinged horizon, where the distant spires of the Temple of Pelor will one day crest into view and mean something to him. He doesn't know that yet. He only knows the road, and the sun on his back, and the name //Calth'm//, which is his now.
+
+Perhaps that is enough. For today.
+
+[[→ Years pass.|TutPrologue_End]]
+
+
+:: TutPrologue_End
+<<set $inTutorial to false>>
+<<set $tutCompleted to true>>
+<<set $playerName to "Calth'm">>
+<<set $str to 0>>
+<<set $agi to 0>>
+<<set $wis to 0>>
+<<set $chr to 0>>
+<<set $hp to 10>>
+<<set $maxHp to 10>>
+<<set $gold to 15>>
+<<set $inventory to []>>
+
+<<audio ":bgm" fadeout 2.5>>
+
+<div class="section-break">· · · ✦ · · ·</div>
+
+//Years pass.//
+
+The temple became home. Pelor's light became doctrine, then calling, then bone-deep certainty. The boy named Courageous grew into the word, and then past it — into something Drenn had no name for, because she had never needed one.
+
+He learned to fight. He learned to speak. He learned, eventually, to trust.
+
+He left the temple at nineteen with a sword at his hip and a blessing at his back and the memory of a gingersnap that had changed the direction of his life.
+
+His story is yours to shape now.
+
+//Who did he become?//
+
+<<link "→ Step into his boots.">>
+  <<audio "sfx_click" play>>
+  <<goto "CharacterName">>
+<</link>>
+
+
+/* ═══════════════════════════════════════════════════════════
+   CHARACTER CREATION
+   ═══════════════════════════════════════════════════════════ */
+
+:: CharacterName
+<h2>Who Are You?</h2>
+
+The name Drenn gave you was //Calth'm// — Courageous, in the tongue of your people.
+
+Whatever name you carry now is your own to choose.
+
+Your name: <<textbox "$playerName" $playerName autofocus>>
+
+<br>
+
+<<link "→ Choose Your Abilities">>
+  <<audio "sfx_click" play>>
+  <<if $playerName eq "">><<set $playerName to "Calth'm">><</if>>
+  <<goto "CharacterStats">>
+<</link>>
+
+
+:: CharacterStats
+<<set _used to $str + $agi + $wis + $chr>>
+<<set _left to 8 - _used>>
+
+<h2>Your Abilities</h2>
+
+<div class="pts-remaining"><span class="pts">_left</span> point<<if _left neq 1>>s<</if>> remaining</div>
+
+<table class="stat-table">
+<tr>
+  <td class="col-name">Strength</td>
+  <td class="col-desc">Brute force, melee, breaking things</td>
+  <td class="col-val">$str</td>
+  <td class="col-btn">
+    <<button "+">><<if _left gt 0>><<set $str to $str + 1>><<goto "CharacterStats">><</if>><</button>>
+    <<button "−">><<if $str gt 0>><<set $str to $str - 1>><<goto "CharacterStats">><</if>><</button>>
+  </td>
+</tr>
+<tr>
+  <td class="col-name">Agility</td>
+  <td class="col-desc">Stealth, speed, ranged attacks</td>
+  <td class="col-val">$agi</td>
+  <td class="col-btn">
+    <<button "+">><<if _left gt 0>><<set $agi to $agi + 1>><<goto "CharacterStats">><</if>><</button>>
+    <<button "−">><<if $agi gt 0>><<set $agi to $agi - 1>><<goto "CharacterStats">><</if>><</button>>
+  </td>
+</tr>
+<tr>
+  <td class="col-name">Wisdom</td>
+  <td class="col-desc">Magic, lore, perception, healing</td>
+  <td class="col-val">$wis</td>
+  <td class="col-btn">
+    <<button "+">><<if _left gt 0>><<set $wis to $wis + 1>><<goto "CharacterStats">><</if>><</button>>
+    <<button "−">><<if $wis gt 0>><<set $wis to $wis - 1>><<goto "CharacterStats">><</if>><</button>>
+  </td>
+</tr>
+<tr>
+  <td class="col-name">Charisma</td>
+  <td class="col-desc">Persuasion, deception, bartering</td>
+  <td class="col-val">$chr</td>
+  <td class="col-btn">
+    <<button "+">><<if _left gt 0>><<set $chr to $chr + 1>><<goto "CharacterStats">><</if>><</button>>
+    <<button "−">><<if $chr gt 0>><<set $chr to $chr - 1>><<goto "CharacterStats">><</if>><</button>>
+  </td>
+</tr>
+</table>
+
+<<if _left eq 0>>
+  <<link "⚔  Begin Your Story">>
+    <<audio "sfx_click" play>>
+    <<goto "Prologue">>
+  <</link>>
+<<else>>
+  <span class="choice-disabled">⚔  Begin Your Story <small>(spend all _left remaining point<<if _left neq 1>>s<</if>> first)</small></span>
+<</if>>
+
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN STORY — ACT 1: THE SUMMONS
+   ═══════════════════════════════════════════════════════════ */
+
+:: Prologue
+<<audio ":bgm" fadeout 1.5>>
+<<audio "bgm_tavern" volume 0.4 loop play>>
+
+The chamber is familiar — high vaulted stone, sun-gold tapestries, the smell of incense and old wood. You have stood here a hundred times. Today it feels different.
+
+Drenn stands at the window with her back to you, watching the morning light press through the glass. She doesn't turn when you enter. She knows your footstep.
+
+"Calth'm." Her voice carries the particular weight it has when she needs something she knows you'll give. "Sit down."
+
+She tells you about Sarenth. A village half a day's ride east, being bled dry by a company of bandits — weeks of raids, stolen supplies, people too frightened to resist and a lord too slow, or too unwilling, to act. A call for help arrived at the temple only recently.
+
+"I want you to go," she says. She has turned to face you now. "Investigate. Help them. End whatever is happening there."
+
+The morning sun is in her face. She means exactly what she says.
+
+<<link "\"I'll leave at once.\" No hesitation. You were named for this.">>
+  <<audio "sfx_click" play>>
+  <<set $acceptedEagerly to true>>
+  <<goto "Prol_AcceptEager">>
+<</link>>
+
+<<link "\"Are you certain I'm the right one to send? Surely someone more experienced—\"">>
+  <<audio "sfx_click" play>>
+  <<set $acceptedEagerly to false>>
+  <<goto "Prol_ExpressDoubt">>
+<</link>>
+
+
+:: Prol_AcceptEager
+Drenn's expression softens at the corners — not quite a smile, but something older than one.
+
+She looks at you the way she did on the eastern road, a long time ago, when the name //Calth'm// was still new and the boy wearing it didn't believe it yet.
+
+"Good," she says simply.
+
+[[Receive your equipment.|Prol_Equipped]]
+
+
+:: Prol_ExpressDoubt
+"I'm certain," she says, before you can finish. "You know what it looks like when the powerful turn their backs on the helpless. You've known that since before you had words for it." She holds your gaze steadily. "That is why it must be you."
+
+There is no useful counterargument to this. You nod.
+
+[[Receive your equipment.|Prol_Equipped]]
+
+
+:: Prol_Equipped
+She sets items on the table between you, one by one — a sword and shield, both good steel, stamped with the sun-disc of Pelor. A map, folded crisp. A sealed letter of introduction addressed to the elder of Sarenth.
+
+"Introduce yourself to the elder first. Learn everything you can. Then act."
+
+<<if $tutCompleted>>
+  She reaches into her satchel a final time and produces a small cloth bundle. The smell reaches you before you recognize the shape — spiced ginger, warm even now.
+
+  "For the road." Something in the way she holds them out tells you she remembers exactly why she started carrying them. "Try not to eat them all before you arrive."
+
+  <<run $inventory.push("Gingersnap Cookies")>>
+<</if>>
+
+You pack the items. You take the map. You go.
+
+<<link "→ The road to Sarenth.">>
+  <<audio "sfx_click" play>>
+  <<goto "Act2_Arrival">>
+<</link>>
+
+
+/* ═══════════════════════════════════════════════════════════
+   ACT 2: SARENTH
+   ═══════════════════════════════════════════════════════════ */
+
+:: Act2_Arrival
+<<audio ":bgm" fadeout 1.5>>
+<<audio "bgm_tavern" volume 0.3 loop play>>
+
+The village is smaller than the map implied. Simple homes of weathered wood around a muddy central square, a well, a notice board with nothing on it.
+
+The second thing you notice is the quiet. Not the peaceful kind — the kind learned when noise draws attention. A woman at the well watches you cross without speaking. A man mending a fence goes still as you pass. No children run.
+
+You find the elder's home on the far side of the square and knock.
+
+[[Introduce yourself.|Act2_Elder]]
+
+
+:: Act2_Elder
+The elder is a weathered man in his sixties — careful eyes, the posture of someone long accustomed to carrying more than their share. He reads Drenn's letter twice, then sets it down and looks at you with something close to relief, though it has been diluted by a long time of hoping for exactly this.
+
+He tells you everything. Bandits every few days, taking food, coin, sometimes people. One family who complained to the town lord found their barn burned down the following week. Lord Reynard has been slow to act — or unwilling — and the village stopped expecting anything from him months ago.
+
+"Is there anyone willing to fight?" you ask.
+
+He hesitates. "There are a few brave ones. But bravery and combat aren't always the same thing."
+
+You ask him to call them together.
+
+<div class="tutorial-hint"><strong>Charisma check — DC 12.</strong> How well you rally volunteers determines the quality of your allies going forward.</div>
+
+<<link "Speak to the gathered villagers.">>
+  <<audio "sfx_click" play>>
+  <<skillcheck $chr 12 "Act2_AlliesGood" "Act2_AlliesFair">>
+<</link>>
+
+
+:: Act2_AlliesGood
+Among the dozen or so who come out, one stands apart — a stocky man in his late thirties with a hunter's steady hands and the kind of eyes that stay level when someone talks plainly about danger.
+
+His name is Jon. He's the first to step forward. "Tell us what you need."
+
+The others follow his lead. You leave with eight volunteers, better-armed and better-organized than you had any right to expect.
+
+<<set $jonIsAlly to true>>
+
+Jon falls into step beside you as you head east into the tree line.
+
+[[Move out.|Act2_BanditCamp_Approach]]
+
+
+:: Act2_AlliesFair
+Five volunteers with varying degrees of hesitation — farmers mostly, carrying tools that double as weapons, wearing the expression of people who have decided to be brave and are quietly regretting it.
+
+It'll do.
+
+[[Move out.|Act2_BanditCamp_Approach]]
+
+
+:: Act2_BanditCamp_Approach
+Three hours east through the forest. The group moves quietly — good instinct, or good fear. The smell of woodsmoke reaches you before the camp does.
+
+Through the brush: a clearing, a dozen bandits, alert and armed. Some at the fire, others on a loose perimeter. Nobody looks tired or careless. This is a practiced outfit.
+
+Your group holds in the tree line. They look to you.
+
+<<link "Try to slip in alone — if you're caught, the others come running.">>
+  <<audio "sfx_click" play>>
+  <<skillcheck $agi 13 "Act2_Sneak_Success" "Act2_Sneak_Caught">>
+<</link>>
+
+<<link "Don't bother with stealth. Signal the group and advance together.">>
+  <<audio "sfx_click" play>>
+  <<goto "Combat1_Start">>
+<</link>>
+
+
+:: Act2_Sneak_Success
+Low, slow, using fire noise and casual talk to mask your approach. You slip inside the perimeter and crouch behind a supply cart. From here you can read the whole camp — patrol patterns, weapon stacks, where the fire clusters the most people.
+
+You have a breath weapon and genuine surprise. Use it first.
+
+[[Strike.|Combat1_Start_Advantage]]
+
+
+:: Act2_Sneak_Caught
+A dry twig — the smallest sound — and the nearest guard turns toward it with the professional suspicion of someone who knows twigs don't snap on their own.
+
+He spots you. His shout goes up.
+
+[[The camp is on its feet. Fight.|Combat1_Start]]
+
+
+/* ═══════════════════════════════════════════════════════════
+   COMBAT 1: THE BANDIT CAMP
+   ═══════════════════════════════════════════════════════════ */
+
+:: Combat1_Start_Advantage
+<<audio ":bgm" fadeout 1.0>>
+<<audio "bgm_combat" volume 0.55 loop play>>
+
+You have seconds before the patrol comes around. Four bandits are clustered tight near the fire — close enough for one arc.
+
+You take a breath. You let the lightning go.
+
+It catches all four of them. They hit the ground screaming. The rest spin toward the flash and //freeze// — that brief, precious moment of shock before the brain catches up to the eyes. The breath weapon is spent, but it earned its keep.
+
+Two fingers to your lips. The signal. A bird call into the tree line.
+
+Your allies come out of the forest from three directions at once. The math turns fast. Some bandits scatter; three are taken captive. Nobody on your side goes down.
+
+[[Survey the aftermath.|PostCombat1_Scene]]
+
+
+:: Combat1_Start
+<<audio ":bgm" fadeout 1.0>>
+<<audio "bgm_combat" volume 0.55 loop play>>
+<<set $combatPhase to 1>>
+<<set $combatBreathUsed to false>>
+<<set $combatDefending to false>>
+<<set $combatCommandAvail to false>>
+<<set $combatRound to 1>>
+<<set $combatLog to "">>
+<<set $combatVictory to "Combat1_Victory">>
+<<set $jonDiedThisFight to false>>
+<<set $jonHP to $jonMaxHP>>
+<<set $combatEnemies to [
+  {name: "Bandit Grunt",  hp: 10, maxHp: 10, minAtk: 2, maxAtk: 5, alive: true},
+  {name: "Bandit Archer", hp: 8,  maxHp: 8,  minAtk: 1, maxAtk: 4, alive: true},
+  {name: "Scarred Woman", hp: 9,  maxHp: 9,  minAtk: 2, maxAtk: 5, alive: true}
+]>>
+<<goto "CombatTurn">>
+
+
+/* ═══════════════════════════════════════════════════════════
+   SHARED COMBAT ENGINE — used by both Combat 1 and Combat 2
+   ═══════════════════════════════════════════════════════════ */
+
+:: CombatTurn
+<div class="combat-arena">
+
+<h2 class="combat-title">⚔ Round $combatRound</h2>
+
+<<if $combatLog neq "">><div class="combat-log">$combatLog</div><</if>>
+
+<div class="combat-status">
+<<if $jonIsAlly and ($jonHP gt 0 or $jonDiedThisFight)>><div class="combatant ally-status<<if $jonHP lte 0>> combatant-fallen<</if>>"><strong>Jon</strong><<if $jonHP gt 0>><div class="hp-wrap"><div class="hp-bar" style="width:<<= Math.round(($jonHP / $jonMaxHP) * 100) >>%;"></div></div>HP <<print $jonHP>> / <<print $jonMaxHP>><<else>><em>Fallen</em><</if>></div><</if>>
+<<for _ci, _ce range $combatEnemies>><<if _ce.alive>><div class="combatant enemy-status"><strong><<print _ce.name>></strong><div class="hp-wrap"><div class="hp-bar enemy-bar" style="width:<<= Math.round((_ce.hp / _ce.maxHp) * 100) >>%;"></div></div>HP <<print _ce.hp>> / <<print _ce.maxHp>></div><</if>><</for>>
+</div>
+
+**Choose your action:**
+
+<<for _ci, _ce range $combatEnemies>><<if _ce.alive>><<capture _ci, _ce>><<link "⚔ Attack " + _ce.name>><<audio "sfx_click" play>><<set $combatTargetIdx to _ci>><<goto "CombatAttack">><</link>><</capture>><</if>><</for>>
+
+<<if not $combatBreathUsed>><<link "⚡ Lightning Breath — Strike every enemy (once per fight)">><<audio "sfx_click" play>><<goto "CombatBreath">><</link>><</if>>
+
+<<if $jonIsAlly and $jonHP gt 0>><<link "🛡 Protect Jon — Intercept attacks aimed at your ally this round">><<audio "sfx_click" play>><<goto "CombatDefend">><</link>><</if>>
+
+<<if $combatCommandAvail>><<link "✦ Command: \"Fall!\" — Divine authority, one target">><<audio "sfx_click" play>><<goto "CombatCommandPick">><</link>><</if>>
+
+<<if $inventory.includes("Gingersnap Cookies")>><<link "🍪 Eat Gingersnap Cookies — Restore all HP (uses your turn)">><<audio "sfx_success" play>><<set $hp to $maxHp>><<run $inventory.splice($inventory.indexOf("Gingersnap Cookies"), 1)>><<set $combatLog to "You eat the gingersnaps. HP fully restored to " + $maxHp + ".">><<set $combatDefending to false>><<goto "CombatEnemyPhase">><</link>><</if>>
+
+</div>
+
+
+:: CombatAttack
+<<set _dmg to random(1, 6) + Math.max(0, $str)>>
+<<set _tgtName to $combatEnemies[$combatTargetIdx].name>>
+<<set $combatEnemies[$combatTargetIdx].hp to $combatEnemies[$combatTargetIdx].hp - _dmg>>
+<<if $combatEnemies[$combatTargetIdx].hp lte 0>>
+  <<set $combatEnemies[$combatTargetIdx].hp to 0>>
+  <<set $combatEnemies[$combatTargetIdx].alive to false>>
+  <<set $combatLog to "You strike " + _tgtName + " for " + _dmg + " — they go down!">>
+<<else>>
+  <<set $combatLog to "You strike " + _tgtName + " for " + _dmg + " damage. (" + $combatEnemies[$combatTargetIdx].hp + "/" + $combatEnemies[$combatTargetIdx].maxHp + " HP)">>
+<</if>>
+<<set $combatDefending to false>>
+<<goto "CombatEnemyPhase">>
+
+
+:: CombatBreath
+<<set $combatBreathUsed to true>>
+<<set $combatLog to "⚡ Lightning tears through the enemy line!">>
+<<for _bi, _be range $combatEnemies>>
+<<if _be.alive>>
+  <<set _bdmg to random(3, 8)>>
+  <<set $combatEnemies[_bi].hp to Math.max(0, $combatEnemies[_bi].hp - _bdmg)>>
+  <<if $combatEnemies[_bi].hp lte 0>>
+    <<set $combatEnemies[_bi].alive to false>>
+    <<set $combatLog to $combatLog + "\n" + _be.name + " takes " + _bdmg + " — falls!">>
+  <<else>>
+    <<set $combatLog to $combatLog + "\n" + _be.name + " takes " + _bdmg + " damage. (" + $combatEnemies[_bi].hp + " HP)">>
+  <</if>>
+<</if>>
+<</for>>
+<<set $combatDefending to false>>
+<<goto "CombatEnemyPhase">>
+
+
+:: CombatDefend
+<<set $combatDefending to true>>
+<<set $combatLog to "You plant yourself in front of Jon, ready to take any hit aimed at him.">>
+<<goto "CombatEnemyPhase">>
+
+
+:: CombatCommandPick
+**Command: "Fall!"**
+
+The divine word will freeze one enemy where they stand.
+
+<<for _ci, _ce range $combatEnemies>><<if _ce.alive>><<capture _ci, _ce>><<link "→ " + _ce.name>><<audio "sfx_click" play>><<set $combatTargetIdx to _ci>><<goto "CombatCommandExecute">><</link>><</capture>><</if>><</for>>
+
+[[← Back|CombatTurn]]
+
+
+:: CombatCommandExecute
+<<set _ccname to $combatEnemies[$combatTargetIdx].name>>
+
+//"Fall!"//
+
+The word lands with the weight of the divine behind it. <<print _ccname>> freezes mid-motion — sword arm locked, feet rooted, eyes wide with the terror of a mind that can see and hear everything but cannot command its own body.
+
+What do you do?
+
+<<link "Drive your blade in. They made their choice.">>
+  <<audio "sfx_click" play>>
+  <<set $usedCommandKill to true>>
+  <<set $combatLog to "\"Fall!\" — " + $combatEnemies[$combatTargetIdx].name + " struck down while frozen. Something in your chest goes very quiet.">>
+  <<set $combatEnemies[$combatTargetIdx].hp to 0>>
+  <<set $combatEnemies[$combatTargetIdx].alive to false>>
+  <<set $combatDefending to false>>
+  <<goto "CombatEnemyPhase">>
+<</link>>
+
+<<link "Leave them on the ground. They're no threat now.">>
+  <<audio "sfx_click" play>>
+  <<set $combatLog to "\"Fall!\" — " + $combatEnemies[$combatTargetIdx].name + " collapses, incapacitated.">>
+  <<set $combatEnemies[$combatTargetIdx].hp to 0>>
+  <<set $combatEnemies[$combatTargetIdx].alive to false>>
+  <<set $combatDefending to false>>
+  <<goto "CombatEnemyPhase">>
+<</link>>
+
+
+:: CombatEnemyPhase
+<<set _phlog to $combatLog + "\n">>
+
+/* Jon auto-attacks first alive enemy */
+<<if $jonIsAlly and $jonHP gt 0>>
+  <<set _jtgt to -1>>
+  <<for _ji, _je range $combatEnemies>>
+    <<if _je.alive and _jtgt lt 0>><<set _jtgt to _ji>><</if>>
+  <</for>>
+  <<if _jtgt gte 0>>
+    <<set _jdmg to random(1, 4)>>
+    <<set $combatEnemies[_jtgt].hp to Math.max(0, $combatEnemies[_jtgt].hp - _jdmg)>>
+    <<if $combatEnemies[_jtgt].hp lte 0>>
+      <<set $combatEnemies[_jtgt].alive to false>>
+      <<set _phlog to _phlog + "Jon strikes " + $combatEnemies[_jtgt].name + " for " + _jdmg + " — they fall!\n">>
+    <<else>>
+      <<set _phlog to _phlog + "Jon attacks " + $combatEnemies[_jtgt].name + " for " + _jdmg + ".\n">>
+    <</if>>
+  <</if>>
+<</if>>
+
+/* Each alive enemy attacks */
+<<for _ei, _ee range $combatEnemies>>
+<<if _ee.alive>>
+  <<set _etgt to random(1, 10)>>
+  <<if $jonIsAlly and $jonHP gt 0 and _etgt lte 3>>
+    <<if $combatDefending>>
+      <<set _edef to Math.max(1, Math.floor(random(_ee.minAtk, _ee.maxAtk) / 2))>>
+      <<set $hp to $hp - _edef>>
+      <<set _phlog to _phlog + _ee.name + " targets Jon — you intercept, taking " + _edef + ". (Your HP: " + Math.max(0,$hp) + ")\n">>
+    <<else>>
+      <<set _ejon to random(_ee.minAtk, _ee.maxAtk)>>
+      <<set $jonHP to $jonHP - _ejon>>
+      <<if $jonHP lte 0>>
+        <<set $jonHP to 0>>
+        <<set $jonDied to true>>
+        <<set $jonDiedThisFight to true>>
+        <<set _phlog to _phlog + _ee.name + " strikes Jon for " + _ejon + ". Jon falls!\n">>
+      <<else>>
+        <<set _phlog to _phlog + _ee.name + " attacks Jon for " + _ejon + ". (Jon: " + $jonHP + " HP)\n">>
+      <</if>>
+    <</if>>
+  <<else>>
+    <<set _eplr to random(_ee.minAtk, _ee.maxAtk)>>
+    <<set $hp to $hp - _eplr>>
+    <<set _phlog to _phlog + _ee.name + " attacks you for " + _eplr + ". (Your HP: " + Math.max(0,$hp) + ")\n">>
+  <</if>>
+<</if>>
+<</for>>
+
+<<set $combatLog to _phlog>>
+<<set $combatDefending to false>>
+<<set $combatRound to $combatRound + 1>>
+
+/* Check end conditions */
+<<set _cAllDown to true>>
+<<for _ce range $combatEnemies>>
+  <<if _ce.alive>><<set _cAllDown to false>><</if>>
+<</for>>
+
+<<if $hp lte 0>>
+  <<set $hp to 0>>
+  <<goto "Death">>
+<<elseif _cAllDown>>
+  <<goto $combatVictory>>
+<<else>>
+  <<goto "CombatTurn">>
+<</if>>
+
+
+:: Combat1_Victory
+<<audio ":bgm" fadeout 2.0>>
+<<audio "bgm_tavern" volume 0.3 loop play>>
+
+The last of them falls. The clearing goes quiet.
+
+<<if $jonDiedThisFight>>
+Your allies are moving through the camp. You are standing still.
+
+Jon is on the ground near the supply cart. Still in the way a person is still when everything has stopped.
+
+You go to him. There is nothing to be done except be there for a moment and know it.
+<<if $usedCommandKill>>
+You used the divine word today. You struck a helpless enemy while they could not move. And here is Jon. The two things are not the same. You know they are not the same. You will spend a long time turning them over together regardless.
+<</if>>
+
+[[Carry him back. Let the others handle the camp.|PostCombat1_Scene]]
+<<else>>
+<<if $jonIsAlly>>Jon crosses the clearing toward you. "We did that," he says, half to himself. You nod. You don't have better words for it either.<</if>>
+
+[[Survey the aftermath.|PostCombat1_Scene]]
+<</if>>
+
+
+/* ═══════════════════════════════════════════════════════════
+   POST-COMBAT 1
+   ═══════════════════════════════════════════════════════════ */
+
+:: PostCombat1_Scene
+<<audio ":bgm" fadeout 2.0>>
+<<audio "bgm_tavern" volume 0.3 loop play>>
+
+The camp is quiet now. Three bandits are bound and seated against a supply cart — two men and a woman. Your allies are going through the tents, checking for stolen goods.
+
+<<if $jonIsAlly>>
+  <<if not $jonDied>>Jon crosses over to stand beside you. "We did that," he says, half to himself.
+
+Nobody on your side was killed. A good outcome, if such things have good outcomes.
+  <<else>>
+The other volunteers move quietly through the camp. Nobody says anything about Jon yet. There will be time for that.
+  <</if>>
+<<else>>
+Nobody on your side was killed. A good outcome, if such things have good outcomes.
+<</if>>
+
+<<link "Search the camp for anything useful before dealing with the captives.">>
+  <<audio "sfx_click" play>>
+  <<goto "PostCombat1_Search">>
+<</link>>
+
+<<link "Go straight to the captives.">>
+  <<audio "sfx_click" play>>
+  <<goto "Interrogate_Intro">>
+<</link>>
+
+
+:: PostCombat1_Search
+Racked against a cart beneath a heap of stolen grain sacks, you find a serviceable shortbow with a quiver of twelve arrows. Bandit issue — nothing elegant, but the draw weight is solid and the arrows are straight.
+
+<<link "Take it. A ranged option has its uses.">>
+  <<audio "sfx_click" play>>
+  <<run $inventory.push("Shortbow")>>
+  <<goto "PostCombat1_Search_Done">>
+<</link>>
+
+<<link "Leave it. You fight close.">>
+  <<audio "sfx_click" play>>
+  <<goto "PostCombat1_Search_Done">>
+<</link>>
+
+
+:: PostCombat1_Search_Done
+[[See to the captives.|Interrogate_Intro]]
+
+
+:: Interrogate_Intro
+The woman is the most alert of the three — the others are still dazed. She watches you crouch down to her level with the specific expression of someone running calculations behind their eyes.
+
+"Who are you working for?"
+
+She says nothing. Then: "I'll never betray my comrades, you filthy dragonborn."
+
+How do you answer?
+
+<<link "\"The more you cooperate, the more willing I'll be to speak for you at trial. Refuse, and your fate is in the hands of the people you've been robbing.\"">>
+  <<audio "sfx_click" play>>
+  <<goto "Interrogate_Threaten">>
+<</link>>
+
+<<if $chr gte 3>>
+  <<link "\"You're the one who can afford to be reasonable here. I'd rather leave with information.\"">>
+    <<audio "sfx_click" play>>
+    <<skillcheck $chr 13 "Interrogate_Persuade_Win" "Interrogate_Persuade_Lose">>
+  <</link>>
+<</if>>
+
+<<link "Say nothing. Stand. Walk away and let the villagers decide.">>
+  <<audio "sfx_click" play>>
+  <<goto "Interrogate_Cold">>
+<</link>>
+
+
+:: Interrogate_Threaten
+"It isn't a threat," you tell her, standing. "It's a promise."
+
+You nod to the villagers. They understand.
+
+As they lead her away, something slips from her coat pocket — a folded square of paper that catches the edge of your vision as it hits the grass.
+
+[[Pick it up.|PostCombat1_Map]]
+
+
+:: Interrogate_Persuade_Win
+Something in her expression shifts. The calculation finishes and she doesn't like the result.
+
+She doesn't give you names — those change. But she tells you there's a map in her right pocket. "Camp locations, supply routes. If you're going after the main camp, you'll want it."
+
+You take it. "I said I'd speak for you. I meant it."
+
+She looks away. But the hardness in her face has cracked slightly.
+
+[[Study the map.|PostCombat1_Map]]
+
+
+:: Interrogate_Persuade_Lose
+She holds. Cooperation lost the calculation.
+
+"I'd rather die than betray my comrades." You stand. As you turn away she shifts, and a folded square of paper slides from her coat to the grass.
+
+[[Pick it up.|PostCombat1_Map]]
+
+
+:: Interrogate_Cold
+You walk away. The villagers handle her. As they move her, something falls from her coat — a folded square of paper that catches the edge of your vision.
+
+[[Pick it up.|PostCombat1_Map]]
+
+
+:: PostCombat1_Map
+A map. Multiple locations marked across the region — known trade routes, others circled with notation in a shorthand you don't fully read. One marking sits uncomfortably close to the town lord's manor.
+
+<div class="tutorial-hint"><strong>Wisdom check — DC 11.</strong> A strong roll reveals more of what this map actually means.</div>
+
+<<link "Study it carefully.">>
+  <<audio "sfx_click" play>>
+  <<skillcheck $wis 11 "PostCombat1_Map_Pass" "PostCombat1_Map_Fail">>
+<</link>>
+
+
+:: PostCombat1_Map_Pass
+The locations resolve into meaning. Supply caches along trade roads. A patrol pattern that becomes legible once you understand what you're seeing. And one notation near the lord's manor that reads like an //arrangement// rather than a threat — shorthand for an ongoing exchange, not a target.
+
+Someone inside Reynard's household has been in contact with these people. Or the lord himself.
+
+<<if $jonIsAlly and not $jonDied>>
+  You show Jon. He goes still. "I've suspected this for months. But without proof..." He looks at the marking. "They promised to leave his keep untouched if he stayed quiet. That's the rumor."
+
+  "It's not just a rumor anymore," you say.
+<</if>>
+
+[[Return to the village.|Act2_ReturnToVillage]]
+
+
+:: PostCombat1_Map_Fail
+You recognize the main roads and distances, but the shorthand notation in the margins is opaque — whatever system they use to mark their arrangements wasn't made for outsiders.
+
+<<if $jonIsAlly and not $jonDied>>
+  Jon leans over your shoulder. "That mark near the lord's manor — I've seen that symbol before. I don't know what it means, but it doesn't look like a threat."
+
+  "You've suspected Reynard was involved," you say.
+
+  He exhales slowly. "It's why nobody trusted going to him for help."
+<</if>>
+
+You fold the map away. It's enough to work with.
+
+[[Return to the village.|Act2_ReturnToVillage]]
+
+
+:: Act2_ReturnToVillage
+Midday. The prisoners walk bound in the middle of the group. The villagers are quiet — the way people are when they've done a hard thing and haven't decided how to feel about it yet.
+
+<<if $jonIsAlly and not $jonDied>>
+  Jon falls into step beside you. "You'll need somewhere to sleep tonight."
+
+  "An inn would do."
+
+  "The Sleeping Dragon, on the village outskirts. The innkeeper talks a great deal — knows everything about everyone."
+<</if>>
+
+The village comes into sight. People appear in their doorways as you walk in with the prisoners.
+
+[[Head to the Sleeping Dragon.|Inn_Arrive]]
+
+
+/* ═══════════════════════════════════════════════════════════
+   ACT 3: THE SLEEPING DRAGON INN
+   ═══════════════════════════════════════════════════════════ */
+
+:: Inn_Arrive
+<<audio ":bgm" fadeout 1.5>>
+<<audio "bgm_tavern" volume 0.4 loop play>>
+
+The Sleeping Dragon sits at the village edge — a low-roofed building with a painted sign faded by enough winters to be mostly decorative. Inside: a common room, a crackling fire, the smell of old ale and warm bread.
+
+The innkeeper is a portly man with a spectacular mustache. He comes around the bar when he sees you.
+
+"Word travels," he says, looking you over with frank assessment. "You've had a busy morning."
+
+[[Discuss lodging.|Inn_Innkeeper]]
+
+
+:: Inn_Innkeeper
+"One night — what will it cost?"
+
+"Two silver, normally." He scratches his chin. "But given what you did for this village today, I'll knock off one."
+
+He's being generous. He doesn't have to be.
+
+<<link "Pay the full two silver. \"I appreciate the offer, but I'm well enough off.\"">>
+  <<audio "sfx_click" play>>
+  <<if $gold gte 2>>
+    <<set $paidFull to true>>
+    <<set $gold to $gold - 2>>
+    <<goto "Inn_Pay_Full">>
+  <<else>>
+    <<set $gold to $gold - 1>>
+    <<goto "Inn_Accept_Discount">>
+  <</if>>
+<</link>>
+
+<<link "Accept the discount gratefully.">>
+  <<audio "sfx_click" play>>
+  <<set $gold to $gold - 1>>
+  <<goto "Inn_Accept_Discount">>
+<</link>>
+
+
+:: Inn_Pay_Full
+He takes both coins with mild surprise, then tucks them away with a nod that means considerably more than a nod usually does.
+
+"Anything else I can do for you?"
+
+[[Ask about Lord Reynard.|Inn_Ask_Reynard]]
+
+
+:: Inn_Accept_Discount
+He takes the coin and tips his head. "Appreciated, friend. Anything else?"
+
+[[Ask about Lord Reynard.|Inn_Ask_Reynard]]
+
+
+:: Inn_Ask_Reynard
+"Tell me about your town lord."
+
+The innkeeper's expression settles into something careful. "Reynard's been lord here ten years. Competent enough at the start. But the last year or two—" He wipes the bar with a rag. "You hear things. Nobody can prove anything. All I know is that a man with his responsibilities, in a village suffering like this one — you'd expect more action."
+
+He sets the rag down. "If you're planning to see him, I could send word on your behalf. Tell him you stopped the bandits. Might buy you a foot in his door."
+
+<<link "Ask him to send the message. Give his shoulder a reassuring pat.">>
+  <<audio "sfx_click" play>>
+  <<goto "Inn_SendMessage">>
+<</link>>
+
+<<link "\"That's alright — I'll handle the introduction myself in the morning.\"">>
+  <<audio "sfx_click" play>>
+  <<goto "Inn_LongRest">>
+<</link>>
+
+
+:: Inn_SendMessage
+You give him a third silver coin for the trouble. He accepts it with the look of someone who wasn't going to ask but isn't sorry to have it.
+
+"I'll make sure it reaches him tonight."
+
+<<set $gold to $gold - 1>>
+
+[[Retire for the night.|Inn_LongRest]]
+
+
+:: Inn_LongRest
+The room is small and clean — a narrow bed, a desk, a window overlooking the square. Through it you can see a lamp burning in the elder's house.
+
+You set your sword beside the bed and lie down. Sleep comes quickly.
+
+<div class="section-break">· · · ✦ · · ·</div>
+
+<<set $hp to $maxHp>>
+
+You wake whole. The ache from yesterday has already faded — you've learned to sleep like a soldier, briefly and deeply, and let the rest do its work.
+
+[[Go downstairs.|Morning_Inn]]
+
+
+/* ═══════════════════════════════════════════════════════════
+   ACT 4: LORD REYNARD
+   ═══════════════════════════════════════════════════════════ */
+
+:: Morning_Inn
+The innkeeper sets a bowl of porridge in front of you without being asked.
+
+"Message reached Reynard last night." He looks slightly uncomfortable. "He's agreed to see you — publicly, in his hall this morning."
+
+"I was hoping to speak with him privately."
+
+"Yes, well." He busies himself with the bar. "He didn't offer that option."
+
+[[Finish breakfast and go.|Reynard_Court]]
+
+
+:: Reynard_Court
+<<audio ":bgm" fadeout 1.5>>
+<<audio "bgm_dungeon" volume 0.3 loop play>>
+
+The lord's keep is a stone building that manages to feel both fortified and slightly neglected — maintained where visitors will see it, left alone everywhere else. You're shown to an antechamber and told to wait.
+
+You offer a short prayer to Pelor. Then the door opens.
+
+[[Enter.|Reynard_Introduce]]
+
+
+:: Reynard_Introduce
+A raised dais at the far end of the hall, a man in his mid-forties seated in a high-backed chair — heavy beard, cold eyes, the look of someone who finds strangers in his hall to be a minor but persistent inconvenience.
+
+You cross the room and address him directly. "Lord Reynard, I presume."
+
+He looks you over. "Yes. And you are the paladin." He already knows your name — the innkeeper's message did its work. "What brings you to my court?"
+
+You introduce yourself in full, under the banner of Pelor's temple. You tell him about the raid, the three captured, the map you recovered. You keep your tone informational rather than accusatory. You watch his face as you speak.
+
+His expression gives nothing. He is very good at this.
+
+"Your assistance is noted," he says. "But the situation is well in—"
+
+"I have a map," you say. You produce it.
+
+Something moves behind his eyes when he sees it. Not when you unfold it — //before//. When you first hold it up.
+
+You file that away.
+
+[[Request a private meeting.|Reynard_Private]]
+
+
+:: Reynard_Private
+"I'd prefer to discuss the rest of this privately, my lord."
+
+He doesn't like that. A fraction of a second of displeasure before his careful neutrality reasserts itself.
+
+"Very well."
+
+He dismisses the room. Advisors and petitioners file out. A guard closes the door.
+
+He descends the dais steps and turns his back to you — deliberate staging, you suspect.
+
+"What is it you actually want, Paladin?"
+
+[[Begin the confrontation.|Reynard_Confront]]
+
+
+:: Reynard_Confront
+You tell him plainly: this village has been suffering for months. He was positioned to act and failed. And the map in your hand shows a marking too close to his manor to be coincidental.
+
+"That is an outrageous—"
+
+"Your eyes told me what you knew the moment I held up that map," you say. "You hadn't even unfolded it."
+
+He goes quiet.
+
+How do you press this?
+
+<<if $chr gte 3>>
+  <<link "Hold your ground. Let him sit in the silence until he fills it himself.">>
+    <<audio "sfx_click" play>>
+    <<skillcheck $chr 14 "Reynard_Persuade_Win" "Reynard_Persuade_Fail">>
+  <</link>>
+<</if>>
+
+<<link "Draw your sword and hold it level with his throat. \"Admit it.\"">>
+  <<audio "sfx_click" play>>
+  <<goto "Reynard_Sword">>
+<</link>>
+
+<<link "This man colluded with criminals against his own people. He does not deserve this seat. End it here.">>
+  <<audio "sfx_click" play>>
+  <<goto "Reynard_Kill">>
+<</link>>
+
+
+:: Reynard_Persuade_Win
+You say nothing. You hold his gaze across the empty hall and let the silence do the work.
+
+Reynard is a man who fills silences — accustomed to controlling rooms, conversations, what is known and what isn't. In the quiet you offer now, he has none of that.
+
+He sits on the edge of the dais steps. The pretense of lordly bearing slides off him like a coat dropped on a floor.
+
+"They came to me eighteen months ago," he says quietly. "I thought I could manage it. Keep them satisfied, keep them away from the village, buy time to deal with it properly." A pause. "The time never arrived."
+
+[[Hear him out.|Reynard_Confesses]]
+
+
+:: Reynard_Persuade_Fail
+The silence stretches to its limit and he doesn't break. He's had years of practice keeping things buried, and whatever crack you opened isn't quite wide enough.
+
+"Get out of my hall," he says flatly, and turns toward the door.
+
+Your hand finds your hilt.
+
+[[Don't let him walk away from this.|Reynard_Sword]]
+
+
+:: Reynard_Sword
+The cold steel settles against his throat and Lord Reynard goes absolutely still.
+
+"Admit to it," you say. "Your body suffers no harm."
+
+His eyes are wide. Then something behind them gives.
+
+"Alright." His voice comes out thin and unfamiliar. "Alright. I took their bribes. They promised to leave the manor untouched — to leave //my// people untouched — if I stayed quiet." His hands tremble slightly. "I didn't know what else to do. They were already too powerful and I—"
+
+"You had the temple," you say. "You had the king's paladins. You had options."
+
+He closes his eyes.
+
+[[Hear him out.|Reynard_Confesses]]
+
+
+:: Reynard_Kill
+<<set $reynardKilled to true>>
+
+He's moving toward the door. You cross the room in two steps.
+
+The sword goes through him cleanly.
+
+Lord Reynard slides down the wall of his own hall and doesn't get back up. You stand in the silence that follows and listen to your own breathing. This is not how Drenn would have done this. You know that. The name she gave you was not meant for moments like this one.
+
+But the village is free of him now. And the bandits still need dealing with.
+
+You go to the door and open it. The advisors and guards on the other side look at you.
+
+"Lord Reynard is dead," you tell them, with a calm you don't entirely feel. "I'm taking temporary command of this town's resources under the authority of Pelor's temple and King Tyrian's charter. The bandit operation bleeding this village ends today. Anyone willing to help — come with me."
+
+A long silence. Then one of the advisors — a middle-aged woman with precise eyes — steps forward.
+
+"Tell us what you need."
+
+[[Plan the end of this.|Strategy_Meeting]]
+
+
+:: Reynard_Confesses
+The confession takes a few minutes. He tells you the shape of it — the first contact, the arrangement, the escalation he never got ahead of. He is not a villain by nature; he is something more common and in some ways harder to condemn.
+
+You listen until he's done.
+
+"You'll answer for this in Uzgard," you tell him. "The high courts."
+
+He nods. "I know."
+
+"But first — help me end this properly. Stand beside me. Show me what your heart is actually made of."
+
+He looks at you for a long moment. Then: "If I help you... will you speak for me at the trial?"
+
+How do you answer?
+
+<<link "\"I promise. Stand with me and I will defend you before the courts.\"">>
+  <<audio "sfx_click" play>>
+  <<set $reynardIsAlly to true>>
+  <<set $promisedDefense to true>>
+  <<goto "Reynard_AllyFormed">>
+<</link>>
+
+<<link "\"I can't promise you that. But cooperating is better than not.\"">>
+  <<audio "sfx_click" play>>
+  <<set $reynardIsAlly to true>>
+  <<goto "Reynard_AllyFormed">>
+<</link>>
+
+
+:: Reynard_AllyFormed
+He extends his hand. You take it.
+
+"What do we do next?" he asks.
+
+"We make a plan. Get your advisors back in."
+
+[[To the strategy table.|Strategy_Meeting]]
+
+
+/* ═══════════════════════════════════════════════════════════
+   ACT 5: STRATEGY
+   ═══════════════════════════════════════════════════════════ */
+
+:: Strategy_Meeting
+<<if $reynardKilled>>
+  The advisor — her name is Mira — brings the others without ceremony. They look at you with varying degrees of apprehension, but they come. A map goes on the table. You take the seat at the head because no one else does.
+
+  "The bandits know a paladin is here. They'll be expecting retaliation. We're going to give them something different."
+<<else>>
+  Reynard's advisors return — three of them, settling around a long table. A detailed regional map is unrolled at the center before you even have to ask. Two advisors favor a direct assault; a third wants to cut supply routes first. Reynard watches you more than the map.
+
+  "What do you think?" he asks.
+<</if>>
+
+You lean over the table.
+
+<div class="tutorial-hint"><strong>Wisdom check — DC 14.</strong> A high roll spots an advantageous terrain detail that changes the plan.</div>
+
+<<link "Study the terrain carefully.">>
+  <<audio "sfx_click" play>>
+  <<skillcheck $wis 14 "Strategy_Terrain_Pass" "Strategy_Terrain_Fail">>
+<</link>>
+
+
+:: Strategy_Terrain_Pass
+Your eye catches it — a section of forest, dense and uneven, curving around three sides of the camp location. The bandits have clear sight lines on the main approach roads, but the northeastern tree line has a dead zone where the canopy is too thick to watch from inside the camp.
+
+"Here." You put your finger on it. "Ambush force stages here. They'll never see them coming from that angle."
+
+The advisors exchange glances. One says, quietly: "He's right."
+
+[[Propose the plan.|Strategy_BaitPlan]]
+
+
+:: Strategy_Terrain_Fail
+The map is detailed but the shorthand notation leaves you uncertain. You note general positions and work with what you have.
+
+"We'll need to approach from a direction they're not watching. Something that draws their attention forward while our forces come from behind."
+
+One of the advisors nods. "The northeastern tree line might serve."
+
+[[Propose the plan.|Strategy_BaitPlan]]
+
+
+:: Strategy_BaitPlan
+"The bandits already know I'm here," you say. "Those who fled yesterday have told their leader. He'll be expecting a frontal assault or a formal arrest attempt."
+
+You straighten from the map.
+
+<<if $reynardKilled>>
+  "So we give him neither. We send word that the town's acting authority wants to negotiate — and that I was sent alone as a token of good faith. I walk in unarmed. Let them take me."
+<<else>>
+  "So we give him something he's not expecting. We tell the bandits that //Reynard// wants them to capture me — that I've gotten too close to his arrangement and he wants me out of the way." Reynard doesn't flinch at this. He is past the point of flinching.
+<</if>>
+
+"I go in alone. No armor, no visible weapons. They bind me and walk me into camp. Then, when they've gathered and their guard is down—"
+
+You raise two fingers in the bird call gesture.
+
+"— the ambush force closes from the northeast."
+
+Silence around the table. Then someone says: "That's either inspired or suicidal."
+
+"Ideally both," you say.
+
+[[Finalize the plan.|Strategy_Final]]
+
+
+:: Strategy_Final
+<<if $reynardIsAlly>>
+  Reynard extends his hand across the table. "I'll send the message myself. They'll believe it coming from me."
+
+  "Make sure they know I'm coming alone."
+
+  He nods. "I don't intend to waste this."
+<<else>>
+  Mira handles the message, drafting it in a hand close enough to Reynard's to pass inspection.
+<</if>>
+
+You spend the afternoon selecting your ambush force — twenty volunteers, the strongest fighters, everyone who proved themselves at the first camp. <<if $jonIsAlly and not $jonDied>>Jon volunteers without being asked. "I'm not sitting this one out," he says simply.<</if>>
+
+By evening the plan is set.
+
+<div class="section-break">· · · ✦ · · ·</div>
+
+Tomorrow, you walk into the bandit camp alone.
+
+[[→ The next morning.|Ambush_Approach]]
+
+
+/* ═══════════════════════════════════════════════════════════
+   COMBAT 2: THE AMBUSH
+   ═══════════════════════════════════════════════════════════ */
+
+:: Ambush_Approach
+<<audio ":bgm" fadeout 1.5>>
+<<audio "bgm_dungeon" volume 0.25 loop play>>
+
+You leave your sword and shield at the edge of the forest — and the shortbow, if you have it. The weight of their absence is immediately uncomfortable, the way a good habit is when you deliberately abandon it.
+
+The camp is the same clearing, but doubled. More tents, more men, the quiet organized efficiency of a group that has been told to expect company.
+
+You walk in with your hands at your sides, fingers open.
+
+[[Enter.|Ambush_Surrounded]]
+
+
+:: Ambush_Surrounded
+They surround you before you've crossed half the clearing. Fifteen, maybe eighteen — the reinforcements have fresher weapons and more deliberate eyes.
+
+The leader steps forward. Heavy through the shoulders, a scar in a diagonal slash across one cheek.
+
+"Who sent you?"
+
+"Lord Reynard," you say, keeping your voice level. "He wants to negotiate a truce."
+
+A short laugh from the group. The leader considers you for a moment, then nods to his men.
+
+Rope comes out.
+
+[[Let them bind you. The ambush needs time to get into position.|Ambush_Bound]]
+
+
+:: Ambush_Bound
+The rope is tight around your wrists, knotted behind you. A guard keeps a hand on your arm as they lead you deeper into camp.
+
+You count bandits. Note patrol gaps. Watch the northeastern tree line.
+
+The leader has stopped talking — something about terms, about what happens if your story doesn't check out — when the patrol reaches its farthest point and the tree line goes absolutely still in the way that means it is full of people trying very hard not to move.
+
+//Now.//
+
+[[Open your mouth.|Ambush_BreathWeapon]]
+
+
+:: Ambush_BreathWeapon
+<<audio ":bgm" fadeout 0.8>>
+<<audio "bgm_combat" volume 0.6 loop play>>
+
+You headbutt the guard behind you with the back of your skull. He lets go. You spin.
+
+Hands still bound. Weapons at the forest edge. The camp is in chaos — and the lightning is right there, ready.
+
+A horn sounds from the northeastern tree line. //They're here.//
+
+You have one chance to decide: fire now and clear the field before the fighting starts, or hold the breath weapon for the fight ahead.
+
+<<link "Open your mouth. Clear as many as you can.">>
+  <<audio "sfx_click" play>>
+  <<set $breathFiredEarly to true>>
+  <<goto "Ambush_BreathEarly">>
+<</link>>
+
+<<link "Hold it. Your allies are already moving.">>
+  <<audio "sfx_click" play>>
+  <<set $breathFiredEarly to false>>
+  <<goto "Ambush_TrickRope">>
+<</link>>
+
+
+:: Ambush_BreathEarly
+The lightning comes out in a wide arc. Six of them are in the line of it — they go down in a screaming, smoking heap. The rest stagger, momentarily deafened and blinded by the flash. The breath is spent, but it earned its place.
+
+[[Use the confusion.|Ambush_TrickRope]]
+
+
+:: Ambush_TrickRope
+You pick a bandit who's recovering faster than the others and step directly into his path.
+
+"Come get me, wretch."
+
+He takes the bait. His sword comes down in a wide arc and you turn your back at exactly the right moment, so the blade catches the rope and nothing else.
+
+The bindings fall away. You flex your hands open and closed once.
+
+The ambush force is pouring in from the tree line. The bandits who survived the lightning are spreading thin trying to meet them.
+
+The leader is twenty feet away. He hasn't run.
+
+[[Face him.|Ambush_FaceLeader]]
+
+
+:: Ambush_FaceLeader
+He draws his sword. His shield comes up. His men are being cut down around him but his eyes are entirely on you — focused, professional, furious.
+
+Your weapons are at the forest edge, thirty feet away. He hasn't run.
+
+<<if $chr gte 3>>
+<<link "\"Stop. Look at your men. This is already over — walk away while you still can.\"">>
+  <<audio "sfx_click" play>>
+  <<skillcheck $chr 15 "Ambush_TalkDown_Win" "Ambush_TalkDown_Fail">>
+<</link>>
+<</if>>
+
+<<link "Face him in combat.">>
+  <<audio "sfx_click" play>>
+  <<goto "Combat2_Init">>
+<</link>>
+
+
+:: Ambush_TalkDown_Win
+The words reach him. He stops advancing. He looks at the clearing — the men being rounded up, the ones down from the lightning, the ambush force closing from every direction.
+
+A young woman behind him says quietly: "He's right. We're done."
+
+He looks at her. He looks at you. The sword drops.
+
+[[Receive the surrender.|Ambush_Victory]]
+
+
+:: Ambush_TalkDown_Fail
+The words don't reach him. He charges.
+
+[[Meet him.|Combat2_Init]]
+
+
+:: Combat2_Init
+<<set $combatPhase to 2>>
+<<set $combatBreathUsed to false>>
+<<set $combatDefending to false>>
+<<set $combatCommandAvail to ($wis gte 3)>>
+<<set $combatRound to 1>>
+<<set $combatLog to "">>
+<<set $combatVictory to "Combat2_Victory">>
+<<set $jonDiedThisFight to false>>
+<<if not $jonDied>><<set $jonHP to $jonMaxHP>><</if>>
+
+<<if $breathFiredEarly>>
+<<set $combatEnemies to [
+  {name: "Bandit Leader", hp: 18, maxHp: 18, minAtk: 3, maxAtk: 7, alive: true},
+  {name: "Bandit Guard",  hp: 8,  maxHp: 8,  minAtk: 2, maxAtk: 5, alive: true}
+]>>
+<<else>>
+<<set $combatEnemies to [
+  {name: "Bandit Leader", hp: 18, maxHp: 18, minAtk: 3, maxAtk: 7, alive: true},
+  {name: "Bandit Guard",  hp: 8,  maxHp: 8,  minAtk: 2, maxAtk: 5, alive: true},
+  {name: "Bandit Guard",  hp: 7,  maxHp: 7,  minAtk: 2, maxAtk: 4, alive: true}
+]>>
+<</if>>
+
+<<goto "CombatTurn">>
+
+
+:: Combat2_Victory
+<<audio ":bgm" fadeout 1.0>>
+<<audio "bgm_tavern" volume 0.4 loop play>>
+
+<<if $jonDiedThisFight>>
+The last fighter goes down. The clearing empties of sound.
+
+You find Jon near the edge of the fight. He's on the ground, still.
+
+You stand there a moment and let it settle. The battle is won. Jon didn't see it.
+
+<</if>>
+
+<<if $usedCommandKill>>
+The remaining bandits have gone still, watching the fallen. You remember the leader frozen under your word and what you chose to do with it. The image isn't going anywhere soon.
+
+"Surrender. Now." Your voice carries without thaumaturgy.
+
+[[Call for surrender.|Ambush_Surrender_Call]]
+<<else>>
+The Bandit Leader is on the ground — beaten, bleeding, weaponless. Still breathing. His men are watching him. Some are already dropping their swords.
+
+What do you do with him?
+
+<<link "Kill him. He made his choice when he raised arms against this village.">>
+  <<audio "sfx_click" play>>
+  <<set $banditLeaderKilled to true>>
+  <<goto "C2_LeaderExecute">>
+<</link>>
+
+<<link "Take him alive. He'll answer for this at trial.">>
+  <<audio "sfx_click" play>>
+  <<goto "C2_LeaderBound">>
+<</link>>
+<</if>>
+
+
+:: C2_LeaderExecute
+You stand over him and bring the sword down clean.
+
+He doesn't get up.
+
+You look at what you've done for a moment — a man, beaten and defenseless, and the choice you made. You've done this before. It wasn't clean the first time either.
+
+[[Call for surrender.|Ambush_Surrender_Call]]
+
+
+:: C2_LeaderBound
+"You're going to trial," you tell him. "Where you'll answer for everything that happened to this village."
+
+He watches his men surrendering around him and says nothing.
+
+[[Call for surrender.|Ambush_Surrender_Call]]
+
+
+:: Ambush_Surrender_Call
+The remaining bandits are watching their leader. Some are still fighting. Most are looking for a reason to stop.
+
+You raise your voice — not thaumaturgy, just your voice, raw and carrying:
+
+//"Surrender immediately! Lay down your arms and you will not be harmed. This is your only offer!"//
+
+A beat of silence. Then a young woman at the back of the group raises her hands.
+
+"We surrender."
+
+The others follow, one by one.
+
+[[Accept it.|Ambush_Victory]]
+
+
+:: Ambush_Victory
+<<audio ":bgm" fadeout 1.0>>
+<<audio "bgm_tavern" volume 0.3 loop play>>
+
+Your force moves efficiently through the clearing. The bandits don't resist. The fight has been entirely removed from them.
+
+<<if $jonIsAlly and not $jonDied>>Jon finds you at the center of the clearing. He has a cut above his eyebrow and the expression of someone who needs a moment before he can explain to himself what just happened. "You alright?" he asks. "Ask me in an hour," you tell him.<</if>>
+
+The map. The prisoners. The evidence. All of it in your hands. The bandit operation is broken.
+
+[[Return to Sarenth.|Aftermath_Return]]
+
+
+/* ═══════════════════════════════════════════════════════════
+   AFTERMATH
+   ═══════════════════════════════════════════════════════════ */
+
+:: Aftermath_Return
+<<audio ":bgm" fadeout 1.5>>
+<<audio "bgm_tavern" volume 0.35 loop play>>
+
+The walk back takes longer than the walk out. It always does.
+
+<<if $jonIsAlly and not $jonDied>>
+  Jon walks beside you through the forest. The prisoners are ahead with the main group. The two of you fall naturally behind, and he notices the quiet in you long before he says anything about it.
+
+  <<if $banditLeaderKilled>>[[Jon breaks the silence.|Aftermath_Jon_Guilty]]<<else>>[[Jon says something.|Aftermath_Jon_Clean]]<</if>>
+<<else>>
+  You walk with the group and think.
+
+  <<if $banditLeaderKilled>>[[Sit with what you did.|Aftermath_Solo_Guilty]]<<else>>[[Consider what comes next.|Aftermath_Solo_Clean]]<</if>>
+<</if>>
+
+
+:: Aftermath_Jon_Guilty
+"You did what had to be done," Jon says, after a long while.
+
+A bird calls somewhere in the canopy above you.
+
+"I know," you say.
+
+"Those people back in the village — the broken doors, the food taken, the neighbor's kid dragged off for ransom." He keeps his eyes on the path. "They sleep safer tonight because of what happened in that clearing."
+
+"I know."
+
+"So why does knowing that not fix the way you're walking?"
+
+You look at him sideways.
+
+"I used a spell to stop him," you say. "He couldn't defend himself. And I killed him anyway."
+
+Jon considers this for a few steps. "You used every tool available to protect people who had none. That's what the job is."
+
+"That's not the part that bothers me."
+
+"No." He's quiet. "I know it isn't." Another few steps. "Maybe what a paladin does and what a paladin is //supposed// to do have a gap in them sometimes. And you're the one who has to stand in it."
+
+You don't have an answer for that. But his shoulder against yours, unhurried on the forest path, is its own kind of answer.
+
+[[Arrive at Sarenth.|Aftermath_Arrive]]
+
+
+:: Aftermath_Jon_Clean
+"You didn't have to spare him," Jon says. "After everything he did to this village."
+
+"I know."
+
+"Most people wouldn't have."
+
+Through the trees ahead you can see the edge of the village clearing.
+
+"Pelor's light reaches everywhere," you say. "Even into cells and courtrooms. It doesn't stop at my convenience."
+
+Jon is quiet for a moment. Then: "That's either the most religious thing you've said all day, or the most practical."
+
+"Can't it be both?"
+
+He laughs — the first real laugh you've heard from him. Short and genuine. It sounds like relief.
+
+[[Arrive at Sarenth.|Aftermath_Arrive]]
+
+
+:: Aftermath_Solo_Guilty
+You walk and think and do not find resolution, which is probably the honest outcome.
+
+You used every advantage available to protect people who had none. You know the village sleeps safer tonight. You also stood over a frozen man and made a choice that didn't require much courage to make.
+
+Perhaps Drenn would say that recognizing the difference is the beginning of something. You'll write her a letter when this is over.
+
+[[Arrive at Sarenth.|Aftermath_Arrive]]
+
+
+:: Aftermath_Solo_Clean
+You walk and let the clarity settle. You could have killed him. You had every advantage, every justification, every expectation pointing that way. You chose differently.
+
+It cost more — more difficulty, more risk, more for the courts to untangle. But you'll sleep without that weight on you, and the man lives to answer for what he did. Which is what justice is supposed to mean.
+
+[[Arrive at Sarenth.|Aftermath_Arrive]]
+
+
+:: Aftermath_Arrive
+The village comes out to meet you. Not a crowd exactly — it's not that kind of village. But people are at their doors, and the elder is in the square, and the quiet that met you on your first arrival has been replaced by something different.
+
+Not quite celebration. Something more careful and more real than that.
+
+The elder clasps your hand for a long time without saying anything.
+
+[[The epilogue.|Epilogue]]
+
+
+/* ═══════════════════════════════════════════════════════════
+   EPILOGUE
+   ═══════════════════════════════════════════════════════════ */
+
+:: Epilogue
+<<audio ":bgm" fadeout 2.0>>
+<<audio "bgm_open" volume 0.35 loop play>>
+
+<div class="section-break">· · · ✦ · · ·</div>
+
+//In the days that follow://
+
+The bandit operation is dismantled. The prisoners are transported to Uzgard to await trial in the king's courts. The evidence gathered — the map, the testimony, the records from the camp — paints a complete picture.
+
+Sarenth begins the slow work of rebuilding what was taken from it.
+
+<<if $reynardKilled>>[[See what becomes of the town.|Epilogue_ReynardDead]]<<else>>[[See what becomes of Reynard.|Epilogue_Trial]]<</if>>
+
+
+:: Epilogue_Trial
+Reynard is brought to Uzgard in chains. The charges are substantial — conspiracy, dereliction, collaboration with the criminals that victimized his own village. The trial draws attention across the region.
+
+<<if $promisedDefense>>
+  You promised to speak for him. That moment is now.
+
+  <<link "Stand before the court and argue for leniency. He cooperated. He helped end it.">>
+    <<audio "sfx_click" play>>
+    <<goto "Epilogue_Defend">>
+  <</link>>
+
+  <<link "Let the courts decide. A promise made under duress isn't binding.">>
+    <<audio "sfx_click" play>>
+    <<goto "Epilogue_NoDefend">>
+  <</link>>
+<<else>>
+  [[See the verdict.|Epilogue_NoDefend]]
+<</if>>
+
+
+:: Epilogue_Defend
+You stand before the court and speak for him.
+
+You don't minimize what he did. You don't suggest bribery and negligence are minor matters, or that the suffering his silence enabled was anything other than what it was. But you speak to the end of the story — the man who, when given the choice between self-protection and cooperation, chose to help. Who sat at a strategy table beside a paladin he had every reason to resent, and gave everything he had left to give.
+
+The court listens.
+
+The verdict: exile. Stripped of his title and lands, permanently barred from public office. He will leave Uzgard within thirty days.
+
+You see him briefly on the court steps before he goes. He looks reduced — which is accurate.
+
+"Thank you," he says.
+
+"Don't thank me," you tell him. "What you did in that strategy room — that's what saved your life. Not me."
+
+He nods. Then he walks away.
+
+[[Read Drenn's letter.|Epilogue_End]]
+
+
+:: Epilogue_NoDefend
+The trial proceeds without your testimony.
+
+The verdict is severe. Lord Reynard of Sarenth is sentenced to death by hanging for conspiracy and dereliction in service of criminal enterprise. The sentence is carried out within the month.
+
+You hear about it in a letter from <<if $jonIsAlly and not $jonDied>>Jon<<else>>the village elder<</if>>. You fold it and hold it for a moment, then set it aside.
+
+It was the law. The courts had what they needed. He made his choices long before you arrived.
+
+You still think about the strategy table. The way he shook your hand.
+
+[[Read Drenn's letter.|Epilogue_End]]
+
+
+:: Epilogue_ReynardDead
+Without a lord, administration of Sarenth falls to the elder and the council of advisors — an arrangement that turns out to suit the village considerably better than its previous management.
+
+You stay for two weeks handling the paperwork, the prisoner transport, the transition. Mira, the advisor who stepped forward first, is quietly capable. You recommend her to the elder as interim administrator.
+
+On the last morning you stand in the square and look at the village — the open doors, children running again, the notice board with things posted on it now.
+
+It is not the way Drenn would have handled it. You know that. But it is done.
+
+[[Read Drenn's letter.|Epilogue_End]]
+
+
+:: Epilogue_End
+There is a letter from Drenn waiting for you at the temple when you return.
+
+It is short. She has always been efficient with words when the moment calls for it — and when it doesn't, she uses fewer.
+
+It says: //I heard what you did. I am proud of you.//
+
+And then, in smaller script at the bottom: //There are gingersnaps in the kitchen. You've earned them.//
+
+You stand in the sun-warmed corridor of the temple you grew up in, letter in hand, and let the quiet settle around you.
+
+//Calth'm.//
+
+Courageous.
+
+//You are still growing into this name. Keep going.//
+
+<div class="section-break">· · · ✦ · · ·</div>
+
+<p style="text-align:center; color:#5a3e1b; font-style:italic;">— End of Chapter One —</p>
+
+[[↩  Return to Title|TitleScreen]]
+
+
+/* ═══════════════════════════════════════════════════════════
+   DEATH SCREEN
+   ═══════════════════════════════════════════════════════════ */
+
+:: Death
+<<audio ":bgm" stop>>
+<<audio "sfx_fail" play>>
+
+<div id="death-screen">
+<h2>You Have Fallen</h2>
+<p class="death-flavor">''The road ends here — but perhaps it need not.''</p>
+
+<<link "↩  Load Last Save">>
+  <<audio "sfx_click" play>>
+  <<ui saves>>
+<</link>>
+
+[[↩  Return to Title|TitleScreen]]
+</div>
+
+
+/* ═══════════════════════════════════════════════════════════
+   COMBAT GUIDE [guide]
+   Reference template — never navigated to in play.
+   Copy this pattern for every COMBAT section from the RP log.
+   ═══════════════════════════════════════════════════════════ */
+
+:: CombatGuide [guide]
+The enemy description goes here.
+
+<<if $str gte 2>>
+  <<link "Meet them head-on — strength will carry you.">>
+    <<audio "sfx_click" play>>
+    <<skillcheck $str 13 "Fight_Win_Brute" "Fight_Lose_Brute">>
+  <</link>>
+<</if>>
+
+<<if $agi gte 2>>
+  <<link "Wait for an opening, then strike fast.">>
+    <<audio "sfx_click" play>>
+    <<skillcheck $agi 12 "Fight_Win_Agile" "Fight_Lose_Agile">>
+  <</link>>
+<</if>>
+
+<<if $wis gte 3>>
+  <<link "Read their stance. You know this type of fighter.">>
+    <<audio "sfx_click" play>>
+    <<skillcheck $wis 11 "Fight_Win_Tactical" "Fight_Lose_Tactical">>
+  <</link>>
+<</if>>
+
+<<if $chr gte 3>>
+  <<link "\"Walk away. You don't have to do this.\"">>
+    <<audio "sfx_click" play>>
+    <<skillcheck $chr 12 "Fight_Win_Persuade" "Fight_Lose_Persuade">>
+  <</link>>
+<</if>>
+
+<<if $inventory.includes("Flask of Oil")>>
+  <<link "Hurl the oil flask. Create distance.">>
+    <<audio "sfx_click" play>>
+    <<skillcheck $agi 10 "Fight_Win_Item" "Fight_Lose_Item">>
+  <</link>>
+<</if>>
+
+<<if $hp lte 4>>
+  <<link "You're barely standing. Make this count.">>
+    <<audio "sfx_click" play>>
+    <<skillcheck $str 15 "Fight_Win_Desperate" "Fight_Lose_Desperate">>
+  <</link>>
+<</if>>
+
+<<link "Run. You're not dying here.">>
+  <<audio "sfx_click" play>>
+  <<skillcheck $agi 11 "Fight_Flee_Success" "Fight_Flee_Caught">>
+<</link>>
+
+/* Lose passages use: <<takedamage 3 "Fight_Aftermath">>
+   which subtracts HP and auto-routes to Death if HP hits 0. */

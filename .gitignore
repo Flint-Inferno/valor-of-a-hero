@@ -1,0 +1,11 @@
+# Old backup versions
+The Valor of a Hero v*.html
+insert_passages.ps1
+update_combat_bgm.ps1
+
+# Unused numbered source audio files (kept locally, not needed in repo)
+audio/167_*.mp3
+audio/199_*.mp3
+audio/335_*.mp3
+audio/353_*.mp3
+audio/Combat-sm_*.ogg
