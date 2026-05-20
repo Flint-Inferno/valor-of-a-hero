@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html data-init="no-js">
 <head>
 <meta charset="UTF-8" />
@@ -318,6 +318,7 @@ Setting.addToggle("muteAudio", {
 &lt;&lt;set $tutMarrelHarmed to false&gt;&gt;
 &lt;&lt;set $captive to false&gt;&gt;
 &lt;&lt;set $weaponStripped to false&gt;&gt;
+&lt;&lt;set $innMessageSent to false&gt;&gt;
 
 &lt;&lt;cacheaudio &quot;bgm_open&quot;    &quot;audio/bgm_open.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;bgm_tavern&quot;  &quot;audio/bgm_tavern.mp3&quot;&gt;&gt;
@@ -325,8 +326,8 @@ Setting.addToggle("muteAudio", {
 &lt;&lt;cacheaudio &quot;bgm_tutorial&quot;  &quot;audio/bgm_tutorial.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;bgm_nature&quot; &quot;audio/bgm_nature.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;sfx_click&quot;   &quot;audio/sfx_click.mp3&quot;&gt;&gt;
-&lt;&lt;cacheaudio &quot;sfx_success&quot; &quot;audio/sfx_success.mp3&quot;&gt;&gt;
-&lt;&lt;cacheaudio &quot;sfx_fail&quot;    &quot;audio/sfx_fail.mp3&quot;&gt;&gt;
+
+
 &lt;&lt;cacheaudio &quot;bgm_death&quot;    &quot;audio/bgm_death.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;bgm_epilogue&quot; &quot;audio/bgm_epilogue.mp3&quot;&gt;&gt;
 
@@ -388,10 +389,8 @@ $(document).on(&#39;click&#39;, &#39;a.link-internal, a[data-passage], button&#3
   &lt;div class=&quot;skill-check-result&quot;&gt;
     🎲 Rolled &#39;&#39;_sc_roll&#39;&#39; + &#39;&#39;$args[0]&#39;&#39; = &lt;strong&gt;_sc_total&lt;/strong&gt; &amp;nbsp;vs&amp;nbsp; DC &#39;&#39;_sc_dc&#39;&#39;
     &lt;&lt;if _sc_total gte _sc_dc&gt;&gt;
-      &lt;&lt;audio &quot;sfx_success&quot; play&gt;&gt;
       &lt;span class=&quot;sc-success&quot;&gt;✓ Success!&lt;/span&gt;
     &lt;&lt;else&gt;&gt;
-      &lt;&lt;audio &quot;sfx_fail&quot; play&gt;&gt;
       &lt;span class=&quot;sc-failure&quot;&gt;✗ Failed.&lt;/span&gt;
     &lt;&lt;/if&gt;&gt;
   &lt;/div&gt;
@@ -525,9 +524,11 @@ The prayer settles into your chest. You breathe once, slow and even. You are as 
 
 [[Descend.|Tut_Marrel_Rant]]</tw-passagedata><tw-passagedata pid="12" name="Tut_Marrel_Rant" tags="" position="425,750" size="100,100">As your boots find the earthen floor below, Marrel&#39;s voice drops down the hatch after you.
 
-&quot;I found him, fair and square!&quot; Hot and indignant, her words crowd the dark. &quot;Ye can&#39;t just steal my //property// with—&quot;
+&quot;I found him, fair and square!&quot; Hot and indignant, her words crowd the dark. &quot;Ye can&#39;t just steal from me with—&quot;
 
-&quot;A creature.&quot; Her voice cracks under stewing pressure. &quot;I&#39;ve been keeping a //creature// locked in my cellar! A half-breed abomination — same as the ones that pillage cities and eat folks alive! The vermin don&#39;t know a lick about anything. Sure, they pretend well enough, but I can promise ye there ain&#39;t a bloomin&#39; ounce of //person// behind those scales!&quot;
+&quot;This is a //child// you have locked up,&quot; you hiss.
+
+&quot;No. A creature.&quot; Her voice cracks under stewing pressure. &quot;I&#39;ve been keeping a //creature// locked in my cellar! A half-breed abomination — same as the ones that pillage cities and eat folks alive! The vermin don&#39;t know a lick about anything. Sure, they pretend well enough, but I can promise ye there ain&#39;t a bloomin&#39; ounce of //person// behind those scales!&quot;
 
 For the sake of your self-control, and to avoid doing something Pelor would look down on you for, you hold still. The furnace in your thoughts swallows the air.
 
@@ -1002,8 +1003,6 @@ He spots you. His shout goes up.
    ═══════════════════════════════════════════════════════════ */</tw-passagedata><tw-passagedata pid="47" name="Combat1_Start_Advantage" tags="" position="775,1125" size="100,100">&lt;&lt;audio &quot;:bgm&quot; fadeout 1.0&gt;&gt;
 &lt;&lt;audio &quot;bgm_combat&quot; volume 0.55 loop play&gt;&gt;
 
-&lt;&lt;audio &quot;:bgm&quot; fadeout 1.0&gt;&gt;
-&lt;&lt;audio &quot;bgm_combat&quot; volume 0.55 loop play&gt;&gt;
 &lt;&lt;set $combatPhase to 1&gt;&gt;
 &lt;&lt;set $combatBreathUsed to false&gt;&gt;
 &lt;&lt;set $combatDefending to false&gt;&gt;
@@ -1453,6 +1452,7 @@ He sets the rag down. &quot;If you&#39;re planning to see him, I could send word
 &quot;I&#39;ll make sure it reaches him tonight.&quot;
 
 &lt;&lt;set $gold to $gold - 1&gt;&gt;
+&lt;&lt;set $innMessageSent to true&gt;&gt;
 
 [[Retire for the night.|Inn_LongRest]]</tw-passagedata><tw-passagedata pid="75" name="Inn_LongRest" tags="" position="525,1500" size="100,100">The room is small and clean — a narrow bed, a desk, a window overlooking the square. Through it you can see a lamp burning in the elder&#39;s house.
 
@@ -1472,13 +1472,22 @@ You wake whole. The ache from yesterday has already faded — you&#39;ve learned
    ═══════════════════════════════════════════════════════════ */</tw-passagedata><tw-passagedata pid="76" name="Morning_Inn" tags="" position="650,1500" size="100,100">The innkeeper sets a bowl of porridge in front of you without being asked.
 &lt;&lt;if $paidFull&gt;&gt;He adds a heel of good bread without comment. The kind of gesture that doesn&#39;t announce itself.&lt;&lt;/if&gt;&gt;
 
+&lt;&lt;if $innMessageSent&gt;&gt;
 &quot;Message reached Reynard last night.&quot; He looks slightly uncomfortable. &quot;He&#39;s agreed to see you — publicly, in his hall this morning.&quot;
 
 &quot;I was hoping to speak with him privately.&quot;
 
 &quot;Yes, well.&quot; He busies himself with the bar. &quot;He didn&#39;t offer that option.&quot;
 
-[[Finish breakfast and go.|Reynard_Court]]</tw-passagedata><tw-passagedata pid="77" name="Reynard_Court" tags="" position="775,1500" size="100,100">&lt;&lt;audio &quot;:bgm&quot; fadeout 1.5&gt;&gt;
+[[Finish breakfast and go.|Reynard_Court]]
+&lt;&lt;else&gt;&gt;
+He says nothing about Reynard. Word about yesterday has spread — the village knows what you did — but Reynard hasn&#39;t been told to expect you.
+
+[[Go to the keep yourself.|Reynard_Court]]
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="77" name="Reynard_Court" tags="" position="775,1500" size="100,100">&lt;&lt;if not $innMessageSent and not $surrendered&gt;&gt;
+The guard at the gate gives you a long, measuring look — a dragonborn paladin asking to see the lord unannounced is an unusual thing. He knows who you are. Everybody does by now. After a moment, he steps aside without a word.
+&lt;&lt;/if&gt;&gt;
+&lt;&lt;audio &quot;:bgm&quot; fadeout 1.5&gt;&gt;
 &lt;&lt;audio &quot;bgm_tutorial&quot; volume 0.3 loop play&gt;&gt;
 
 The lord&#39;s keep is a stone building that manages to feel both fortified and slightly neglected — maintained where visitors will see it, left alone everywhere else. You&#39;re shown to an antechamber and told to wait.
@@ -1712,7 +1721,7 @@ You raise two fingers in the bird call gesture.
 
 Silence around the table. Then someone says: &quot;That&#39;s either inspired or suicidal.&quot;
 
-&quot;Ideally both,&quot; you say.
+&quot;One rarely comes without the other,&quot; you say.
 
 [[Finalize the plan.|Strategy_Final]]</tw-passagedata><tw-passagedata pid="91" name="Strategy_Final" tags="" position="25,1750" size="100,100">
 &lt;&lt;if $reynardIsAlly&gt;&gt;
@@ -1796,7 +1805,7 @@ The leader has stopped talking — something about terms, about what happens if 
 
 [[Open your mouth.|Ambush_BreathWeapon]]</tw-passagedata><tw-passagedata pid="95" name="Ambush_BreathWeapon" tags="" position="525,1750" size="100,100">You headbutt the guard behind you with the back of your skull. He lets go. You spin.
 
-Hands still bound. Weapons at the forest edge. The camp is in chaos — and the lightning is right there, ready.
+Hands still bound. &lt;&lt;if $daggerHidden&gt;&gt;Sword at the forest edge — the dagger is still against your ribs.&lt;&lt;else&gt;&gt;Weapons at the forest edge.&lt;&lt;/if&gt;&gt; The camp is in chaos — and the lightning is right there, ready.
 
 A horn sounds from the northeastern tree line. //They&#39;re here.//
 
@@ -1821,6 +1830,7 @@ You have one chance to decide: fire now and clear the field before the fighting 
 He takes the bait. His sword comes down in a wide arc and you turn your back at exactly the right moment, so the blade catches the rope and nothing else.
 
 The bindings fall away. You flex your hands open and closed once.
+&lt;&lt;if $daggerHidden&gt;&gt;The dagger is already in your hand.&lt;&lt;/if&gt;&gt;
 
 The ambush force is pouring in from the tree line. The bandits who survived the lightning are spreading thin trying to meet them.
 
@@ -1828,7 +1838,7 @@ The leader is twenty feet away. He hasn&#39;t run.
 
 [[Face him.|Ambush_FaceLeader]]</tw-passagedata><tw-passagedata pid="98" name="Ambush_FaceLeader" tags="" position="900,1750" size="100,100">He draws his sword. His shield comes up. His men are being cut down around him but his eyes are entirely on you — focused, professional, furious.
 
-Your weapons are at the forest edge, thirty feet away. He hasn&#39;t run.
+&lt;&lt;if $daggerHidden&gt;&gt;Your sword is at the forest edge. The dagger is not.&lt;&lt;else&gt;&gt;Your weapons are at the forest edge, thirty feet away.&lt;&lt;/if&gt;&gt; He hasn&#39;t run.
 
 &lt;&lt;if $chr gte 3&gt;&gt;
 &lt;&lt;link &quot;\&quot;Stop. Look at your men. This is already over — walk away while you still can.\&quot;&quot;&gt;&gt;
@@ -2131,7 +2141,6 @@ The road is open.
    DEATH SCREEN
    ═══════════════════════════════════════════════════════════ */</tw-passagedata><tw-passagedata pid="119" name="Death" tags="" position="1025,2000" size="100,100">&lt;&lt;audio &quot;:bgm&quot; stop&gt;&gt;
 &lt;&lt;audio &quot;bgm_death&quot; volume 0.6 loop play&gt;&gt;
-&lt;&lt;audio &quot;sfx_fail&quot; play&gt;&gt;
 
 &lt;div id=&quot;death-screen&quot;&gt;
 &lt;h2&gt;You Have Fallen&lt;/h2&gt;
@@ -2280,7 +2289,7 @@ You file it all away.
 
 //Agility -- DC 13//
 
-&lt;&lt;link &quot;Make your move.&quot;&gt;&gt;&lt;&lt;skillcheck $agi 13 &quot;Captive_Escape_Win&quot; &quot;Captive_Escape_Fail&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="126" name="Captive_Escape_Win" tags="" position="100,2400" size="100,100">&lt;&lt;audio &quot;sfx_success&quot; play&gt;&gt;
+&lt;&lt;link &quot;Make your move.&quot;&gt;&gt;&lt;&lt;skillcheck $agi 13 &quot;Captive_Escape_Win&quot; &quot;Captive_Escape_Fail&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="126" name="Captive_Escape_Win" tags="" position="100,2400" size="100,100">
 
 The knot loosens. Not all at once -- you work it by fractions, breathing through the strain, staying limp whenever a boot scuffs nearby. The rope finally gives.
 
@@ -2290,16 +2299,16 @@ You push through undergrowth for ten minutes before you stop.
 &lt;&lt;if $jonIsAlly&gt;&gt;
 A figure steps from behind an oak. You nearly swing.
 
-&quot;Easy.&quot; Jon. He&#39;s holding both your swords -- he must have gone back for them in the dark. He looks like he hasn&#39;t slept, but he&#39;s grinning anyway. &quot;Took you long enough.&quot;
+&quot;Easy.&quot; Jon. He&#39;s holding your gear — he must have gone back for it in the dark. He looks like he hasn&#39;t slept, but he&#39;s grinning anyway. &quot;Took you long enough.&quot;
 
 &quot;You waited here all night?&quot;
 
-&quot;Where else would I go?&quot;
+&quot;Tracked them back from the ridge after the fighting. Figured if you weren&#39;t back by dawn—&quot; He shakes his head. &quot;Where else would I go?&quot;
 &lt;&lt;else&gt;&gt;
 You&#39;re alone in the forest. Unarmed, cold, the camp somewhere behind you and the village somewhere south. You move south.
 &lt;&lt;/if&gt;&gt;
 
-[[Back to what matters.|Captive_Return]]</tw-passagedata><tw-passagedata pid="127" name="Captive_Escape_Fail" tags="" position="300,2400" size="100,100">&lt;&lt;audio &quot;sfx_fail&quot; play&gt;&gt;
+[[Back to what matters.|Captive_Return]]</tw-passagedata><tw-passagedata pid="127" name="Captive_Escape_Fail" tags="" position="300,2400" size="100,100">
 
 Your wrists slip free of one wrap -- and catch on a knot you missed. You pull. The post creaks. The Scarred Woman is on her feet before you can think.
 
@@ -2340,7 +2349,7 @@ You look at the tent entrance. At the guard whose hand isn&#39;t near his sword.
 &lt;&lt;link &quot;Press the point. Make him see Reynard as the common problem.&quot;&gt;&gt;&lt;&lt;skillcheck $chr 13 &quot;Captive_Deal_Win&quot; &quot;Captive_Deal_Fail&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;link &quot;Keep it simple. Ask him to let you go.&quot;&gt;&gt;&lt;&lt;skillcheck $chr 11 &quot;Captive_Deal_Win&quot; &quot;Captive_Deal_Fail&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-[[Say nothing. Wait.|Captive_Deal_Fail]]</tw-passagedata><tw-passagedata pid="129" name="Captive_Deal_Win" tags="" position="700,2400" size="100,100">&lt;&lt;audio &quot;sfx_success&quot; play&gt;&gt;
+[[Say nothing. Wait.|Captive_Deal_Fail]]</tw-passagedata><tw-passagedata pid="129" name="Captive_Deal_Win" tags="" position="700,2400" size="100,100">
 
 He&#39;s quiet for a long moment. Then he stands.
 
@@ -2354,7 +2363,7 @@ The guard comes in and cuts your bonds.
 
 &quot;Not my problem.&quot; He picks up the letter again. &quot;Nor yours, officially. But I suspect you&#39;ll make it one anyway.&quot;
 
-[[Take your things and go.|Captive_Return]]</tw-passagedata><tw-passagedata pid="130" name="Captive_Deal_Fail" tags="" position="900,2400" size="100,100">&lt;&lt;audio &quot;sfx_fail&quot; play&gt;&gt;
+[[Take your things and go.|Captive_Return]]</tw-passagedata><tw-passagedata pid="130" name="Captive_Deal_Fail" tags="" position="900,2400" size="100,100">
 
 He looks at you for a long moment. Whatever calculation he&#39;s running, it doesn&#39;t come out in your favour.
 
@@ -2388,7 +2397,6 @@ He gives you a look that means //I&#39;ve noticed.//
 The square is quiet when you come in. Someone sees you from across the way and stops. Nobody says anything about Jon. The silence says it for them.
 
 &lt;&lt;else&gt;&gt;
-The elder sees you and stops mid-step. There is relief in his face that he doesn&#39;t try to hide.
 &lt;&lt;/if&gt;&gt;
 
 The elder is standing outside the longhouse, wrapped in a cloak, clearly not having slept. He sees you and closes his eyes briefly in relief.
@@ -2637,6 +2645,8 @@ The leader&#39;s eyes narrow. &quot;You come armed to negotiate?&quot;
 A tense pause. Weapons rise around you. They&#39;re suspicious — but they don&#39;t move yet. You&#39;ve bought yourself a few seconds.
 
 A horn sounds from the northeastern tree line. They&#39;re here.
+
+The ambush force crashes in from the northeast before the bandits can form a line. The clearing becomes a different place in seconds.
 
 &lt;&lt;set $ambushArmed to true&gt;&gt;
 &lt;&lt;goto &quot;Ambush_FaceLeader&quot;&gt;&gt;</tw-passagedata>
