@@ -429,7 +429,7 @@ Setting.addToggle("muteAudio", {
 &lt;&lt;set $gold  to 0&gt;&gt;
 &lt;&lt;set $inventory to [&quot;Holy Symbol&quot;, &quot;Medicinal Herbs&quot;, &quot;Gingersnap Cookies&quot;]&gt;&gt;
 
-&lt;&lt;audio &quot;bgm_tutorial&quot; volume 0.25 loop play&gt;&gt;
+&lt;&lt;audio &quot;bgm_dungeon&quot; volume 0.25 loop play&gt;&gt;
 
 The vision had been clear enough — a name, a village, a house. What it hadn&#39;t shown you was the condition of the one you sought. You suspected that was deliberate.
 
@@ -1452,7 +1452,7 @@ You wake whole. The ache from yesterday has already faded — you&#39;ve learned
 &quot;Yes, well.&quot; He busies himself with the bar. &quot;He didn&#39;t offer that option.&quot;
 
 [[Finish breakfast and go.|Reynard_Court]]</tw-passagedata><tw-passagedata pid="77" name="Reynard_Court" tags="" position="775,1500" size="100,100">&lt;&lt;audio &quot;:bgm&quot; fadeout 1.5&gt;&gt;
-&lt;&lt;audio &quot;bgm_tutorial&quot; volume 0.3 loop play&gt;&gt;
+&lt;&lt;audio &quot;bgm_dungeon&quot; volume 0.3 loop play&gt;&gt;
 
 The lord&#39;s keep is a stone building that manages to feel both fortified and slightly neglected — maintained where visitors will see it, left alone everywhere else. You&#39;re shown to an antechamber and told to wait.
 
@@ -2546,7 +2546,7 @@ It is fast. It is quiet. You make sure of both.
 
 He closes his mouth. There&#39;s relief in his face that he doesn&#39;t try to hide.
 
-[[Move out.|Act2_BanditCamp_Approach]]</tw-passagedata>
+[[Move out.|Act2_Solo_Treeline]]</tw-passagedata>
 <tw-passagedata pid="142" name="Inn_Merchant" tags="" position="100,100" size="100,100">He disappears behind the bar and returns with a squat clay bottle — dark liquid, stoppered with wax. &quot;Healing draught. Not subtle, not elegant. Restores about five HP and tastes like old shoes. Three silver.&quot;
 
 &lt;&lt;link &quot;\&quot;I&#39;ll take it.\&quot; (−3 gold)&quot;&gt;&gt;
@@ -2607,6 +2607,47 @@ A horn sounds from the northeastern tree line. They&#39;re here.
 
 &lt;&lt;set $ambushArmed to true&gt;&gt;
 &lt;&lt;goto &quot;Ambush_FaceLeader&quot;&gt;&gt;</tw-passagedata>
+<tw-passagedata pid="146" name="Act2_Solo_Treeline" tags="" position="100,100" size="100,100">The path east is yours alone. Faster than a group, quieter too — no footsteps to coordinate, no one to give you away. You pick your own route, your own pace.
+
+Three hours. The smell of woodsmoke finds you before the camp does.
+
+You fold yourself into the tree line and take stock. A clearing: a dozen bandits, organized and alert. Three on a loose perimeter rotation. Some at the fire. Nobody looks bored, which means nobody looks careless.
+
+They&#39;re not expecting one person who already knows exactly where they are.
+
+//What do you do?//
+
+&lt;&lt;link &quot;Watch their patrol rotation before committing to anything.&quot;&gt;&gt;
+  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  &lt;&lt;goto &quot;Act2_Solo_Scout&quot;&gt;&gt;
+&lt;&lt;/link&gt;&gt;
+
+&lt;&lt;link &quot;You&#39;ve seen enough. There&#39;s a gap — use it.&quot;&gt;&gt;
+  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  &lt;&lt;skillcheck $agi 9 &quot;Act2_Sneak_Success&quot; &quot;Act2_Sneak_Caught&quot;&gt;&gt;
+&lt;&lt;/link&gt;&gt;
+
+&lt;&lt;link &quot;Don&#39;t bother hiding. Walk out of the trees.&quot;&gt;&gt;
+  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  &lt;&lt;goto &quot;Combat1_Start&quot;&gt;&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata>
+<tw-passagedata pid="147" name="Act2_Solo_Scout" tags="" position="100,100" size="100,100">You wait. Long enough for the pattern to become clear: the north perimeter sentry swaps out every twelve minutes. The southern gap opens up while they&#39;re changing — not long, maybe ninety seconds, but it&#39;s consistent. Same gap, same timing, every rotation.
+
+It&#39;s not a large window.
+
+It&#39;s yours.
+
+//What do you do?//
+
+&lt;&lt;link &quot;That&#39;s the window. Go now.&quot;&gt;&gt;
+  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  &lt;&lt;skillcheck $agi 7 &quot;Act2_Sneak_Success&quot; &quot;Act2_Sneak_Caught&quot;&gt;&gt;
+&lt;&lt;/link&gt;&gt;
+
+&lt;&lt;link &quot;The gap is there, but it&#39;s narrow. Hit them head-on — they won&#39;t expect it.&quot;&gt;&gt;
+  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  &lt;&lt;goto &quot;Combat1_Start&quot;&gt;&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata>
 </tw-storydata>
 	<script id="script-sugarcube" type="text/javascript">
 	/*! SugarCube JS */
