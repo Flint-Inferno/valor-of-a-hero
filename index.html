@@ -322,7 +322,7 @@ Setting.addToggle("muteAudio", {
 &lt;&lt;cacheaudio &quot;bgm_open&quot;    &quot;audio/bgm_open.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;bgm_tavern&quot;  &quot;audio/bgm_tavern.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;bgm_combat&quot;  &quot;audio/bgm_combat.mp3&quot;&gt;&gt;
-&lt;&lt;cacheaudio &quot;bgm_dungeon&quot;  &quot;audio/bgm_dungeon.mp3&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;bgm_tutorial&quot;  &quot;audio/bgm_tutorial.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;bgm_nature&quot; &quot;audio/bgm_nature.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;sfx_click&quot;   &quot;audio/sfx_click.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;sfx_success&quot; &quot;audio/sfx_success.mp3&quot;&gt;&gt;
@@ -334,7 +334,7 @@ Setting.addToggle("muteAudio", {
   &lt;&lt;track &quot;bgm_open&quot;&gt;&gt;
   &lt;&lt;track &quot;bgm_tavern&quot;&gt;&gt;
   &lt;&lt;track &quot;bgm_combat&quot;&gt;&gt;
-  &lt;&lt;track &quot;bgm_dungeon&quot;&gt;&gt;
+  &lt;&lt;track &quot;bgm_tutorial&quot;&gt;&gt;
   &lt;&lt;track &quot;bgm_nature&quot;&gt;&gt;
 &lt;&lt;/createaudiogroup&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="StoryCaption" tags="" position="25,150" size="100,100">&lt;div class=&quot;hud&quot;&gt;
   &lt;&lt;if $inTutorial&gt;&gt;&lt;span class=&quot;hud-tut-label&quot;&gt;Tutorial — The Priestess&lt;/span&gt;&lt;&lt;/if&gt;&gt;
@@ -442,7 +442,7 @@ Setting.addToggle("muteAudio", {
 &lt;&lt;set $gold  to 0&gt;&gt;
 &lt;&lt;set $inventory to [&quot;Holy Symbol&quot;, &quot;Medicinal Herbs&quot;, &quot;Gingersnap Cookies&quot;]&gt;&gt;
 
-&lt;&lt;audio &quot;bgm_dungeon&quot; volume 0.25 loop play&gt;&gt;
+&lt;&lt;audio &quot;bgm_tutorial&quot; volume 0.25 loop play&gt;&gt;
 
 The vision had been clear enough — a name, a village, a house. What it hadn&#39;t shown you was the condition of the one you sought. You suspected that was deliberate.
 
@@ -1472,7 +1472,7 @@ You wake whole. The ache from yesterday has already faded — you&#39;ve learned
 &quot;Yes, well.&quot; He busies himself with the bar. &quot;He didn&#39;t offer that option.&quot;
 
 [[Finish breakfast and go.|Reynard_Court]]</tw-passagedata><tw-passagedata pid="77" name="Reynard_Court" tags="" position="775,1500" size="100,100">&lt;&lt;audio &quot;:bgm&quot; fadeout 1.5&gt;&gt;
-&lt;&lt;audio &quot;bgm_dungeon&quot; volume 0.3 loop play&gt;&gt;
+&lt;&lt;audio &quot;bgm_tutorial&quot; volume 0.3 loop play&gt;&gt;
 
 The lord&#39;s keep is a stone building that manages to feel both fortified and slightly neglected — maintained where visitors will see it, left alone everywhere else. You&#39;re shown to an antechamber and told to wait.
 
@@ -1734,7 +1734,7 @@ Tomorrow, you walk into the bandit camp alone.
    ═══════════════════════════════════════════════════════════ */</tw-passagedata><tw-passagedata pid="92" name="Ambush_Approach" tags="" position="150,1750" size="100,100">&lt;&lt;set $hp to 25&gt;&gt;
 &lt;&lt;set $maxHp to 25&gt;&gt;
 &lt;&lt;audio &quot;:bgm&quot; fadeout 1.5&gt;&gt;
-&lt;&lt;audio &quot;bgm_dungeon&quot; volume 0.25 loop play&gt;&gt;
+&lt;&lt;audio &quot;bgm_tutorial&quot; volume 0.25 loop play&gt;&gt;
 
 &lt;&lt;if $loadout eq &quot;dual&quot;&gt;&gt;
 You leave your twin blades at the edge of the forest. The weight of their absence is immediately uncomfortable.
