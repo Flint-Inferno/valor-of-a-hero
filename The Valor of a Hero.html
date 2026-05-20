@@ -336,7 +336,14 @@ Setting.addToggle("muteAudio", {
   &lt;&lt;track &quot;bgm_combat&quot;&gt;&gt;
   &lt;&lt;track &quot;bgm_tutorial&quot;&gt;&gt;
   &lt;&lt;track &quot;bgm_nature&quot;&gt;&gt;
-&lt;&lt;/createaudiogroup&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="StoryCaption" tags="" position="25,150" size="100,100">&lt;div class=&quot;hud&quot;&gt;
+&lt;&lt;/createaudiogroup&gt;&gt;
+
+&lt;&lt;script&gt;&gt;
+$(document).on(&#39;click&#39;, &#39;a.link-internal, a[data-passage], button&#39;, function () {
+  try { SimpleAudio.tracks.get(&#39;sfx_click&#39;).play(); } catch (e) {}
+});
+&lt;&lt;/script&gt;&gt;
+</tw-passagedata><tw-passagedata pid="2" name="StoryCaption" tags="" position="25,150" size="100,100">&lt;div class=&quot;hud&quot;&gt;
   &lt;&lt;if $inTutorial&gt;&gt;&lt;span class=&quot;hud-tut-label&quot;&gt;Tutorial — The Priestess&lt;/span&gt;&lt;&lt;/if&gt;&gt;
   &lt;span class=&quot;hud-name&quot;&gt;$playerName&lt;/span&gt;
   &lt;div class=&quot;hp-wrap&quot;&gt;
@@ -414,13 +421,13 @@ Setting.addToggle("muteAudio", {
   
 &lt;&lt;link &quot;⚔  Begin Your Journey&quot;&gt;&gt;
   &lt;&lt;audio &quot;:bgm&quot; stop&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;TutorialPrologue&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;if hasVisited(&quot;Prologue&quot;)&gt;&gt;
   &lt;&lt;link &quot;📖  Load / Continue&quot;&gt;&gt;
-    &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+    
     &lt;&lt;ui saves&gt;&gt;
   &lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
@@ -459,17 +466,17 @@ The door opens. A round woman peers out from behind spectacles. Her expression m
 &quot;I&#39;m sorry, but I haven&#39;t a room you can use.&quot; She begins pressing the door shut. &quot;I wasn&#39;t expecting anyone at such short notice.&quot;
 
 &lt;&lt;link &quot;Keep the light tone. Give her a chance to come around willingly.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Tut_Door_Gentle&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;Drop the pleasantries. She already knows why you&#39;re here.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Tut_Door_Sharp&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;div class=&quot;skip-prologue&quot;&gt;&lt;&lt;link &quot;↩ Skip prologue — go straight to character creation&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;audio &quot;:bgm&quot; fadeout 1.5&gt;&gt;
   &lt;&lt;set $inTutorial to false&gt;&gt;
   &lt;&lt;goto &quot;CharacterName&quot;&gt;&gt;
@@ -482,7 +489,7 @@ You let it hold there. Easy. Immovable. Her eyes drop to your foot, then rise to
 There is nothing gentle left in this exchange.
 
 &lt;&lt;link &quot;Let her hear the truth of it.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Tut_Door_Sharp&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="Tut_Door_Sharp" tags="" position="475,250" size="100,100">Something behind your eyes goes still. Brightness receding; clarity taking its place. Your voice doesn&#39;t rise — it narrows, the way light sharpens through a pane of glass.
 
@@ -497,7 +504,7 @@ Miss Marrel goes pale as a full moon.
 The door swings wide.
 
 &lt;&lt;link &quot;Step inside.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Tut_Enter_House&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="Tut_Enter_House" tags="" position="425,375" size="100,100">The house is dim and heavy with the smell of mildew. You follow Marrel through the cramped kitchen, gaze moving over the shadows.
 
@@ -508,7 +515,7 @@ You look down into the darkness below.
 &lt;div class=&quot;tutorial-hint&quot;&gt;&lt;strong&gt;Skill Check ahead.&lt;/strong&gt; Your stat is added to a d20 roll against a Difficulty Class (DC). Both outcomes move the story forward — success gives the better result. Drenn&#39;s Wisdom is 4.&lt;/div&gt;
 
 &lt;&lt;link &quot;Compose yourself before you descend.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Tut_WisCheck&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="9" name="Tut_WisCheck" tags="" position="425,500" size="100,100">&lt;&lt;skillcheck $wis 9 &quot;Tut_WisCheck_Pass&quot; &quot;Tut_WisCheck_Fail&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="10" name="Tut_WisCheck_Pass" tags="" position="475,625" size="100,100">//Pelor, give me strength to endure whatever I witness here.//
 
@@ -527,24 +534,24 @@ For the sake of your self-control, and to avoid doing something Pelor would look
 How do you answer her?
 
 &lt;&lt;link &quot;\&quot;Silence.\&quot; — A word, softly spoken, with something older than your voice behind it.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Tut_Rant_Silence&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;if $chr gte 3&gt;&gt;
   &lt;&lt;link &quot;Tell her, plainly and without mercy, what she truly is.&quot;&gt;&gt;
-    &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+    
     &lt;&lt;goto &quot;Tut_Rant_Rebuke&quot;&gt;&gt;
   &lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;link &quot;Say nothing. The silence you give her is a mercy she doesn&#39;t deserve.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Tut_Rant_Cold&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;She has said enough. Step off the ladder.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Tut_Rant_Confront&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="13" name="Tut_Rant_Silence" tags="" position="600,0" size="100,100">&quot;Silence.&quot;
 
@@ -581,18 +588,18 @@ He doesn&#39;t speak. He doesn&#39;t move. But he watches you — not the way so
 How do you first reach him?
 
 &lt;&lt;link &quot;Set a gingersnap on the floor between you and draw back, giving him distance.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Tut_Approach_Cookie&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;Speak to him quietly. Let him hear your voice before anything else.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Tut_Approach_Voice&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;if $wis gte 3&gt;&gt;
   &lt;&lt;link &quot;Draw out your holy symbol and hold it plainly — no words, no urgency.&quot;&gt;&gt;
-    &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+    
     &lt;&lt;goto &quot;Tut_Approach_Symbol&quot;&gt;&gt;
   &lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="17" name="Tut_Approach_Cookie" tags="" position="700,275" size="100,100">You reach into your provisions and find the small cloth bundle. One gingersnap. You set it on the cleanest patch of floor you can find and draw your hand back.
@@ -656,12 +663,12 @@ Now, riding behind you with the road unspooling ahead, he breaks his silence wit
 &quot;Who&#39;s Pelor?&quot;
 
 &lt;&lt;link &quot;Tell him what Pelor represents — not theology, but truth.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Tut_Pelor_Warm&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;Start the sermon you have learned to preach automatically.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Tut_Pelor_Sermon&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="Tut_Pelor_Warm" tags="" position="700,800" size="100,100">You let the prepared words die before they can form.
 
@@ -716,12 +723,12 @@ His eyes widen at the sound of it.
 &quot;But I&#39;m not,&quot; he mumbles. &quot;I was just scared. I cried. I stayed in the dark until you came.&quot;
 
 &lt;&lt;link &quot;Tell him what courage actually is.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Tut_Courage_Answer&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;Tell him that what he just described is exactly what courage looks like.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Tut_Courage_Answer_Alt&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="30" name="Tut_Courage_Answer" tags="" position="1300,325" size="100,100">You reach out and close your hand over his, firmly, the way you&#39;d hold fast to something worth keeping.
 
@@ -769,7 +776,7 @@ His story is yours to shape now.
 //Who did he become?//
 
 &lt;&lt;link &quot;→ Step into his boots.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;CharacterName&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
@@ -787,7 +794,7 @@ Your name: &lt;&lt;textbox &quot;$playerName&quot; $playerName autofocus&gt;&gt;
 &lt;br&gt;
 
 &lt;&lt;link &quot;→ Choose Your Abilities&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;if $playerName eq &quot;&quot;&gt;&gt;&lt;&lt;set $playerName to &quot;Calth&#39;m&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;
   &lt;&lt;goto &quot;CharacterStats&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="CharacterStats" tags="" position="525,1000" size="100,100">&lt;&lt;set _used to ($str - 1) + ($agi - 1) + ($wis - 1) + ($chr - 1)&gt;&gt;
@@ -838,7 +845,7 @@ Your name: &lt;&lt;textbox &quot;$playerName&quot; $playerName autofocus&gt;&gt;
 
 &lt;&lt;if _left eq 0&gt;&gt;
   &lt;&lt;link &quot;⚔  Begin Your Story&quot;&gt;&gt;
-    &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+    
     &lt;&lt;goto &quot;Prologue&quot;&gt;&gt;
   &lt;&lt;/link&gt;&gt;
 &lt;&lt;else&gt;&gt;
@@ -864,13 +871,13 @@ She tells you about Sarenth. A village half a day&#39;s ride east, being bled dr
 The morning sun is in her face. She means exactly what she says.
 
 &lt;&lt;link &quot;\&quot;I&#39;ll leave at once.\&quot; No hesitation. You were named for this.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;set $acceptedEagerly to true&gt;&gt;
   &lt;&lt;goto &quot;Prol_AcceptEager&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;\&quot;Are you certain I&#39;m the right one to send? Surely someone more experienced—\&quot;&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;set $acceptedEagerly to false&gt;&gt;
   &lt;&lt;goto &quot;Prol_ExpressDoubt&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="37" name="Prol_AcceptEager" tags="" position="775,1000" size="100,100">Drenn&#39;s expression softens at the corners — not quite a smile, but something older than one.
@@ -900,19 +907,19 @@ She pauses, hand on the last item.
 &quot;Sword and shield, or two blades? I can also spare you a short blade and a remedy — less steel, more options.&quot;
 
 &lt;&lt;link &quot;\&quot;Sword and shield. Defense and reach.\&quot;&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;set $loadout to &quot;shield&quot;&gt;&gt;
   &lt;&lt;goto &quot;Act2_Arrival&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;\&quot;Two swords. I strike fast; I trust my feet.\&quot;&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;set $loadout to &quot;dual&quot;&gt;&gt;
   &lt;&lt;goto &quot;Act2_Arrival&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;\&quot;Sword, a dagger and the draught. I like options.\&quot;&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;set $loadout to &quot;dagger&quot;&gt;&gt;
   &lt;&lt;run $inventory.push(&quot;Healing Draught&quot;)&gt;&gt;
   &lt;&lt;goto &quot;Act2_Arrival&quot;&gt;&gt;
@@ -943,12 +950,12 @@ You ask him to call them together.
 &lt;div class=&quot;tutorial-hint&quot;&gt;&lt;strong&gt;Charisma check — DC 12.&lt;/strong&gt; How well you rally volunteers determines the quality of your allies going forward.&lt;/div&gt;
 
 &lt;&lt;link &quot;Speak to the gathered villagers.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;skillcheck $chr 12 &quot;Act2_AlliesGood&quot; &quot;Act2_AlliesFair&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;\&quot;Keep your people here. This is my job, not theirs.\&quot;&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Act2_GoAlone&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="Act2_AlliesGood" tags="" position="150,1125" size="100,100">Among the dozen or so who come out, one stands apart — a stocky man in his late thirties with a hunter&#39;s steady hands and the kind of eyes that stay level when someone talks plainly about danger.
 
@@ -971,12 +978,12 @@ Through the brush: a clearing, a dozen bandits, alert and armed. Some at the fir
 &lt;&lt;if $jonIsAlly&gt;&gt;Your group holds in the tree line. They look to you.&lt;&lt;else&gt;&gt;You hold at the tree line alone. The camp is ahead.&lt;&lt;/if&gt;&gt;
 
 &lt;&lt;link &quot;Try to slip in alone — if you&#39;re caught, the others come running.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;skillcheck $agi 13 &quot;Act2_Sneak_Success&quot; &quot;Act2_Sneak_Caught&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;if $jonIsAlly&gt;&gt;&lt;&lt;link &quot;Don&#39;t bother with stealth. Signal the group and advance together.&quot;&gt;&gt;&lt;&lt;else&gt;&gt;&lt;&lt;link &quot;Advance directly. No point in waiting.&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Combat1_Start&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="45" name="Act2_Sneak_Success" tags="" position="525,1125" size="100,100">Low, slow, using fire noise and casual talk to mask your approach. You slip inside the perimeter and crouch behind a supply cart. From here you can read the whole camp — patrol patterns, weapon stacks, where the fire clusters the most people.
 
@@ -1051,30 +1058,30 @@ He spots you. His shout goes up.
 
 **Choose your action:**
 
-&lt;&lt;for _ci, _ce range $combatEnemies&gt;&gt;&lt;&lt;if _ce.alive&gt;&gt;&lt;&lt;capture _ci, _ce&gt;&gt;&lt;&lt;link &quot;⚔ Attack &quot; + _ce.name&gt;&gt;&lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;&lt;&lt;set $combatTargetIdx to _ci&gt;&gt;&lt;&lt;goto &quot;CombatAttack&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;&lt;&lt;/capture&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/for&gt;&gt;
+&lt;&lt;for _ci, _ce range $combatEnemies&gt;&gt;&lt;&lt;if _ce.alive&gt;&gt;&lt;&lt;capture _ci, _ce&gt;&gt;&lt;&lt;link &quot;⚔ Attack &quot; + _ce.name&gt;&gt;&lt;&lt;set $combatTargetIdx to _ci&gt;&gt;&lt;&lt;goto &quot;CombatAttack&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;&lt;&lt;/capture&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/for&gt;&gt;
 
-&lt;&lt;if not $combatBreathUsed&gt;&gt;&lt;&lt;link &quot;⚡ Lightning Breath — Strike every enemy (once per fight)&quot;&gt;&gt;&lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;&lt;&lt;goto &quot;CombatBreath&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;&lt;&lt;/if&gt;&gt;
+&lt;&lt;if not $combatBreathUsed&gt;&gt;&lt;&lt;link &quot;⚡ Lightning Breath — Strike every enemy (once per fight)&quot;&gt;&gt;&lt;&lt;goto &quot;CombatBreath&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;&lt;&lt;/if&gt;&gt;
 
 &lt;&lt;if $inventory.includes(&quot;Shortbow&quot;) and $ambushArmed&gt;&gt;
 &lt;&lt;for _ci, _ce range $combatEnemies&gt;&gt;&lt;&lt;if _ce.alive&gt;&gt;&lt;&lt;capture _ci, _ce&gt;&gt;
-  &lt;&lt;link &quot;🏹 Shoot &quot; + _ce.name + &quot; — 1d4+AGI&quot;&gt;&gt;&lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;&lt;&lt;set $combatTargetIdx to _ci&gt;&gt;&lt;&lt;goto &quot;CombatShoot&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+  &lt;&lt;link &quot;🏹 Shoot &quot; + _ce.name + &quot; — 1d4+AGI&quot;&gt;&gt;&lt;&lt;set $combatTargetIdx to _ci&gt;&gt;&lt;&lt;goto &quot;CombatShoot&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;/capture&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/for&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
-&lt;&lt;if $jonIsAlly and $jonHP gt 0 and $loadout neq &quot;dual&quot;&gt;&gt;&lt;&lt;link &quot;🛡 Protect Jon — Intercept attacks aimed at your ally this round&quot;&gt;&gt;&lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;&lt;&lt;goto &quot;CombatDefend&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;&lt;&lt;/if&gt;&gt;
+&lt;&lt;if $jonIsAlly and $jonHP gt 0 and $loadout neq &quot;dual&quot;&gt;&gt;&lt;&lt;link &quot;🛡 Protect Jon — Intercept attacks aimed at your ally this round&quot;&gt;&gt;&lt;&lt;goto &quot;CombatDefend&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;&lt;&lt;/if&gt;&gt;
 
-&lt;&lt;if $combatCommandAvail&gt;&gt;&lt;&lt;link &quot;✦ Command: \&quot;Fall!\&quot; — Divine authority, one target&quot;&gt;&gt;&lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;&lt;&lt;goto &quot;CombatCommandPick&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;&lt;&lt;/if&gt;&gt;
+&lt;&lt;if $combatCommandAvail&gt;&gt;&lt;&lt;link &quot;✦ Command: \&quot;Fall!\&quot; — Divine authority, one target&quot;&gt;&gt;&lt;&lt;goto &quot;CombatCommandPick&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;&lt;&lt;/if&gt;&gt;
 
 &lt;&lt;if $inventory.includes(&quot;Gingersnap Cookies&quot;)&gt;&gt;&lt;&lt;link &quot;🍪 Eat Gingersnap Cookies — Restore all HP (uses your turn)&quot;&gt;&gt;&lt;&lt;audio &quot;sfx_success&quot; play&gt;&gt;&lt;&lt;set $hp to $maxHp&gt;&gt;&lt;&lt;run $inventory.splice($inventory.indexOf(&quot;Gingersnap Cookies&quot;), 1)&gt;&gt;&lt;&lt;set $combatLog to &quot;You eat the gingersnaps. HP fully restored to &quot; + $maxHp + &quot;.&quot;&gt;&gt;&lt;&lt;set $combatDefending to false&gt;&gt;&lt;&lt;goto &quot;CombatEnemyPhase&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;&lt;&lt;/if&gt;&gt;
 
-&lt;&lt;if $inventory.includes(&quot;Healing Draught&quot;)&gt;&gt;&lt;&lt;link &quot;🧪 Healing Draught — Restore 5 HP (uses your turn)&quot;&gt;&gt;&lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;&lt;&lt;set $hp to Math.min($maxHp, $hp + 5)&gt;&gt;&lt;&lt;run $inventory.splice($inventory.indexOf(&quot;Healing Draught&quot;), 1)&gt;&gt;&lt;&lt;set $combatLog to &quot;You drink the draught. HP restored to &quot; + $hp + &quot;.&quot;&gt;&gt;&lt;&lt;set $combatDefending to false&gt;&gt;&lt;&lt;goto &quot;CombatEnemyPhase&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;&lt;&lt;/if&gt;&gt;
+&lt;&lt;if $inventory.includes(&quot;Healing Draught&quot;)&gt;&gt;&lt;&lt;link &quot;🧪 Healing Draught — Restore 5 HP (uses your turn)&quot;&gt;&gt;&lt;&lt;set $hp to Math.min($maxHp, $hp + 5)&gt;&gt;&lt;&lt;run $inventory.splice($inventory.indexOf(&quot;Healing Draught&quot;), 1)&gt;&gt;&lt;&lt;set $combatLog to &quot;You drink the draught. HP restored to &quot; + $hp + &quot;.&quot;&gt;&gt;&lt;&lt;set $combatDefending to false&gt;&gt;&lt;&lt;goto &quot;CombatEnemyPhase&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;&lt;&lt;/if&gt;&gt;
 
 &lt;&lt;if $combatPhase eq 2 and not $ambushArmed and not $daggerHidden&gt;&gt;
-&lt;&lt;link &quot;🏃 Retrieve your weapons from the forest edge (dangerous)&quot;&gt;&gt;&lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;&lt;&lt;goto &quot;CombatRetrieve&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;🏃 Retrieve your weapons from the forest edge (dangerous)&quot;&gt;&gt;&lt;&lt;goto &quot;CombatRetrieve&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;if $combatPhase eq 1&gt;&gt;
-&lt;&lt;link &quot;🏳 Lay down your weapon and surrender.&quot;&gt;&gt;&lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;&lt;&lt;goto &quot;Combat1_Surrender&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;🏳 Lay down your weapon and surrender.&quot;&gt;&gt;&lt;&lt;goto &quot;Combat1_Surrender&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
 &lt;/div&gt;</tw-passagedata><tw-passagedata pid="50" name="CombatAttack" tags="" position="1150,1125" size="100,100">&lt;&lt;if $loadout eq &quot;dual&quot; and not $weaponStripped and ($combatPhase neq 2 or $ambushArmed)&gt;&gt;
@@ -1121,7 +1128,7 @@ He spots you. His shout goes up.
 
 The divine word will freeze one enemy where they stand.
 
-&lt;&lt;for _ci, _ce range $combatEnemies&gt;&gt;&lt;&lt;if _ce.alive&gt;&gt;&lt;&lt;capture _ci, _ce&gt;&gt;&lt;&lt;link &quot;→ &quot; + _ce.name&gt;&gt;&lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;&lt;&lt;set $combatTargetIdx to _ci&gt;&gt;&lt;&lt;goto &quot;CombatCommandExecute&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;&lt;&lt;/capture&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/for&gt;&gt;
+&lt;&lt;for _ci, _ce range $combatEnemies&gt;&gt;&lt;&lt;if _ce.alive&gt;&gt;&lt;&lt;capture _ci, _ce&gt;&gt;&lt;&lt;link &quot;→ &quot; + _ce.name&gt;&gt;&lt;&lt;set $combatTargetIdx to _ci&gt;&gt;&lt;&lt;goto &quot;CombatCommandExecute&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;&lt;&lt;/capture&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/for&gt;&gt;
 
 [[← Back|CombatTurn]]</tw-passagedata><tw-passagedata pid="54" name="CombatCommandExecute" tags="" position="400,1250" size="100,100">&lt;&lt;set _ccname to $combatEnemies[$combatTargetIdx].name&gt;&gt;
 
@@ -1132,7 +1139,7 @@ The word lands with the weight of the divine behind it. &lt;&lt;print _ccname&gt
 What do you do?
 
 &lt;&lt;link &quot;Drive your blade in. They made their choice.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;set $usedCommandKill to true&gt;&gt;
   &lt;&lt;set $combatLog to &quot;\&quot;Fall!\&quot; — &quot; + $combatEnemies[$combatTargetIdx].name + &quot; struck down while frozen. Something in your chest goes very quiet.&quot; + ($tutMarrelHarmed ? &quot; //A shard of a memory. Drenn&#39;s hands. Then it passes.//&quot; : &quot;&quot;)&gt;&gt;
   &lt;&lt;set $combatEnemies[$combatTargetIdx].hp to 0&gt;&gt;
@@ -1142,7 +1149,7 @@ What do you do?
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;Leave them on the ground. They&#39;re no threat now.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;set $combatLog to &quot;\&quot;Fall!\&quot; — &quot; + $combatEnemies[$combatTargetIdx].name + &quot; collapses, incapacitated.&quot;&gt;&gt;
   &lt;&lt;set $combatEnemies[$combatTargetIdx].hp to 0&gt;&gt;
   &lt;&lt;set $combatEnemies[$combatTargetIdx].alive to false&gt;&gt;
@@ -1269,23 +1276,23 @@ The other volunteers move quietly through the camp. Nobody says anything about J
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;link &quot;Search the camp for anything useful before dealing with the captives.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;PostCombat1_Search&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;Go straight to the captives.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Interrogate_Intro&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="58" name="PostCombat1_Search" tags="" position="900,1250" size="100,100">Racked against a cart beneath a heap of stolen grain sacks, you find a serviceable shortbow with a quiver of twelve arrows. Bandit issue — nothing elegant, but the draw weight is solid and the arrows are straight.
 
 &lt;&lt;link &quot;Take it. A ranged option has its uses.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;run $inventory.push(&quot;Shortbow&quot;)&gt;&gt;
   &lt;&lt;goto &quot;PostCombat1_Search_Done&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;Leave it. You fight close.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;PostCombat1_Search_Done&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="59" name="PostCombat1_Search_Done" tags="" position="1025,1250" size="100,100">[[See to the captives.|Interrogate_Intro]]</tw-passagedata><tw-passagedata pid="60" name="Interrogate_Intro" tags="" position="1150,1250" size="100,100">The woman is the most alert of the three — the others are still dazed. She watches you crouch down to her level with the specific expression of someone running calculations behind their eyes.
 
@@ -1296,19 +1303,19 @@ She says nothing. Then: &quot;I&#39;ll never betray my comrades, you filthy drag
 How do you answer?
 
 &lt;&lt;link &quot;\&quot;The more you cooperate, the more willing I&#39;ll be to speak for you at trial. Refuse, and your fate is in the hands of the people you&#39;ve been robbing.\&quot;&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Interrogate_Threaten&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;if $chr gte 3&gt;&gt;
   &lt;&lt;link &quot;\&quot;You&#39;re the one who can afford to be reasonable here. I&#39;d rather leave with information.\&quot;&quot;&gt;&gt;
-    &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+    
     &lt;&lt;skillcheck $chr 13 &quot;Interrogate_Persuade_Win&quot; &quot;Interrogate_Persuade_Lose&quot;&gt;&gt;
   &lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;link &quot;Say nothing. Stand. Walk away and let the villagers decide.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Interrogate_Cold&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="61" name="Interrogate_Threaten" tags="" position="25,1375" size="100,100">&quot;It isn&#39;t a threat,&quot; you tell her, standing. &quot;It&#39;s a promise.&quot;
 
@@ -1338,7 +1345,7 @@ A map. Multiple locations marked across the region — known trade routes, other
 &lt;div class=&quot;tutorial-hint&quot;&gt;&lt;strong&gt;Wisdom check — DC 11.&lt;/strong&gt; A strong roll reveals more of what this map actually means.&lt;/div&gt;
 
 &lt;&lt;link &quot;Study it carefully.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;skillcheck $wis 11 &quot;PostCombat1_Map_Pass&quot; &quot;PostCombat1_Map_Fail&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="66" name="PostCombat1_Map_Pass" tags="" position="650,1375" size="100,100">The locations resolve into meaning. Supply caches along trade roads. A patrol pattern that becomes legible once you understand what you&#39;re seeing. And one notation near the lord&#39;s manor that reads like an //arrangement// rather than a threat — shorthand for an ongoing exchange, not a target.
 
@@ -1399,7 +1406,7 @@ The innkeeper is a portly man with a spectacular mustache. He comes around the b
 He&#39;s being generous. He doesn&#39;t have to be.
 
 &lt;&lt;link &quot;Pay the full two silver. \&quot;I appreciate the offer, but I&#39;m well enough off.\&quot;&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;if $gold gte 2&gt;&gt;
     &lt;&lt;set $paidFull to true&gt;&gt;
     &lt;&lt;set $gold to $gold - 2&gt;&gt;
@@ -1411,7 +1418,7 @@ He&#39;s being generous. He doesn&#39;t have to be.
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;Accept the discount gratefully.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;set $gold to $gold - 1&gt;&gt;
   &lt;&lt;goto &quot;Inn_Accept_Discount&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="71" name="Inn_Pay_Full" tags="" position="25,1500" size="100,100">He takes both coins with mild surprise, then tucks them away with a nod that means considerably more than a nod usually does.
@@ -1427,18 +1434,18 @@ The innkeeper&#39;s expression settles into something careful. &quot;Reynard&#39
 He sets the rag down. &quot;If you&#39;re planning to see him, I could send word on your behalf. Tell him you stopped the bandits. Might buy you a foot in his door.&quot;
 
 &lt;&lt;link &quot;Ask him to send the message. Give his shoulder a reassuring pat.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Inn_SendMessage&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;\&quot;That&#39;s alright — I&#39;ll handle the introduction myself in the morning.\&quot;&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Inn_LongRest&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;if $gold gte 3&gt;&gt;
 &lt;&lt;link &quot;\&quot;Actually — do you carry anything medicinal? Before I turn in.\&quot;&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Inn_Merchant&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="74" name="Inn_SendMessage" tags="" position="400,1500" size="100,100">You give him another coin for the trouble. He accepts it with the look of someone who wasn&#39;t going to ask but isn&#39;t sorry to have it.
@@ -1542,18 +1549,18 @@ How do you press this?
 
 &lt;&lt;if $chr gte 3&gt;&gt;
   &lt;&lt;link &quot;Hold your ground. Let him sit in the silence until he fills it himself.&quot;&gt;&gt;
-    &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+    
     &lt;&lt;skillcheck $chr 14 &quot;Reynard_Persuade_Win&quot; &quot;Reynard_Persuade_Fail&quot;&gt;&gt;
   &lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;link &quot;Draw your sword and hold it level with his throat. \&quot;Admit it.\&quot;&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Reynard_Sword&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;This man colluded with criminals against his own people. He does not deserve this seat. End it here.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Reynard_Kill&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="81" name="Reynard_Persuade_Win" tags="" position="25,1625" size="100,100">You say nothing. You hold his gaze across the empty hall and let the silence do the work.
 
@@ -1631,14 +1638,14 @@ He looks at you for a long moment. Then: &quot;If I help you... will you speak f
 How do you answer?
 
 &lt;&lt;link &quot;\&quot;I promise. Stand with me and I will defend you before the courts.\&quot;&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;set $reynardIsAlly to true&gt;&gt;
   &lt;&lt;set $promisedDefense to true&gt;&gt;
   &lt;&lt;goto &quot;Reynard_AllyFormed&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;\&quot;I can&#39;t promise you that. But cooperating is better than not.\&quot;&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;set $reynardIsAlly to true&gt;&gt;
   &lt;&lt;goto &quot;Reynard_AllyFormed&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="86" name="Reynard_AllyFormed" tags="" position="650,1625" size="100,100">He extends his hand. You take it.
@@ -1673,7 +1680,7 @@ You lean over the table.
 &lt;div class=&quot;tutorial-hint&quot;&gt;&lt;strong&gt;Wisdom check — DC 14.&lt;/strong&gt; A high roll spots an advantageous terrain detail that changes the plan.&lt;/div&gt;
 
 &lt;&lt;link &quot;Study the terrain carefully.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;skillcheck $wis 14 &quot;Strategy_Terrain_Pass&quot; &quot;Strategy_Terrain_Fail&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="88" name="Strategy_Terrain_Pass" tags="" position="900,1625" size="100,100">Your eye catches it — a section of forest, dense and uneven, curving around three sides of the camp location. The bandits have clear sight lines on the main approach roads, but the northeastern tree line has a dead zone where the canopy is too thick to watch from inside the camp.
 
@@ -1752,20 +1759,20 @@ The camp is the same clearing, but doubled. More tents, more men, the quiet orga
 You walk in with your hands at your sides, fingers open.
 
 &lt;&lt;link &quot;Walk in unarmed. Play the part.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Ambush_Surrounded&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;if $loadout eq &quot;dagger&quot;&gt;&gt;
 &lt;&lt;link &quot;Conceal the dagger. Go in light.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;set $daggerHidden to true&gt;&gt;
   &lt;&lt;goto &quot;Ambush_Surrounded&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;link &quot;Go in armed. Drop the pretense.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Ambush_Armed_Entry&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="93" name="Ambush_Surrounded" tags="" position="275,1750" size="100,100">They surround you before you&#39;ve crossed half the clearing. Fifteen, maybe eighteen — the reinforcements have fresher weapons and more deliberate eyes.
 
@@ -1796,13 +1803,13 @@ A horn sounds from the northeastern tree line. //They&#39;re here.//
 You have one chance to decide: fire now and clear the field before the fighting starts, or hold the breath weapon for the fight ahead.
 
 &lt;&lt;link &quot;Open your mouth. Clear as many as you can.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;set $breathFiredEarly to true&gt;&gt;
   &lt;&lt;goto &quot;Ambush_BreathEarly&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;Hold it. Your allies are already moving.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;set $breathFiredEarly to false&gt;&gt;
   &lt;&lt;goto &quot;Ambush_TrickRope&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="96" name="Ambush_BreathEarly" tags="" position="650,1750" size="100,100">The lightning comes out in a wide arc. Six of them are in the line of it — they go down in a screaming, smoking heap. The rest stagger, momentarily deafened and blinded by the flash. The breath is spent, but it earned its place.
@@ -1825,13 +1832,13 @@ Your weapons are at the forest edge, thirty feet away. He hasn&#39;t run.
 
 &lt;&lt;if $chr gte 3&gt;&gt;
 &lt;&lt;link &quot;\&quot;Stop. Look at your men. This is already over — walk away while you still can.\&quot;&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;skillcheck $chr 15 &quot;Ambush_TalkDown_Win&quot; &quot;Ambush_TalkDown_Fail&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;link &quot;Face him in combat.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Combat2_Init&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="99" name="Ambush_TalkDown_Win" tags="" position="1025,1750" size="100,100">The words reach him. He stops advancing. He looks at the clearing — the men being rounded up, the ones down from the lightning, the ambush force closing from every direction.
 
@@ -1898,13 +1905,13 @@ The Bandit Leader is on the ground — beaten, bleeding, weaponless. Still breat
 What do you do with him?
 
 &lt;&lt;link &quot;Kill him. He made his choice when he raised arms against this village.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;set $banditLeaderKilled to true&gt;&gt;
   &lt;&lt;goto &quot;C2_LeaderExecute&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;Take him alive. He&#39;ll answer for this at trial.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;C2_LeaderBound&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="103" name="C2_LeaderExecute" tags="" position="275,1875" size="100,100">You stand over him and bring the sword down clean.
@@ -2038,12 +2045,12 @@ Sarenth begins the slow work of rebuilding what was taken from it.
   You promised to speak for him. That moment is now.
 
   &lt;&lt;link &quot;Stand before the court and argue for leniency. He cooperated. He helped end it.&quot;&gt;&gt;
-    &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+    
     &lt;&lt;goto &quot;Epilogue_Defend&quot;&gt;&gt;
   &lt;&lt;/link&gt;&gt;
 
   &lt;&lt;link &quot;Let the courts decide. A promise made under duress isn&#39;t binding.&quot;&gt;&gt;
-    &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+    
     &lt;&lt;goto &quot;Epilogue_NoDefend&quot;&gt;&gt;
   &lt;&lt;/link&gt;&gt;
 &lt;&lt;else&gt;&gt;
@@ -2131,7 +2138,7 @@ The road is open.
 &lt;p class=&quot;death-flavor&quot;&gt;&#39;&#39;The road ends here — but perhaps it need not.&#39;&#39;&lt;/p&gt;
 
 &lt;&lt;link &quot;↩  Load Last Save&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;ui saves&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
@@ -2147,48 +2154,48 @@ The road is open.
 
 &lt;&lt;if $str gte 2&gt;&gt;
   &lt;&lt;link &quot;Meet them head-on — strength will carry you.&quot;&gt;&gt;
-    &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+    
     &lt;&lt;skillcheck $str 13 &quot;Fight_Win_Brute&quot; &quot;Fight_Lose_Brute&quot;&gt;&gt;
   &lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;if $agi gte 2&gt;&gt;
   &lt;&lt;link &quot;Wait for an opening, then strike fast.&quot;&gt;&gt;
-    &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+    
     &lt;&lt;skillcheck $agi 12 &quot;Fight_Win_Agile&quot; &quot;Fight_Lose_Agile&quot;&gt;&gt;
   &lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;if $wis gte 3&gt;&gt;
   &lt;&lt;link &quot;Read their stance. You know this type of fighter.&quot;&gt;&gt;
-    &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+    
     &lt;&lt;skillcheck $wis 11 &quot;Fight_Win_Tactical&quot; &quot;Fight_Lose_Tactical&quot;&gt;&gt;
   &lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;if $chr gte 3&gt;&gt;
   &lt;&lt;link &quot;\&quot;Walk away. You don&#39;t have to do this.\&quot;&quot;&gt;&gt;
-    &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+    
     &lt;&lt;skillcheck $chr 12 &quot;Fight_Win_Persuade&quot; &quot;Fight_Lose_Persuade&quot;&gt;&gt;
   &lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;if $inventory.includes(&quot;Flask of Oil&quot;)&gt;&gt;
   &lt;&lt;link &quot;Hurl the oil flask. Create distance.&quot;&gt;&gt;
-    &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+    
     &lt;&lt;skillcheck $agi 10 &quot;Fight_Win_Item&quot; &quot;Fight_Lose_Item&quot;&gt;&gt;
   &lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;if $hp lte 4&gt;&gt;
   &lt;&lt;link &quot;You&#39;re barely standing. Make this count.&quot;&gt;&gt;
-    &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+    
     &lt;&lt;skillcheck $str 15 &quot;Fight_Win_Desperate&quot; &quot;Fight_Lose_Desperate&quot;&gt;&gt;
   &lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;link &quot;Run. You&#39;re not dying here.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;skillcheck $agi 11 &quot;Fight_Flee_Success&quot; &quot;Fight_Flee_Caught&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
@@ -2273,7 +2280,7 @@ You file it all away.
 
 //Agility -- DC 13//
 
-&lt;&lt;link &quot;Make your move.&quot;&gt;&gt;&lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;&lt;&lt;skillcheck $agi 13 &quot;Captive_Escape_Win&quot; &quot;Captive_Escape_Fail&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="126" name="Captive_Escape_Win" tags="" position="100,2400" size="100,100">&lt;&lt;audio &quot;sfx_success&quot; play&gt;&gt;
+&lt;&lt;link &quot;Make your move.&quot;&gt;&gt;&lt;&lt;skillcheck $agi 13 &quot;Captive_Escape_Win&quot; &quot;Captive_Escape_Fail&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="126" name="Captive_Escape_Win" tags="" position="100,2400" size="100,100">&lt;&lt;audio &quot;sfx_success&quot; play&gt;&gt;
 
 The knot loosens. Not all at once -- you work it by fractions, breathing through the strain, staying limp whenever a boot scuffs nearby. The rope finally gives.
 
@@ -2330,9 +2337,9 @@ You look at the tent entrance. At the guard whose hand isn&#39;t near his sword.
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;if $chr gte 3&gt;&gt;
-&lt;&lt;link &quot;Press the point. Make him see Reynard as the common problem.&quot;&gt;&gt;&lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;&lt;&lt;skillcheck $chr 13 &quot;Captive_Deal_Win&quot; &quot;Captive_Deal_Fail&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;Press the point. Make him see Reynard as the common problem.&quot;&gt;&gt;&lt;&lt;skillcheck $chr 13 &quot;Captive_Deal_Win&quot; &quot;Captive_Deal_Fail&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;link &quot;Keep it simple. Ask him to let you go.&quot;&gt;&gt;&lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;&lt;&lt;skillcheck $chr 11 &quot;Captive_Deal_Win&quot; &quot;Captive_Deal_Fail&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;Keep it simple. Ask him to let you go.&quot;&gt;&gt;&lt;&lt;skillcheck $chr 11 &quot;Captive_Deal_Win&quot; &quot;Captive_Deal_Fail&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 [[Say nothing. Wait.|Captive_Deal_Fail]]</tw-passagedata><tw-passagedata pid="129" name="Captive_Deal_Win" tags="" position="700,2400" size="100,100">&lt;&lt;audio &quot;sfx_success&quot; play&gt;&gt;
 
 He&#39;s quiet for a long moment. Then he stands.
@@ -2420,7 +2427,7 @@ He spreads his hands. &quot;I&#39;d go myself, but my position makes it complica
 
 He smiles.
 &lt;&lt;if $wis gte 3&gt;&gt;
-&lt;&lt;link &quot;\&quot;You&#39;re sending me into an armed camp. Unarmed. On your word alone.\&quot;&quot;&gt;&gt;&lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;&lt;&lt;goto &quot;Reynard_Trick_Suspicious&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;\&quot;You&#39;re sending me into an armed camp. Unarmed. On your word alone.\&quot;&quot;&gt;&gt;&lt;&lt;goto &quot;Reynard_Trick_Suspicious&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 [[Accept the offer. Hear the details.|Reynard_Trick_Offer]]
 &lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="133" name="Reynard_Trick_Offer" tags="" position="300,2600" size="100,100">&lt;&lt;set $reynardTrick to true&gt;&gt;
@@ -2526,7 +2533,7 @@ He lets out a breath. Sits down. For the first time he looks like what he is: a 
 
 &quot;What do you want?&quot; His voice is different now. Smaller.
 &lt;&lt;if $chr gte 3&gt;&gt;
-&lt;&lt;link &quot;Say nothing. Hold the silence until he breaks.&quot;&gt;&gt;&lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;&lt;&lt;skillcheck $chr 12 &quot;Reynard_Persuade_Win&quot; &quot;Reynard_Persuade_Fail&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;Say nothing. Hold the silence until he breaks.&quot;&gt;&gt;&lt;&lt;skillcheck $chr 12 &quot;Reynard_Persuade_Win&quot; &quot;Reynard_Persuade_Fail&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 [[&quot;Hold your blade to his throat. Let him choose.&quot;|Reynard_Sword]]
 [[&quot;This ends now. No trial, no confession.&quot;|Reynard_Kill]]</tw-passagedata><tw-passagedata pid="138" name="Tut_Rant_Confront" tags="" position="100,100" size="100,100">The words are still coming out of her. You stop listening. You climb the last two rungs and step into the kitchen.
@@ -2536,12 +2543,12 @@ Marrel backs up. Her mouth goes quiet.
 //What do you do?//
 
 &lt;&lt;link &quot;Strike her. Not to kill — but hard enough that she remembers this.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Tut_Marrel_Wound&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;She hurt a child for months. A child who called himself Monster. End this.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Tut_Marrel_Kill&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata>
 <tw-passagedata pid="139" name="Tut_Marrel_Wound" tags="" position="100,100" size="100,100">&lt;&lt;set $tutMarrelHarmed to true&gt;&gt;
@@ -2576,14 +2583,14 @@ He closes his mouth. There&#39;s relief in his face that he doesn&#39;t try to h
 <tw-passagedata pid="142" name="Inn_Merchant" tags="" position="100,100" size="100,100">He disappears behind the bar and returns with a squat clay bottle — dark liquid, stoppered with wax. &quot;Healing draught. Not subtle, not elegant. Restores about five HP and tastes like old shoes. Three silver.&quot;
 
 &lt;&lt;link &quot;\&quot;I&#39;ll take it.\&quot; (−3 gold)&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;set $gold to $gold - 3&gt;&gt;
   &lt;&lt;run $inventory.push(&quot;Healing Draught&quot;)&gt;&gt;
   &lt;&lt;goto &quot;Inn_LongRest&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;\&quot;On second thought, I&#39;ll manage.\&quot;&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Inn_LongRest&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata>
 <tw-passagedata pid="143" name="CombatShoot" tags="" position="100,100" size="100,100">&lt;&lt;set _sdmg to random(1, 4) + Math.max(0, $agi)&gt;&gt;
@@ -2644,17 +2651,17 @@ They&#39;re not expecting one person who already knows exactly where they are.
 //What do you do?//
 
 &lt;&lt;link &quot;Watch their patrol rotation before committing to anything.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Act2_Solo_Scout&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;You&#39;ve seen enough. There&#39;s a gap — use it.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;skillcheck $agi 9 &quot;Act2_Sneak_Success&quot; &quot;Act2_Sneak_Caught&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;Don&#39;t bother hiding. Walk out of the trees.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Combat1_Start&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata>
 <tw-passagedata pid="147" name="Act2_Solo_Scout" tags="" position="100,100" size="100,100">You wait. Long enough for the pattern to become clear: the north perimeter sentry swaps out every twelve minutes. The southern gap opens up while they&#39;re changing — not long, maybe ninety seconds, but it&#39;s consistent. Same gap, same timing, every rotation.
@@ -2666,12 +2673,12 @@ It&#39;s yours.
 //What do you do?//
 
 &lt;&lt;link &quot;That&#39;s the window. Go now.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;skillcheck $agi 7 &quot;Act2_Sneak_Success&quot; &quot;Act2_Sneak_Caught&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 &lt;&lt;link &quot;The gap is there, but it&#39;s narrow. Hit them head-on — they won&#39;t expect it.&quot;&gt;&gt;
-  &lt;&lt;audio &quot;sfx_click&quot; play&gt;&gt;
+  
   &lt;&lt;goto &quot;Combat1_Start&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata>
 </tw-storydata>
