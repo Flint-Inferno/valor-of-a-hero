@@ -216,7 +216,7 @@ button.macro-button:hover {
 .hud .hud-hr    { border: none; border-top: 1px solid #2e1e0a; margin: 0.4em 0; }
 .hud .stat-row  { display: flex; justify-content: space-between; }
 .hud .hp-wrap   { background: #1a0d06; border: 1px solid #3a2010; border-radius: 2px; height: 7px; margin: 3px 0 5px; }
-.hud .hp-bar    { height: 100%; background: linear-gradient(to right, #8b2020, #cf4040); border-radius: 2px; transition: width 0.4s; }
+.hud .hp-bar    { width: 0; height: 100%; background: linear-gradient(to right, #8b2020, #cf4040); border-radius: 2px; transition: width 0.4s; }
 
 #title-screen         { text-align: center; padding: 2em 0 3em; }
 #title-screen .byline { font-style: italic; color: #7a5a2a; margin-bottom: 3em; }
@@ -344,6 +344,14 @@ Setting.addToggle("muteAudio", {
 &lt;&lt;script&gt;&gt;
 $(document).on(&#39;click&#39;, &#39;a.link-internal, a[data-passage], button&#39;, function () {
   try { SimpleAudio.tracks.get(&#39;sfx_click&#39;).play(); } catch (e) {}
+});
+.on(&#39;:passagedisplay&#39;, function () {
+  var hp = State.variables.hp, mx = State.variables.maxHp;
+  if (mx > 0) {
+    var pct = Math.max(0, Math.min(100, Math.round(hp / mx * 100)));
+    var bar = document.querySelector(&#39;.hud .hp-bar&#39;);
+    if (bar) bar.style.width = pct + &#39;%&#39;;
+  }
 });
 &lt;&lt;/script&gt;&gt;
 </tw-passagedata><tw-passagedata pid="2" name="StoryCaption" tags="" position="25,150" size="100,100">&lt;div class=&quot;hud&quot;&gt;
