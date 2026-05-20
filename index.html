@@ -83,7 +83,7 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
 }else{document.documentElement.setAttribute("data-init", "lacking");}
 </script>
 <style id="style-normalize" type="text/css">/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none}a{background-color:transparent}a:active,a:hover{outline:0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:700}dfn{font-style:italic}h1{font-size:2em;margin:.67em 0}mark{background:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:1em 40px}hr{box-sizing:content-box;height:0}pre{overflow:auto}code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}button,input,optgroup,select,textarea{color:inherit;font:inherit;margin:0}button{overflow:visible}button,select{text-transform:none}button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}input{line-height:normal}input[type=checkbox],input[type=radio]{box-sizing:border-box;padding:0}input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{height:auto}input[type=search]{-webkit-appearance:textfield;box-sizing:content-box}input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration{-webkit-appearance:none}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}legend{border:0;padding:0}textarea{overflow:auto}optgroup{font-weight:700}table{border-collapse:collapse;border-spacing:0}td,th{padding:0}
-/* â”€â”€ Combat Grid â”€â”€ */
+/* ── Combat Grid ── */
 .combat-grid{border-collapse:collapse;margin:0.5em auto;}
 .cg-cell{width:54px;height:50px;border:1px solid #3a2010;text-align:center;vertical-align:middle;font-size:1.4em;line-height:50px;transition:background 0.2s;}
 .cg-open{background:#1a1108;}
@@ -373,7 +373,7 @@ Setting.addToggle("muteAudio", {
 &lt;&lt;set $npcActionQueue to []&gt;&gt;
 &lt;&lt;set $evaUsed to false&gt;&gt;
 
-/* Item stat blocks â€” edit here to tune damage, range, and healing values */
+/* Item stat blocks — edit here to tune damage, range, and healing values */
 &lt;&lt;set $itemDefs to {
   sword:          {name:&quot;Sword&quot;,            dmgMin:1, dmgMax:6, dmgBonus:&quot;str&quot;,  type:&quot;melee&quot;},
   shield:         {name:&quot;Shield&quot;,           blockMin:1, blockMax:3,              type:&quot;passive&quot;},
@@ -387,8 +387,7 @@ Setting.addToggle("muteAudio", {
 &lt;&lt;script&gt;&gt;
 $(document).on(&#39;click&#39;, &#39;a.link-internal, a[data-passage], button&#39;, function () {
   try { SimpleAudio.tracks.get(&#39;sfx_click&#39;).play(); } catch (e) {}
-});
-.on(&#39;:passagedisplay&#39;, function () {
+}).on(&#39;:passagedisplay&#39;, function () {
   var hp = State.variables.hp, mx = State.variables.maxHp;
   if (mx &gt; 0) {
     var pct = Math.max(0, Math.min(100, Math.round(hp / mx * 100)));
@@ -398,12 +397,12 @@ $(document).on(&#39;click&#39;, &#39;a.link-internal, a[data-passage], button&#3
 });
 &lt;&lt;/script&gt;&gt;
 </tw-passagedata><tw-passagedata pid="2" name="StoryCaption" tags="" position="25,150" size="100,100">&lt;div class=&quot;hud&quot;&gt;
-  &lt;&lt;if $inTutorial&gt;&gt;&lt;span class=&quot;hud-tut-label&quot;&gt;Tutorial â€” The Priestess&lt;/span&gt;&lt;&lt;/if&gt;&gt;
+  &lt;&lt;if $inTutorial&gt;&gt;&lt;span class=&quot;hud-tut-label&quot;&gt;Tutorial — The Priestess&lt;/span&gt;&lt;&lt;/if&gt;&gt;
   &lt;span class=&quot;hud-name&quot;&gt;$playerName&lt;/span&gt;
   &lt;div class=&quot;hp-wrap&quot;&gt;
     &lt;div class=&quot;hp-bar&quot; style=&quot;width:&lt;&lt;= Math.max(0,Math.round(($hp/$maxHp)*100)) &gt;&gt;%;&quot;&gt;&lt;/div&gt;
   &lt;/div&gt;
-  HP: $hp / $maxHp &amp;nbsp;Â·&amp;nbsp; Â¤ $gold
+  HP: $hp / $maxHp &amp;nbsp;·&amp;nbsp; ¤ $gold
   &lt;hr class=&quot;hud-hr&quot;&gt;
   &lt;div class=&quot;stat-row&quot;&gt;&lt;span&gt;STR&lt;/span&gt;&lt;span&gt;$str&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;stat-row&quot;&gt;&lt;span&gt;AGI&lt;/span&gt;&lt;span&gt;$agi&lt;/span&gt;&lt;/div&gt;
@@ -416,17 +415,17 @@ $(document).on(&#39;click&#39;, &#39;a.link-internal, a[data-passage], button&#3
   &lt;&lt;if $loadout&gt;&gt;
   &lt;hr class=&quot;hud-hr&quot;&gt;
   &lt;&lt;if $captive&gt;&gt;
-    â—‹ No weapons â€” prisoner
+    ○ No weapons — prisoner
   &lt;&lt;elseif $weaponStripped and $loadout eq &quot;dual&quot;&gt;&gt;
-    â€  One sword (other kept)
+    † One sword (other kept)
   &lt;&lt;elseif $weaponStripped&gt;&gt;
-    â€  Sword only
+    † Sword only
   &lt;&lt;elseif $combatPhase eq 2 and not $ambushArmed&gt;&gt;
-    &lt;&lt;if $daggerHidden&gt;&gt;â€  Hidden dagger only&lt;&lt;else&gt;&gt;â—‹ Unarmed â€” gear at tree line&lt;&lt;/if&gt;&gt;
+    &lt;&lt;if $daggerHidden&gt;&gt;† Hidden dagger only&lt;&lt;else&gt;&gt;○ Unarmed — gear at tree line&lt;&lt;/if&gt;&gt;
   &lt;&lt;elseif $loadout eq &quot;dual&quot;&gt;&gt;
-    â€ â€  Twin Swords&lt;&lt;if $hasDagger&gt;&gt; Â· &lt;&lt;if $daggerPos neq null&gt;&gt;â€ â†™&lt;&lt;else&gt;&gt;â€ &lt;&lt;/if&gt;&gt;&lt;&lt;/if&gt;&gt;
+    †† Twin Swords&lt;&lt;if $hasDagger&gt;&gt; · &lt;&lt;if $daggerPos neq null&gt;&gt;†↙&lt;&lt;else&gt;&gt;†&lt;&lt;/if&gt;&gt;&lt;&lt;/if&gt;&gt;
   &lt;&lt;else&gt;&gt;
-    â€ â—‡ Sword &amp;amp; Shield&lt;&lt;if $hasDagger&gt;&gt; Â· &lt;&lt;if $daggerPos neq null&gt;&gt;â€ â†™&lt;&lt;else&gt;&gt;â€ &lt;&lt;/if&gt;&gt;&lt;&lt;/if&gt;&gt;
+    †◇ Sword &amp;amp; Shield&lt;&lt;if $hasDagger&gt;&gt; · &lt;&lt;if $daggerPos neq null&gt;&gt;†↙&lt;&lt;else&gt;&gt;†&lt;&lt;/if&gt;&gt;&lt;&lt;/if&gt;&gt;
   &lt;&lt;/if&gt;&gt;
   &lt;&lt;/if&gt;&gt;
 &lt;/div&gt;</tw-passagedata><tw-passagedata pid="3" name="SkillCheckWidgets" tags="widget" position="25,275" size="100,100">&lt;&lt;widget &quot;skillcheck&quot;&gt;&gt;
@@ -981,11 +980,11 @@ She looks at you the way she did on the eastern road, a long time ago, when the 
 
 There is no useful counterargument to this. You nod.
 
-[[Receive your equipment.|Prol_Equipped]]</tw-passagedata><tw-passagedata pid="39" name="Prol_Equipped" tags="" position="1025,1000" size="100,100">She sets items on the table between you, one by one â€” a sword and shield, both good steel, stamped with the sun-disc of Pelor. A map, folded crisp. A sealed letter of introduction addressed to the elder of Sarenth.
+[[Receive your equipment.|Prol_Equipped]]</tw-passagedata><tw-passagedata pid="39" name="Prol_Equipped" tags="" position="1025,1000" size="100,100">She sets items on the table between you, one by one — a sword and shield, both good steel, stamped with the sun-disc of Pelor. A map, folded crisp. A sealed letter of introduction addressed to the elder of Sarenth.
 
 &quot;Introduce yourself to the elder first. Learn everything you can. Then act.&quot;
 
-She reaches into her satchel a final time and produces a small cloth bundle. The smell reaches you before you recognize the shape â€” spiced ginger, warm even now.
+She reaches into her satchel a final time and produces a small cloth bundle. The smell reaches you before you recognize the shape — spiced ginger, warm even now.
 
 &quot;For the road.&quot; Something in the way she holds them out tells you she remembers exactly why she started carrying them. &quot;Try not to eat them all before you arrive.&quot;
 
@@ -1109,9 +1108,9 @@ He spots you. His shout goes up.
 &lt;&lt;goto &quot;CombatTurn&quot;&gt;&gt;
 
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   SHARED COMBAT ENGINE â€” used by both Combat 1 and Combat 2
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */</tw-passagedata><tw-passagedata pid="48" name="Combat1_Start" tags="" position="900,1125" size="100,100">&lt;&lt;audio &quot;:bgm&quot; stop&gt;&gt;
+/* ═══════════════════════════════════════════════════════════
+   SHARED COMBAT ENGINE — used by both Combat 1 and Combat 2
+   ═══════════════════════════════════════════════════════════ */</tw-passagedata><tw-passagedata pid="48" name="Combat1_Start" tags="" position="900,1125" size="100,100">&lt;&lt;audio &quot;:bgm&quot; stop&gt;&gt;
 &lt;&lt;audio &quot;bgm_combat&quot; volume 0.55 loop play&gt;&gt;
 &lt;&lt;set $combatPhase to 1&gt;&gt;
 &lt;&lt;set $combatBreathUsed to false&gt;&gt;
@@ -1145,11 +1144,11 @@ He spots you. His shout goes up.
 &lt;&lt;goto &quot;CombatTurn&quot;&gt;&gt;
 
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   SHARED COMBAT ENGINE â€” used by both Combat 1 and Combat 2
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */</tw-passagedata><tw-passagedata pid="49" name="CombatTurn" tags="" position="1025,1125" size="100,100">&lt;div class=&quot;combat-arena&quot;&gt;
+/* ═══════════════════════════════════════════════════════════
+   SHARED COMBAT ENGINE — used by both Combat 1 and Combat 2
+   ═══════════════════════════════════════════════════════════ */</tw-passagedata><tw-passagedata pid="49" name="CombatTurn" tags="" position="1025,1125" size="100,100">&lt;div class=&quot;combat-arena&quot;&gt;
 
-&lt;h2 class=&quot;combat-title&quot;&gt;âš” Round $combatRound&lt;/h2&gt;
+&lt;h2 class=&quot;combat-title&quot;&gt;⚔ Round $combatRound&lt;/h2&gt;
 
 &lt;&lt;if $combatLog neq &quot;&quot;&gt;&gt;&lt;div class=&quot;combat-log&quot;&gt;$combatLog&lt;/div&gt;&lt;&lt;/if&gt;&gt;
 
@@ -1160,11 +1159,11 @@ He spots you. His shout goes up.
 
 &lt;div class=&quot;combat-grid-mount&quot;&gt;&lt;/div&gt;&lt;&lt;rendergrid&gt;&gt;
 
-&lt;div class=&quot;action-pips&quot;&gt;Actions: &lt;&lt;= &quot;â—&quot;.repeat($actionsLeft) + &quot;â—‹&quot;.repeat($actionsMax - $actionsLeft)&gt;&gt;&lt;/div&gt;
+&lt;div class=&quot;action-pips&quot;&gt;Actions: &lt;&lt;= &quot;â—&quot;.repeat($actionsLeft) + &quot;○&quot;.repeat($actionsMax - $actionsLeft)&gt;&gt;&lt;/div&gt;
 
 **Choose your action:**
 
-/* â”€â”€ Compute valid moves â”€â”€ */
+/* ── Compute valid moves ── */
 &lt;&lt;set _validMoves to []&gt;&gt;
 &lt;&lt;script&gt;&gt;
 (function(){
@@ -1175,7 +1174,7 @@ He spots you. His shout goes up.
   var occ={};
   if(jpos&amp;&amp;State.variables.jonHP&gt;0)occ[jpos.r+','+jpos.c]=true;
   enems.forEach(function(e){if(e.alive)occ[e.pos.r+','+e.pos.c]=true;});
-  [{r:-1,c:0,lbl:&quot;â†‘&quot;},{r:1,c:0,lbl:&quot;â†“&quot;},{r:0,c:-1,lbl:&quot;â†&quot;},{r:0,c:1,lbl:&quot;â†’&quot;}].forEach(function(d){
+  [{r:-1,c:0,lbl:&quot;↑&quot;},{r:1,c:0,lbl:&quot;↓&quot;},{r:0,c:-1,lbl:&quot;←&quot;},{r:0,c:1,lbl:&quot;â†’&quot;}].forEach(function(d){
     var nr=pos.r+d.r,nc=pos.c+d.c;
     if(nr&lt;0||nr&gt;=ROWS||nc&lt;0||nc&gt;=COLS)return;
     if(grid[nr*COLS+nc].type==='wall')return;
@@ -1185,7 +1184,7 @@ He spots you. His shout goes up.
 })();
 &lt;&lt;/script&gt;&gt;
 &lt;&lt;if $actionsLeft gt 0 and _validMoves.length gt 0&gt;&gt;
-  &lt;&lt;for _mi, _mv range _validMoves&gt;&gt;&lt;&lt;capture _mv&gt;&gt;&lt;&lt;link &quot;ðŸš¶ Move &quot; + _mv.lbl&gt;&gt;
+  &lt;&lt;for _mi, _mv range _validMoves&gt;&gt;&lt;&lt;capture _mv&gt;&gt;&lt;&lt;link &quot;🚶 Move &quot; + _mv.lbl&gt;&gt;
     &lt;&lt;set $playerPos to {r:_mv.r, c:_mv.c}&gt;&gt;
     &lt;&lt;if $daggerPos neq null and $daggerPos.r eq _mv.r and $daggerPos.c eq _mv.c&gt;&gt;
       &lt;&lt;set $daggerPos to null&gt;&gt;
@@ -1199,28 +1198,28 @@ He spots you. His shout goes up.
   &lt;&lt;/link&gt;&gt;&lt;&lt;/capture&gt;&gt;&lt;&lt;/for&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
-/* â”€â”€ Melee: strike adjacent enemy â”€â”€ */
+/* ── Melee: strike adjacent enemy ── */
 &lt;&lt;if $actionsLeft gt 0&gt;&gt;
-  &lt;&lt;for _ci, _ce range $combatEnemies&gt;&gt;&lt;&lt;if _ce.alive and window.chebyshev($playerPos, _ce.pos) lte 1&gt;&gt;&lt;&lt;capture _ci, _ce&gt;&gt;&lt;&lt;link &quot;âš” Strike &quot; + _ce.name&gt;&gt;
+  &lt;&lt;for _ci, _ce range $combatEnemies&gt;&gt;&lt;&lt;if _ce.alive and window.chebyshev($playerPos, _ce.pos) lte 1&gt;&gt;&lt;&lt;capture _ci, _ce&gt;&gt;&lt;&lt;link &quot;⚔ Strike &quot; + _ce.name&gt;&gt;
     &lt;&lt;set $combatTargetIdx to _ci&gt;&gt;
     &lt;&lt;set $actionsLeft to $actionsLeft - 1&gt;&gt;
     &lt;&lt;goto &quot;CombatAttack&quot;&gt;&gt;
   &lt;&lt;/link&gt;&gt;&lt;&lt;/capture&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/for&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
-/* â”€â”€ Lightning Breath â”€â”€ */
+/* ── Lightning Breath ── */
 &lt;&lt;if not $combatBreathUsed and $actionsLeft gt 0&gt;&gt;
-  &lt;&lt;link &quot;âš¡ Lightning Breath â€” Strike every enemy (once per fight)&quot;&gt;&gt;
+  &lt;&lt;link &quot;⚡ Lightning Breath — Strike every enemy (once per fight)&quot;&gt;&gt;
     &lt;&lt;set $actionsLeft to $actionsLeft - 1&gt;&gt;
     &lt;&lt;goto &quot;CombatBreath&quot;&gt;&gt;
   &lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
-/* â”€â”€ Shortbow: ranged, requires LOS â”€â”€ */
+/* ── Shortbow: ranged, requires LOS ── */
 &lt;&lt;if $inventory.includes(&quot;Shortbow&quot;) and $ambushArmed and $actionsLeft gt 0&gt;&gt;
   &lt;&lt;for _ci, _ce range $combatEnemies&gt;&gt;&lt;&lt;if _ce.alive&gt;&gt;&lt;&lt;capture _ci, _ce&gt;&gt;
     &lt;&lt;if window.inRange($playerPos, _ce.pos, $itemDefs.bow.baseRange + Math.floor($agi / $itemDefs.bow.rangeDiv)) and window.hasLOS($combatGrid, $playerPos, _ce.pos, $gridCols)&gt;&gt;
-      &lt;&lt;link &quot;ðŸ¹ Shoot &quot; + _ce.name&gt;&gt;
+      &lt;&lt;link &quot;🏹 Shoot &quot; + _ce.name&gt;&gt;
         &lt;&lt;set $combatTargetIdx to _ci&gt;&gt;
         &lt;&lt;set $actionsLeft to $actionsLeft - 1&gt;&gt;
         &lt;&lt;goto &quot;CombatShoot&quot;&gt;&gt;
@@ -1229,11 +1228,11 @@ He spots you. His shout goes up.
   &lt;&lt;/capture&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/for&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
-/* â”€â”€ Throwing Dagger â”€â”€ */
+/* ── Throwing Dagger ── */
 &lt;&lt;if $hasDagger and $daggerPos eq null and $actionsLeft gt 0&gt;&gt;
   &lt;&lt;for _ci, _ce range $combatEnemies&gt;&gt;&lt;&lt;if _ce.alive&gt;&gt;&lt;&lt;capture _ci, _ce&gt;&gt;
     &lt;&lt;if window.inRange($playerPos, _ce.pos, $itemDefs.dagger.baseRange + Math.floor($str / $itemDefs.dagger.rangeDiv)) and window.hasLOS($combatGrid, $playerPos, _ce.pos, $gridCols)&gt;&gt;
-      &lt;&lt;link &quot;ðŸ—¡ Throw at &quot; + _ce.name&gt;&gt;
+      &lt;&lt;link &quot;🗡 Throw at &quot; + _ce.name&gt;&gt;
         &lt;&lt;set $combatTargetIdx to _ci&gt;&gt;
         &lt;&lt;set $actionsLeft to $actionsLeft - 1&gt;&gt;
         &lt;&lt;goto &quot;CombatThrowDagger&quot;&gt;&gt;
@@ -1242,25 +1241,25 @@ He spots you. His shout goes up.
   &lt;&lt;/capture&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/for&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
-/* â”€â”€ Protect Jon â”€â”€ */
+/* ── Protect Jon ── */
 &lt;&lt;if $jonIsAlly and $jonHP gt 0 and $loadout neq &quot;dual&quot; and $actionsLeft gt 0&gt;&gt;
-  &lt;&lt;link &quot;ðŸ›¡ Protect Jon â€” Intercept attacks aimed at your ally this round&quot;&gt;&gt;
+  &lt;&lt;link &quot;🛡 Protect Jon — Intercept attacks aimed at your ally this round&quot;&gt;&gt;
     &lt;&lt;set $actionsLeft to $actionsLeft - 1&gt;&gt;
     &lt;&lt;goto &quot;CombatDefend&quot;&gt;&gt;
   &lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
-/* â”€â”€ Command â”€â”€ */
+/* ── Command ── */
 &lt;&lt;if $combatCommandAvail and $actionsLeft gt 0&gt;&gt;
-  &lt;&lt;link &quot;âœ¦ Command: \&quot;Fall!\&quot; â€” Divine authority, one target&quot;&gt;&gt;
+  &lt;&lt;link &quot;✦ Command: \&quot;Fall!\&quot; — Divine authority, one target&quot;&gt;&gt;
     &lt;&lt;set $actionsLeft to $actionsLeft - 1&gt;&gt;
     &lt;&lt;goto &quot;CombatCommandPick&quot;&gt;&gt;
   &lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
-/* â”€â”€ Items â”€â”€ */
+/* ── Items ── */
 &lt;&lt;if $inventory.includes(&quot;Gingersnap Cookies&quot;) and $actionsLeft gt 0&gt;&gt;
-  &lt;&lt;link &quot;ðŸª Gingersnap Cookies â€” Restore all HP&quot;&gt;&gt;&lt;&lt;audio &quot;sfx_success&quot; play&gt;&gt;
+  &lt;&lt;link &quot;🍪 Gingersnap Cookies — Restore all HP&quot;&gt;&gt;&lt;&lt;audio &quot;sfx_success&quot; play&gt;&gt;
     &lt;&lt;set $hp to $maxHp&gt;&gt;
     &lt;&lt;run $inventory.splice($inventory.indexOf(&quot;Gingersnap Cookies&quot;),1)&gt;&gt;
     &lt;&lt;set $combatLog to &quot;You eat the gingersnaps. HP fully restored to &quot; + $maxHp + &quot;.&quot;&gt;&gt;
@@ -1272,7 +1271,7 @@ He spots you. His shout goes up.
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;if $inventory.includes(&quot;Healing Draught&quot;) and $actionsLeft gt 0&gt;&gt;
-  &lt;&lt;link &quot;ðŸ§ª Healing Draught â€” Restore &quot; + $itemDefs.healingDraught.heal + &quot; HP&quot;&gt;&gt;
+  &lt;&lt;link &quot;🧪 Healing Draught — Restore &quot; + $itemDefs.healingDraught.heal + &quot; HP&quot;&gt;&gt;
     &lt;&lt;set $hp to Math.min($maxHp, $hp + $itemDefs.healingDraught.heal)&gt;&gt;
     &lt;&lt;run $inventory.splice($inventory.indexOf(&quot;Healing Draught&quot;),1)&gt;&gt;
     &lt;&lt;set $combatLog to &quot;You drink the draught. HP restored to &quot; + $hp + &quot;.&quot;&gt;&gt;
@@ -1283,15 +1282,15 @@ He spots you. His shout goes up.
   &lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
-/* â”€â”€ Retrieve weapons (phase 2 only) â”€â”€ */
+/* ── Retrieve weapons (phase 2 only) ── */
 &lt;&lt;if $combatPhase eq 2 and not $ambushArmed and not $daggerHidden and $actionsLeft gt 0&gt;&gt;
-  &lt;&lt;link &quot;ðŸƒ Retrieve your weapons from the forest edge (dangerous)&quot;&gt;&gt;
+  &lt;&lt;link &quot;🏃 Retrieve your weapons from the forest edge (dangerous)&quot;&gt;&gt;
     &lt;&lt;set $actionsLeft to 0&gt;&gt;
     &lt;&lt;goto &quot;CombatRetrieve&quot;&gt;&gt;
   &lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
-/* â”€â”€ End turn / Surrender â”€â”€ */
+/* ── End turn / Surrender ── */
 &lt;&lt;if $actionsLeft gt 0&gt;&gt;
   &lt;&lt;link &quot;â© End Turn&quot;&gt;&gt;
     &lt;&lt;set $actionsLeft to 0&gt;&gt;
@@ -1301,7 +1300,7 @@ He spots you. His shout goes up.
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;if $combatPhase eq 1&gt;&gt;
-  &lt;&lt;link &quot;ðŸ³ Lay down your weapon and surrender.&quot;&gt;&gt;&lt;&lt;goto &quot;Combat1_Surrender&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+  &lt;&lt;link &quot;🏳 Lay down your weapon and surrender.&quot;&gt;&gt;&lt;&lt;goto &quot;Combat1_Surrender&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
 &lt;/div&gt;</tw-passagedata><tw-passagedata pid="50" name="CombatAttack" tags="" position="1150,1125" size="100,100">&lt;&lt;if $loadout eq &quot;dual&quot; and not $weaponStripped and ($combatPhase neq 2 or $ambushArmed)&gt;&gt;
@@ -1312,7 +1311,7 @@ He spots you. His shout goes up.
   &lt;&lt;set _atkLog to &quot;Your hidden dagger finds &quot;&gt;&gt;
 &lt;&lt;elseif $combatPhase eq 2 and not $ambushArmed&gt;&gt;
   &lt;&lt;set _dmg to random(1, 4) + Math.floor($str / 2)&gt;&gt;
-  &lt;&lt;set _atkLog to &quot;Your fist connects â€” &quot;&gt;&gt;
+  &lt;&lt;set _atkLog to &quot;Your fist connects — &quot;&gt;&gt;
 &lt;&lt;else&gt;&gt;
   &lt;&lt;set _dmg to random($itemDefs.sword.dmgMin, $itemDefs.sword.dmgMax) + Math.max(0, $str)&gt;&gt;
   &lt;&lt;set _atkLog to &quot;You strike &quot;&gt;&gt;
@@ -1322,7 +1321,7 @@ He spots you. His shout goes up.
 &lt;&lt;if $combatEnemies[$combatTargetIdx].hp lte 0&gt;&gt;
   &lt;&lt;set $combatEnemies[$combatTargetIdx].hp to 0&gt;&gt;
   &lt;&lt;set $combatEnemies[$combatTargetIdx].alive to false&gt;&gt;
-  &lt;&lt;set $combatLog to _atkLog + _tgtName + &quot; for &quot; + _dmg + &quot; â€” they go down!&quot;&gt;&gt;
+  &lt;&lt;set $combatLog to _atkLog + _tgtName + &quot; for &quot; + _dmg + &quot; — they go down!&quot;&gt;&gt;
 &lt;&lt;else&gt;&gt;
   &lt;&lt;set $combatLog to _atkLog + _tgtName + &quot; for &quot; + _dmg + &quot;. (&quot; + $combatEnemies[$combatTargetIdx].hp + &quot;/&quot; + $combatEnemies[$combatTargetIdx].maxHp + &quot; HP)&quot;&gt;&gt;
 &lt;&lt;/if&gt;&gt;
@@ -1334,14 +1333,14 @@ He spots you. His shout goes up.
 &lt;&lt;else&gt;&gt;
   &lt;&lt;goto &quot;CombatTurn&quot;&gt;&gt;
 &lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="51" name="CombatBreath" tags="" position="25,1250" size="100,100">&lt;&lt;set $combatBreathUsed to true&gt;&gt;
-&lt;&lt;set $combatLog to &quot;âš¡ Lightning tears through the enemy line!&quot;&gt;&gt;
+&lt;&lt;set $combatLog to &quot;⚡ Lightning tears through the enemy line!&quot;&gt;&gt;
 &lt;&lt;for _bi, _be range $combatEnemies&gt;&gt;
 &lt;&lt;if _be.alive&gt;&gt;
   &lt;&lt;set _bdmg to random(3, 8)&gt;&gt;
   &lt;&lt;set $combatEnemies[_bi].hp to Math.max(0, $combatEnemies[_bi].hp - _bdmg)&gt;&gt;
   &lt;&lt;if $combatEnemies[_bi].hp lte 0&gt;&gt;
     &lt;&lt;set $combatEnemies[_bi].alive to false&gt;&gt;
-    &lt;&lt;set $combatLog to $combatLog + &quot;\n&quot; + _be.name + &quot; takes &quot; + _bdmg + &quot; â€” falls!&quot;&gt;&gt;
+    &lt;&lt;set $combatLog to $combatLog + &quot;\n&quot; + _be.name + &quot; takes &quot; + _bdmg + &quot; — falls!&quot;&gt;&gt;
   &lt;&lt;else&gt;&gt;
     &lt;&lt;set $combatLog to $combatLog + &quot;\n&quot; + _be.name + &quot; takes &quot; + _bdmg + &quot;. (&quot; + $combatEnemies[_bi].hp + &quot; HP)&quot;&gt;&gt;
   &lt;&lt;/if&gt;&gt;
@@ -1393,7 +1392,7 @@ What do you do?
   &lt;&lt;goto &quot;CombatEnemyPhase&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="55" name="CombatEnemyPhase" tags="" position="525,1250" size="100,100">&lt;&lt;set _jMsg to &quot;&quot;&gt;&gt;
 
-/* â”€â”€ Jon movement + attack â”€â”€ */
+/* ── Jon movement + attack ── */
 &lt;&lt;if $jonIsAlly and $jonHP gt 0 and $jonPos neq null&gt;&gt;
   &lt;&lt;script&gt;&gt;
   (function(){
@@ -1442,7 +1441,7 @@ What do you do?
         &lt;&lt;set $combatEnemies[_jtgt].hp to Math.max(0, $combatEnemies[_jtgt].hp - _jdmg)&gt;&gt;
         &lt;&lt;if $combatEnemies[_jtgt].hp lte 0&gt;&gt;
           &lt;&lt;set $combatEnemies[_jtgt].alive to false&gt;&gt;
-          &lt;&lt;set _jMsg to &quot;Jon strikes &quot; + $combatEnemies[_jtgt].name + &quot; for &quot; + _jdmg + &quot; â€” they fall!&quot;&gt;&gt;
+          &lt;&lt;set _jMsg to &quot;Jon strikes &quot; + $combatEnemies[_jtgt].name + &quot; for &quot; + _jdmg + &quot; — they fall!&quot;&gt;&gt;
         &lt;&lt;else&gt;&gt;
           &lt;&lt;set _jMsg to &quot;Jon attacks &quot; + $combatEnemies[_jtgt].name + &quot; for &quot; + _jdmg + &quot;.&quot;&gt;&gt;
         &lt;&lt;/if&gt;&gt;
@@ -1451,7 +1450,7 @@ What do you do?
   &lt;&lt;/if&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
-/* â”€â”€ Enemy movement phase â”€â”€ */
+/* ── Enemy movement phase ── */
 &lt;&lt;script&gt;&gt;
 (function(){
   var enems=State.variables.combatEnemies;
@@ -1511,7 +1510,7 @@ What do you do?
 })();
 &lt;&lt;/script&gt;&gt;
 
-/* â”€â”€ Enemy attack phase â€” each enemy acts _ee.actions times (default 1) â”€â”€ */
+/* ── Enemy attack phase — each enemy acts _ee.actions times (default 1) ── */
 &lt;&lt;set $npcActionQueue to []&gt;&gt;
 &lt;&lt;if $jonIsAlly and $jonHP gt 0 and _jMsg neq &quot;&quot;&gt;&gt;
   &lt;&lt;run $npcActionQueue.push({type:&quot;jon&quot;, msg:_jMsg})&gt;&gt;
@@ -2927,7 +2926,7 @@ He closes his mouth. There&#39;s relief in his face that he doesn&#39;t try to h
 &lt;&lt;if $combatEnemies[$combatTargetIdx].hp lte 0&gt;&gt;
   &lt;&lt;set $combatEnemies[$combatTargetIdx].hp to 0&gt;&gt;
   &lt;&lt;set $combatEnemies[$combatTargetIdx].alive to false&gt;&gt;
-  &lt;&lt;set $combatLog to &quot;Your arrow finds &quot; + _stgtName + &quot; for &quot; + _sdmg + _coverNote + &quot; â€” they fall!&quot;&gt;&gt;
+  &lt;&lt;set $combatLog to &quot;Your arrow finds &quot; + _stgtName + &quot; for &quot; + _sdmg + _coverNote + &quot; — they fall!&quot;&gt;&gt;
 &lt;&lt;else&gt;&gt;
   &lt;&lt;set $combatLog to &quot;Arrow strikes &quot; + _stgtName + &quot; for &quot; + _sdmg + _coverNote + &quot;. (&quot; + $combatEnemies[$combatTargetIdx].hp + &quot;/&quot; + $combatEnemies[$combatTargetIdx].maxHp + &quot; HP)&quot;&gt;&gt;
 &lt;&lt;/if&gt;&gt;
@@ -3076,11 +3075,11 @@ window.hasLOS = function(grid,from,to,cols){
   var occ = {};
   occ[ppos.r+','+ppos.c] = {icon:'â—', cls:'cg-player', tip: State.variables.playerName || 'You'};
   if (jpos &amp;&amp; State.variables.jonHP &gt; 0)
-    occ[jpos.r+','+jpos.c] = {icon:'âš”', cls:'cg-ally', tip:'Jon'};
+    occ[jpos.r+','+jpos.c] = {icon:'⚔', cls:'cg-ally', tip:'Jon'};
   if (dpos)
-    occ[dpos.r+','+dpos.c] = {icon:'â€ ', cls:'cg-dagger', tip:'Throwing Dagger'};
+    occ[dpos.r+','+dpos.c] = {icon:'†', cls:'cg-dagger', tip:'Throwing Dagger'};
   enems.forEach(function(e){
-    if (e.alive) occ[e.pos.r+','+e.pos.c] = {icon:(e.ranged?'ðŸ¹':'âš”'), cls:'cg-enemy', tip:e.name};
+    if (e.alive) occ[e.pos.r+','+e.pos.c] = {icon:(e.ranged?'🏹':'⚔'), cls:'cg-enemy', tip:e.name};
   });
 
   /* Build table */
@@ -3090,7 +3089,7 @@ window.hasLOS = function(grid,from,to,cols){
     for (var c = 0; c &lt; COLS; c++) {
       var cell = grid[r*COLS+c], key = r+','+c, ent = occ[key];
       var cls  = 'cg-cell cg-' + cell.type + (ent ? ' ' + ent.cls : '');
-      var icon = ent ? ent.icon : (cell.type==='wall' ? 'â™£' : (cell.type==='cover' ? 'â—†' : ''));
+      var icon = ent ? ent.icon : (cell.type==='wall' ? '♣' : (cell.type==='cover' ? '◆' : ''));
       var tip  = ent ? ent.tip  : (cell.type==='cover' ? 'Cover' : (cell.type==='wall' ? 'Wall' : ''));
       h += '&lt;td class=&quot;' + cls + '&quot;' + (tip ? ' data-tip=&quot;' + tip + '&quot;' : '') + '&gt;'
         +  (icon || '&amp;nbsp;') + '&lt;/td&gt;';
@@ -3098,7 +3097,7 @@ window.hasLOS = function(grid,from,to,cols){
     h += '&lt;/tr&gt;';
   }
   h += '&lt;/tbody&gt;&lt;/table&gt;';
-  h += '&lt;div class=&quot;grid-legend&quot;&gt;â— You &amp;nbsp;âš” Jon/Melee &amp;nbsp;ðŸ¹ Ranged &amp;nbsp;â€  Dagger &amp;nbsp;â—† Cover &amp;nbsp;â™£ Wall&lt;/div&gt;';
+  h += '&lt;div class=&quot;grid-legend&quot;&gt;â— You &amp;nbsp;⚔ Jon/Melee &amp;nbsp;🏹 Ranged &amp;nbsp;† Dagger &amp;nbsp;◆ Cover &amp;nbsp;♣ Wall&lt;/div&gt;';
 
   var mount = document.querySelector('.combat-grid-mount');
   if (mount) {
@@ -3128,9 +3127,9 @@ window.hasLOS = function(grid,from,to,cols){
 &lt;&lt;/done&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata>
 
-<tw-passagedata pid="152" name="Prol_Equipment" tags="" position="200,200" size="100,100">She sets one more thing on the table â€” provisions for the road.
+<tw-passagedata pid="152" name="Prol_Equipment" tags="" position="200,200" size="100,100">She sets one more thing on the table — provisions for the road.
 
-&quot;Two healing draughts to keep yourself standing, or one draught and a throwing dagger. The blade is balanced for distance â€” you can retrieve it from the field after.&quot;
+&quot;Two healing draughts to keep yourself standing, or one draught and a throwing dagger. The blade is balanced for distance — you can retrieve it from the field after.&quot;
 
 &lt;&lt;link &quot;Two healing draughts.&quot;&gt;&gt;
   &lt;&lt;run $inventory.push(&quot;Healing Draught&quot;)&gt;&gt;
@@ -3148,7 +3147,7 @@ window.hasLOS = function(grid,from,to,cols){
 &lt;div class=&quot;combat-log&quot;&gt;$combatLog&lt;/div&gt;
 &lt;div class=&quot;combat-grid-mount&quot;&gt;&lt;/div&gt;&lt;&lt;rendergrid&gt;&gt;
 
-**Second Strike** â€” choose your next target.
+**Second Strike** — choose your next target.
 
 &lt;&lt;set _dualHasTarget to false&gt;&gt;
 &lt;&lt;for _ci, _ce range $combatEnemies&gt;&gt;
@@ -3164,7 +3163,7 @@ window.hasLOS = function(grid,from,to,cols){
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;for _ci, _ce range $combatEnemies&gt;&gt;&lt;&lt;if _ce.alive and window.chebyshev($playerPos, _ce.pos) lte 1&gt;&gt;&lt;&lt;capture _ci, _ce&gt;&gt;
-  &lt;&lt;link &quot;âš” &quot; + _ce.name&gt;&gt;
+  &lt;&lt;link &quot;⚔ &quot; + _ce.name&gt;&gt;
     &lt;&lt;set $combatTargetIdx to _ci&gt;&gt;
     &lt;&lt;set $actionsLeft to $actionsLeft - 1&gt;&gt;
     &lt;&lt;goto &quot;CombatDualAttack2&quot;&gt;&gt;
@@ -3183,7 +3182,7 @@ window.hasLOS = function(grid,from,to,cols){
 &lt;&lt;if $combatEnemies[$combatTargetIdx].hp lte 0&gt;&gt;
   &lt;&lt;set $combatEnemies[$combatTargetIdx].hp to 0&gt;&gt;
   &lt;&lt;set $combatEnemies[$combatTargetIdx].alive to false&gt;&gt;
-  &lt;&lt;set $combatLog to $combatLog + &quot;\nSecond blade: &quot; + _tgtName + &quot; for &quot; + _dmg2 + &quot; â€” they go down!&quot;&gt;&gt;
+  &lt;&lt;set $combatLog to $combatLog + &quot;\nSecond blade: &quot; + _tgtName + &quot; for &quot; + _dmg2 + &quot; — they go down!&quot;&gt;&gt;
 &lt;&lt;else&gt;&gt;
   &lt;&lt;set $combatLog to $combatLog + &quot;\nSecond blade: &quot; + _tgtName + &quot; for &quot; + _dmg2 + &quot;. (&quot; + $combatEnemies[$combatTargetIdx].hp + &quot;/&quot; + $combatEnemies[$combatTargetIdx].maxHp + &quot; HP)&quot;&gt;&gt;
 &lt;&lt;/if&gt;&gt;
@@ -3200,9 +3199,9 @@ window.hasLOS = function(grid,from,to,cols){
 &lt;&lt;if $combatEnemies[$combatTargetIdx].hp lte 0&gt;&gt;
   &lt;&lt;set $combatEnemies[$combatTargetIdx].hp to 0&gt;&gt;
   &lt;&lt;set $combatEnemies[$combatTargetIdx].alive to false&gt;&gt;
-  &lt;&lt;set $combatLog to &quot;Your dagger buries into &quot; + _tgtName + &quot; for &quot; + _tdmg + &quot; â€” they go down! The blade lands at their feet.&quot;&gt;&gt;
+  &lt;&lt;set $combatLog to &quot;Your dagger buries into &quot; + _tgtName + &quot; for &quot; + _tdmg + &quot; — they go down! The blade lands at their feet.&quot;&gt;&gt;
 &lt;&lt;else&gt;&gt;
-  &lt;&lt;set $combatLog to &quot;Dagger strikes &quot; + _tgtName + &quot; for &quot; + _tdmg + &quot;. (&quot; + $combatEnemies[$combatTargetIdx].hp + &quot;/&quot; + $combatEnemies[$combatTargetIdx].maxHp + &quot; HP) The blade is on the field â€” move to retrieve it.&quot;&gt;&gt;
+  &lt;&lt;set $combatLog to &quot;Dagger strikes &quot; + _tgtName + &quot; for &quot; + _tdmg + &quot;. (&quot; + $combatEnemies[$combatTargetIdx].hp + &quot;/&quot; + $combatEnemies[$combatTargetIdx].maxHp + &quot; HP) The blade is on the field — move to retrieve it.&quot;&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;set $combatDefending to false&gt;&gt;
 &lt;&lt;if $actionsLeft lte 0&gt;&gt;
