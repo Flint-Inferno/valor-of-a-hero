@@ -1179,7 +1179,7 @@ He spots you. His shout goes up.
 
 &lt;div class=&quot;combat-grid-mount&quot;&gt;&lt;/div&gt;&lt;&lt;rendergrid&gt;&gt;
 
-&lt;div class=&quot;action-pips&quot;&gt;Actions: &lt;&lt;= &quot;â—&quot;.repeat($actionsLeft) + &quot;○&quot;.repeat($actionsMax - $actionsLeft)&gt;&gt;&lt;/div&gt;
+&lt;div class=&quot;action-pips&quot;&gt;Actions: &lt;&lt;= &quot;●&quot;.repeat($actionsLeft) + &quot;○&quot;.repeat($actionsMax - $actionsLeft)&gt;&gt;&lt;/div&gt;
 
 **Choose your action:**
 
@@ -1313,7 +1313,7 @@ He spots you. His shout goes up.
 
 /* ── End turn / Surrender ── */
 &lt;&lt;if $actionsLeft gt 0&gt;&gt;
-  &lt;&lt;link &quot;â© End Turn&quot;&gt;&gt;
+  &lt;&lt;link &quot;⏩ End Turn&quot;&gt;&gt;
     &lt;&lt;set $actionsLeft to 0&gt;&gt;
     &lt;&lt;set $combatLog to &quot;&quot;&gt;&gt;
     &lt;&lt;goto &quot;CombatEnemyPhase&quot;&gt;&gt;
@@ -3119,7 +3119,7 @@ window.hasLOS = function(grid,from,to,cols){
 
   /* Build occupant map with icons, classes, and tooltip text */
   var occ = {};
-  occ[ppos.r+','+ppos.c] = {icon:'â—', cls:'cg-player', tip: State.variables.playerName || 'You'};
+  occ[ppos.r+','+ppos.c] = {icon:'●', cls:'cg-player', tip: State.variables.playerName || 'You'};
   if (jpos &amp;&amp; State.variables.jonHP &gt; 0)
     occ[jpos.r+','+jpos.c] = {icon:'⚔', cls:'cg-ally', tip:'Jon'};
   if (dpos)
@@ -3143,7 +3143,7 @@ window.hasLOS = function(grid,from,to,cols){
     h += '&lt;/tr&gt;';
   }
   h += '&lt;/tbody&gt;&lt;/table&gt;';
-  h += '&lt;div class=&quot;grid-legend&quot;&gt;â— You &amp;nbsp;⚔ Jon/Melee &amp;nbsp;🏹 Ranged &amp;nbsp;† Dagger &amp;nbsp;◆ Cover &amp;nbsp;🌲 Tree&lt;/div&gt;';
+  h += '&lt;div class=&quot;grid-legend&quot;&gt;● You &amp;nbsp;⚔ Jon/Melee &amp;nbsp;🏹 Ranged &amp;nbsp;† Dagger &amp;nbsp;◆ Cover &amp;nbsp;🌲 Tree&lt;/div&gt;';
 
   var mount = document.querySelector('.combat-grid-mount');
   if (mount) {
