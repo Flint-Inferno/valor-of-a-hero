@@ -292,7 +292,11 @@ h2.combat-title { font-size: 1.15em; color: #d4803a; border-bottom: 1px solid #5
 .passage p:empty { display: none; }
 .passage p { margin: 0.45em 0; line-height: 1.55; }
 .passage > p:first-child { margin-top: 0; }
-.passage > p:last-child  { margin-bottom: 0; }</style><script role="script" id="twine-user-script" type="text/twine-javascript">Config.saves.maxSlotSaves = 4;
+.passage > p:last-child  { margin-bottom: 0; }
+.choices { display: flex; flex-direction: column; gap: 0.4em; margin: 0.6em 0; }
+.choices > p { display: none; }
+.choices > p:has(a) { display: block; margin: 0; }
+.choices a.link-internal { display: block; margin: 0; }</style><script role="script" id="twine-user-script" type="text/twine-javascript">Config.saves.maxSlotSaves = 4;
 Config.saves.maxAutoSaves = 1;
 Config.history.maxStates = 40;
 
@@ -302,6 +306,22 @@ Setting.addToggle("muteAudio", {
     onInit  : function () { SimpleAudio.mute(this.value); },
     onChange: function () { SimpleAudio.mute(this.value); }
 });
+window.chebyshev = function(a,b){ return Math.max(Math.abs(a.r-b.r),Math.abs(a.c-b.c)); };
+window.inRange = function(a,b,range){ return window.chebyshev(a,b)<=range; };
+window.hasLOS = function(grid,from,to,cols){
+  var r0=from.r,c0=from.c,r1=to.r,c1=to.c;
+  var dr=Math.abs(r1-r0),dc=Math.abs(c1-c0);
+  var sr=(r0<r1)?1:-1,sc=(c0<c1)?1:-1,err=dr-dc;
+  while(true){
+    if(r0===r1&&c0===c1)break;
+    var cell=grid[r0*cols+c0];
+    if(cell&&cell.type==='wall')return false;
+    var e2=2*err;
+    if(e2>-dc){err-=dc;r0+=sr;}
+    if(e2<dr){err+=dr;c0+=sc;}
+  }
+  return true;
+};
 </script><tw-passagedata pid="1" name="StoryInit" tags="" position="25,25" size="100,100">&lt;&lt;set $inTutorial to true&gt;&gt;
 &lt;&lt;set $playerName to &quot;Adventurer&quot;&gt;&gt;
 &lt;&lt;set $str to 1&gt;&gt;
@@ -1122,8 +1142,8 @@ He spots you. His shout goes up.
 &lt;&lt;set $jonDiedThisFight to false&gt;&gt;
 &lt;&lt;set $jonHP to $jonMaxHP&gt;&gt;
 &lt;&lt;set $combatEnemies to [
-  {name:&quot;Bandit&quot;,       hp:7,  maxHp:10, minAtk:1, maxAtk:4, alive:true, pos:{r:0,c:4}, ranged:false},
-  {name:&quot;Bandit&quot;,       hp:7,  maxHp:10, minAtk:1, maxAtk:4, alive:true, pos:{r:4,c:4}, ranged:false},
+  {name:&quot;Bandit 1&quot;,     hp:10, maxHp:10, minAtk:1, maxAtk:4, alive:true, pos:{r:0,c:4}, ranged:false},
+  {name:&quot;Bandit 2&quot;,     hp:10, maxHp:10, minAtk:1, maxAtk:4, alive:true, pos:{r:4,c:4}, ranged:false},
   {name:&quot;Bandit Archer&quot;,hp:8,  maxHp:8,  minAtk:2, maxAtk:3, alive:true, pos:{r:2,c:5}, ranged:true, range:5},
   {name:&quot;Scarred Woman&quot;,hp:9,  maxHp:9,  minAtk:2, maxAtk:4, alive:true, pos:{r:0,c:5}, ranged:false}
 ]&gt;&gt;
@@ -1163,6 +1183,7 @@ He spots you. His shout goes up.
 
 **Choose your action:**
 
+&lt;div class=&quot;choices&quot;&gt;
 /* ── Compute valid moves ── */
 &lt;&lt;set _validMoves to []&gt;&gt;
 &lt;&lt;script&gt;&gt;
@@ -1303,6 +1324,7 @@ He spots you. His shout goes up.
   &lt;&lt;link &quot;🏳 Lay down your weapon and surrender.&quot;&gt;&gt;&lt;&lt;goto &quot;Combat1_Surrender&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
+&lt;/div&gt;
 &lt;/div&gt;</tw-passagedata><tw-passagedata pid="50" name="CombatAttack" tags="" position="1150,1125" size="100,100">&lt;&lt;if $loadout eq &quot;dual&quot; and not $weaponStripped and ($combatPhase neq 2 or $ambushArmed)&gt;&gt;
   &lt;&lt;set _dmg to random($itemDefs.sword.dmgMin, $itemDefs.sword.dmgMax) + Math.max(0, $str)&gt;&gt;
   &lt;&lt;set _atkLog to &quot;First blade finds &quot;&gt;&gt;
@@ -1515,11 +1537,17 @@ What do you do?
         doMove(enemy,bfsStep(enemy.pos.r,enemy.pos.c,inRangeLOS,canWalk));
       }
     }else{
-      if(cheb(enemy.pos,tgt)&gt;1){
-        doMove(enemy,bfsStep(enemy.pos.r,enemy.pos.c,
+      for(var m=0;m&lt;2;m++){
+        if(cheb(enemy.pos,tgt)&lt;=1)break;
+        var step=bfsStep(enemy.pos.r,enemy.pos.c,
           function(r,c){return !occ[r+','+c]&amp;&amp;cheb({r:r,c:c},tgt)&lt;=1;},
           canWalk
-        ));
+        );
+        if(!step)break;
+        doMove(enemy,step);
+        dP=cheb(enemy.pos,ppos);
+        dJ=(jpos&amp;&amp;State.variables.jonHP&gt;0)?cheb(enemy.pos,jpos):999;
+        tgt=dJ&lt;dP?jpos:ppos;
       }
     }
   });
@@ -2766,10 +2794,12 @@ Reynard leans forward, helpful and thoughtful. &quot;As it happens, I may be abl
 He spreads his hands. &quot;I&#39;d go myself, but my position makes it complicated.&quot;
 
 He smiles.
+&lt;div class=&quot;choices&quot;&gt;
 &lt;&lt;if $wis gte 3&gt;&gt;
 &lt;&lt;link &quot;\&quot;You&#39;re sending me into an armed camp. Unarmed. On your word alone.\&quot;&quot;&gt;&gt;&lt;&lt;goto &quot;Reynard_Trick_Suspicious&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 [[Accept the offer. Hear the details.|Reynard_Trick_Offer]]
+&lt;/div&gt;
 &lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="133" name="Reynard_Trick_Offer" tags="" position="300,2600" size="100,100">&lt;&lt;set $reynardTrick to true&gt;&gt;
 
 He gives you the details smoothly -- too smoothly, you&#39;ll think later. Half a day northeast. A clearing with a stone marker. Approach openly. Ask for the man called Harwick.
