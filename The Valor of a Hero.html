@@ -402,7 +402,7 @@ $(document).on(&#39;click&#39;, &#39;a.link-internal, a[data-passage], button&#3
   &lt;div class=&quot;hp-wrap&quot;&gt;
     &lt;div class=&quot;hp-bar&quot; style=&quot;width:&lt;&lt;= Math.max(0,Math.round(($hp/$maxHp)*100)) &gt;&gt;%;&quot;&gt;&lt;/div&gt;
   &lt;/div&gt;
-  HP: $hp / $maxHp &amp;nbsp;·&amp;nbsp; ¤ $gold
+  HP: $hp / $maxHp &amp;nbsp;·&amp;nbsp; 🪙 $gold
   &lt;hr class=&quot;hud-hr&quot;&gt;
   &lt;div class=&quot;stat-row&quot;&gt;&lt;span&gt;STR&lt;/span&gt;&lt;span&gt;$str&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;stat-row&quot;&gt;&lt;span&gt;AGI&lt;/span&gt;&lt;span&gt;$agi&lt;/span&gt;&lt;/div&gt;
@@ -415,17 +415,17 @@ $(document).on(&#39;click&#39;, &#39;a.link-internal, a[data-passage], button&#3
   &lt;&lt;if $loadout&gt;&gt;
   &lt;hr class=&quot;hud-hr&quot;&gt;
   &lt;&lt;if $captive&gt;&gt;
-    ○ No weapons — prisoner
+    ✊ No weapons — prisoner
   &lt;&lt;elseif $weaponStripped and $loadout eq &quot;dual&quot;&gt;&gt;
-    † One sword (other kept)
+    ⚔ One sword (other kept)
   &lt;&lt;elseif $weaponStripped&gt;&gt;
-    † Sword only
+    ⚔ Sword only
   &lt;&lt;elseif $combatPhase eq 2 and not $ambushArmed&gt;&gt;
-    &lt;&lt;if $daggerHidden&gt;&gt;† Hidden dagger only&lt;&lt;else&gt;&gt;○ Unarmed — gear at tree line&lt;&lt;/if&gt;&gt;
+    &lt;&lt;if $daggerHidden&gt;&gt;🗡 Hidden dagger only&lt;&lt;else&gt;&gt;✊ Unarmed — gear at tree line&lt;&lt;/if&gt;&gt;
   &lt;&lt;elseif $loadout eq &quot;dual&quot;&gt;&gt;
-    †† Twin Swords&lt;&lt;if $hasDagger&gt;&gt; · &lt;&lt;if $daggerPos neq null&gt;&gt;†↙&lt;&lt;else&gt;&gt;†&lt;&lt;/if&gt;&gt;&lt;&lt;/if&gt;&gt;
+    ⚔⚔ Twin Swords&lt;&lt;if $hasDagger&gt;&gt; · &lt;&lt;if $daggerPos neq null&gt;&gt;🗡↙&lt;&lt;else&gt;&gt;🗡&lt;&lt;/if&gt;&gt;&lt;&lt;/if&gt;&gt;
   &lt;&lt;else&gt;&gt;
-    †◇ Sword &amp;amp; Shield&lt;&lt;if $hasDagger&gt;&gt; · &lt;&lt;if $daggerPos neq null&gt;&gt;†↙&lt;&lt;else&gt;&gt;†&lt;&lt;/if&gt;&gt;&lt;&lt;/if&gt;&gt;
+    ⚔🛡 Sword &amp;amp; Shield&lt;&lt;if $hasDagger&gt;&gt; · &lt;&lt;if $daggerPos neq null&gt;&gt;🗡↙&lt;&lt;else&gt;&gt;🗡&lt;&lt;/if&gt;&gt;&lt;&lt;/if&gt;&gt;
   &lt;&lt;/if&gt;&gt;
   &lt;&lt;/if&gt;&gt;
 &lt;/div&gt;</tw-passagedata><tw-passagedata pid="3" name="SkillCheckWidgets" tags="widget" position="25,275" size="100,100">&lt;&lt;widget &quot;skillcheck&quot;&gt;&gt;
@@ -1174,7 +1174,7 @@ He spots you. His shout goes up.
   var occ={};
   if(jpos&amp;&amp;State.variables.jonHP&gt;0)occ[jpos.r+','+jpos.c]=true;
   enems.forEach(function(e){if(e.alive)occ[e.pos.r+','+e.pos.c]=true;});
-  [{r:-1,c:0,lbl:&quot;↑&quot;},{r:1,c:0,lbl:&quot;↓&quot;},{r:0,c:-1,lbl:&quot;←&quot;},{r:0,c:1,lbl:&quot;â†’&quot;}].forEach(function(d){
+  [{r:-1,c:0,lbl:&quot;↑&quot;},{r:1,c:0,lbl:&quot;↓&quot;},{r:0,c:-1,lbl:&quot;←&quot;},{r:0,c:1,lbl:&quot;→&quot;}].forEach(function(d){
     var nr=pos.r+d.r,nc=pos.c+d.c;
     if(nr&lt;0||nr&gt;=ROWS||nc&lt;0||nc&gt;=COLS)return;
     if(grid[nr*COLS+nc].type==='wall')return;
@@ -1200,7 +1200,7 @@ He spots you. His shout goes up.
 
 /* ── Melee: strike adjacent enemy ── */
 &lt;&lt;if $actionsLeft gt 0&gt;&gt;
-  &lt;&lt;for _ci, _ce range $combatEnemies&gt;&gt;&lt;&lt;if _ce.alive and window.chebyshev($playerPos, _ce.pos) lte 1&gt;&gt;&lt;&lt;capture _ci, _ce&gt;&gt;&lt;&lt;link &quot;⚔ Strike &quot; + _ce.name&gt;&gt;
+  &lt;&lt;for _ci, _ce range $combatEnemies&gt;&gt;&lt;&lt;if _ce.alive and Math.max(Math.abs($playerPos.r - _ce.pos.r), Math.abs($playerPos.c - _ce.pos.c)) lte 1&gt;&gt;&lt;&lt;capture _ci, _ce&gt;&gt;&lt;&lt;link &quot;⚔ Strike &quot; + _ce.name&gt;&gt;
     &lt;&lt;set $combatTargetIdx to _ci&gt;&gt;
     &lt;&lt;set $actionsLeft to $actionsLeft - 1&gt;&gt;
     &lt;&lt;goto &quot;CombatAttack&quot;&gt;&gt;
@@ -1430,7 +1430,7 @@ What do you do?
   &lt;&lt;/script&gt;&gt;
   &lt;&lt;set _jtgt to -1&gt;&gt;
   &lt;&lt;for _ji, _je range $combatEnemies&gt;&gt;
-    &lt;&lt;if _je.alive and window.chebyshev($jonPos, _je.pos) lte 1 and _jtgt lt 0&gt;&gt;&lt;&lt;set _jtgt to _ji&gt;&gt;&lt;&lt;/if&gt;&gt;
+    &lt;&lt;if _je.alive and Math.max(Math.abs($jonPos.r - _je.pos.r), Math.abs($jonPos.c - _je.pos.c)) lte 1 and _jtgt lt 0&gt;&gt;&lt;&lt;set _jtgt to _ji&gt;&gt;&lt;&lt;/if&gt;&gt;
   &lt;&lt;/for&gt;&gt;
   &lt;&lt;if _jtgt gte 0&gt;&gt;
     &lt;&lt;set _jatkLeft to $jonActionsMax&gt;&gt;
@@ -3151,7 +3151,7 @@ window.hasLOS = function(grid,from,to,cols){
 
 &lt;&lt;set _dualHasTarget to false&gt;&gt;
 &lt;&lt;for _ci, _ce range $combatEnemies&gt;&gt;
-  &lt;&lt;if _ce.alive and window.chebyshev($playerPos, _ce.pos) lte 1&gt;&gt;
+  &lt;&lt;if _ce.alive and Math.max(Math.abs($playerPos.r - _ce.pos.r), Math.abs($playerPos.c - _ce.pos.c)) lte 1&gt;&gt;
     &lt;&lt;set _dualHasTarget to true&gt;&gt;
   &lt;&lt;/if&gt;&gt;
 &lt;&lt;/for&gt;&gt;
@@ -3162,7 +3162,7 @@ window.hasLOS = function(grid,from,to,cols){
   &lt;&lt;goto &quot;CombatEnemyPhase&quot;&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
-&lt;&lt;for _ci, _ce range $combatEnemies&gt;&gt;&lt;&lt;if _ce.alive and window.chebyshev($playerPos, _ce.pos) lte 1&gt;&gt;&lt;&lt;capture _ci, _ce&gt;&gt;
+&lt;&lt;for _ci, _ce range $combatEnemies&gt;&gt;&lt;&lt;if _ce.alive and Math.max(Math.abs($playerPos.r - _ce.pos.r), Math.abs($playerPos.c - _ce.pos.c)) lte 1&gt;&gt;&lt;&lt;capture _ci, _ce&gt;&gt;
   &lt;&lt;link &quot;⚔ &quot; + _ce.name&gt;&gt;
     &lt;&lt;set $combatTargetIdx to _ci&gt;&gt;
     &lt;&lt;set $actionsLeft to $actionsLeft - 1&gt;&gt;
@@ -3216,9 +3216,9 @@ window.hasLOS = function(grid,from,to,cols){
   &lt;&lt;set $combatLog to _unit.msg&gt;&gt;
 &lt;&lt;else&gt;&gt;
   &lt;&lt;set _ee to $combatEnemies[_unit.idx]&gt;&gt;
-  &lt;&lt;set _dToPlayer to window.chebyshev(_ee.pos, $playerPos)&gt;&gt;
+  &lt;&lt;set _dToPlayer to Math.max(Math.abs(_ee.pos.r - $playerPos.r), Math.abs(_ee.pos.c - $playerPos.c))&gt;&gt;
   &lt;&lt;set _rng to (_ee.ranged ? (_ee.range ? _ee.range : 4) : 1)&gt;&gt;
-  &lt;&lt;set _dToJon to ($jonIsAlly and $jonHP gt 0 and $jonPos neq null) ? window.chebyshev(_ee.pos, $jonPos) : 999&gt;&gt;
+  &lt;&lt;set _dToJon to ($jonIsAlly and $jonHP gt 0 and $jonPos neq null) ? Math.max(Math.abs(_ee.pos.r - $jonPos.r), Math.abs(_ee.pos.c - $jonPos.c)) : 999&gt;&gt;
   &lt;&lt;if _dToJon lte _rng and _dToJon lt _dToPlayer and $jonIsAlly and $jonHP gt 0&gt;&gt;
     &lt;&lt;if $combatDefending&gt;&gt;
       &lt;&lt;set _edef to Math.max(1, Math.floor(random(_ee.minAtk, _ee.maxAtk) / 2))&gt;&gt;
